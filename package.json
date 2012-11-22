@@ -8,7 +8,9 @@
   "devDependencies": {
     "flour": "",
     "mocha": "",
-    "should": ""
+    "should": "",
+    "uglify-js": "",
+    "jshint": ""
   },
   "scripts": {
     "test": "mocha"
