@@ -1,0 +1,25 @@
+{
+  "name": "rye",
+  "description": "A lightweight browser library",
+  "version": "0.1.0",
+  "main": "lib/rye.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "flour": "",
+    "mocha": "",
+    "should": ""
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jcemer/rye.git"
+  },
+  "authors": [
+    "Ricardo Tomasi @ricardobeat <ricardobeat@gmail.com> (https://github.com/ricardobeat)",
+    "Jean Carlo Emer @jcemer <jeancarloemer@gmail.com> (https://github.com/jcemer)"
+  ],
+  "license": "MIT (ricardo.mit-license.org)"
+}
