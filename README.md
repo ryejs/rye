@@ -1,7 +1,7 @@
 Rye
 ===
 
-Hello.
+Hello. By [jcemer](http://github.com/jcemer), [ricardobeat](http://github.com/ricardobeat) and waiting for [v42](http://github.com/v42)
 
 API wishlist
 ------------
