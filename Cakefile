@@ -2,11 +2,11 @@ fs    = require 'fs'
 flour = require 'flour'
 
 sources = [
-    'lib/rye.js'
-    'lib/util.js'
-    'lib/elements.js'
-    'lib/selector.js'
-    'lib/main.js'
+    'lib/intro.js'
+    'lib/core/intro.js'
+    'lib/core/modules.js'
+    'lib/core/selector.js'
+    'lib/core/outro.js'
 ]
 
 task 'build', ->
