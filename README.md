@@ -23,8 +23,8 @@ API wishlist
 - siblings
 - addClass
 - removeClass
-- on
-- off
+- on / addEventListener
+- off / removeEventListener
 
 Components wishlist
 ------------
