@@ -33,3 +33,9 @@ Components wishlist
 - gestures
 - data
 - serialize
+
+Not going to happen
+------------
+
+- events alias like: delegate, live, click, focus
+- cancel bubbling and prevent default with false return
