@@ -17,3 +17,24 @@ task 'build:test', ->
     flour.minifiers.js = null
     invoke 'build'
 
+task 'lint', ->
+    flour.linters.js.options =
+        forin    : true
+        immed    : true
+        latedef  : true
+        newcap   : true
+        nonew    : true
+        undef    : true
+        unused   : true
+        asi      : true
+        boss     : true
+        curly    : true
+        eqnull   : true
+        laxbreak : true
+        laxcomma : true
+        browser  : true
+
+    flour.linters.js.globals =
+        Rye: true
+
+    lint 'lib/*.js'
