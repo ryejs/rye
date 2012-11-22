@@ -6,24 +6,14 @@ Hello.
 API wishlist
 ------------
 
-- find
+- find and closests
 - filter
-- not
-- is
-- has
-- after
-- before
+- is, not and has
+- after and before
 - eq
-- first
-- last
-- next
-- prev
-- parent
-- children
-- siblings
-- addClass
-- removeClass
-- toggleClass
+- first, last, next and prev
+- siblings and children
+- addClass, removeClass and toggleClass
 - css
 - toggle, show and hide
 - html, text, attr and val
@@ -41,6 +31,10 @@ Components wishlist
 - ajax and serialize
 - gestures
 - data storage
+
+Target plataforms
+------------
+Only modern browsers
 
 Not going to happen
 ------------
