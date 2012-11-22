@@ -42,3 +42,4 @@ Not going to happen
 - events alias like: delegate, live, click, focus
 - cancel bubbling and prevent default with false return
 - effects and animation - do it with CSS
+- not default use of `$`
