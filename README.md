@@ -23,3 +23,5 @@ API wishlist
 - siblings
 - addClass
 - removeClass
+- on
+- off
