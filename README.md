@@ -25,3 +25,11 @@ API wishlist
 - removeClass
 - on
 - off
+
+Components wishlist
+------------
+
+- ajax
+- gestures
+- data
+- serialize
