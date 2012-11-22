@@ -5,6 +5,7 @@ sources = [
     'lib/intro.js'
     'lib/core/intro.js'
     'lib/core/modules.js'
+    'lib/core/elements.js'
     'lib/core/selector.js'
     'lib/core/outro.js'
 ]
