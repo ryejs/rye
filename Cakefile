@@ -24,6 +24,7 @@ task 'build:dev', ->
 task 'build:test', ->
     compile 'test/spec.coffee', 'test/spec.js'
     compile 'test/spec.events.coffee', 'test/spec.events.js'
+    compile 'test/spec.style.coffee', 'test/spec.style.js'
 
 task 'watch:test', ->
     invoke 'build:dev'
