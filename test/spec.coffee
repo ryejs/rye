@@ -110,12 +110,33 @@ suite 'Collection methods', ->
 
 suite 'Traversal methods', ->
 
-    test 'add', ->
+    test 'add multiple (Rye)', ->
         list = list_items()
         list2 = list_items()
         list3 = list.add(list2)
         assert list3.length is 3, "List length shouldn't change"
         assert.deepEqual list3.pluck('className'), ['a', 'b', 'c'], "Elements are the same"
+
+    test 'add multiple (Array)', ->
+        list = list_items()
+        list2 = list_items().get()
+        list3 = list.add(list2)
+        assert list3.length is 3, "List length shouldn't change"
+        assert.deepEqual list3.pluck('className'), ['a', 'b', 'c'], "Elements are the same"
+
+    test 'add single item', ->
+        list = list_items()
+        div = document.createElement('div')
+        list3 = list.add(div)
+        assert list3.length is 4, "Has four items"
+        assert.deepEqual list3.pluck('className'), ['a', 'b', 'c', ''], "Classes match"
+        assert list3.get(3) is div, "Element was appended to the list"
+
+    test 'add invalid item', ->
+        list = list_items()
+        list3 = list.add('bacon')
+        assert list3.length is 3, "Length didn't change"
+        assert.deepEqual list3.pluck('className'), ['a', 'b', 'c'], "Classes match"
 
     test 'next', ->
         el = $('.a').next()
