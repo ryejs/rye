@@ -69,21 +69,21 @@ suite 'Collection methods', ->
     test 'map', ->
         list = list_items()
         res = list.map (el) -> el.className
-        assert.deepEqual res, ['a', 'b', 'c'], "List of classnames matches"
+        assert.deepEqual res.elements, ['a', 'b', 'c'], "List of classnames matches"
 
     test 'reduce', ->
         list = list_items()
         res = list.reduce (p, c, i) ->
             p + c.className
         , 'ø'
-        assert.strictEqual res, 'øabc', "Result includes concatenated classes"
+        assert.strictEqual res.elements, 'øabc', "Result includes concatenated classes"
 
     test 'reduceRight', ->
         list = list_items()
         res = list.reduceRight (p, c, i) ->
             p + c.className
         , 'ø'
-        assert.strictEqual res, 'øcba', "Result includes reverse concatenated classes"
+        assert.strictEqual res.elements, 'øcba', "Result includes reverse concatenated classes"
 
     test 'push', ->
         list = list_items()
