@@ -93,7 +93,7 @@ suite 'Collection methods', ->
     test 'sort', ->
         list = list_items()
         # reverse alphabetical order
-        list.sort (a, b) -> a.className < b.className
+        list.sort (a, b) -> if a.className < b.className then 1 else -1
         assert list.get(0).className is 'c', ".c is first in the list"
 
     test 'indexOf', ->
