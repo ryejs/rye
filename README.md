@@ -1,9 +1,9 @@
 Rye
 ===
 
-*Rye* is a light javascript library for DOM manipulation and events. It's a lighter alternative to jQuery, that unlike Zepto, supports IE9+ or even IE8 (using es5-shim).
+**Rye** is a light javascript library for DOM manipulation and events. It's a lighter alternative to jQuery, that unlike Zepto, supports IE9+ or even IE8 (using es5-shim).
 
-Loosely based in Zepto and Ender.
+Loosely based on Zepto and Ender.
 
 by [jcemer](http://github.com/jcemer), [ricardobeat](http://github.com/ricardobeat) and [v42](http://github.com/v42)
 
@@ -69,14 +69,14 @@ API wishlist
 - `hasEventListener`
 
 Components wishlist
-------------
+-------------------
 
 - ajax and serialize
 - gestures
 - data storage
 
-Target plataforms
-------------
+Browser compatiblity
+--------------------
 
 <table>
     <tr>
@@ -133,8 +133,8 @@ Target plataforms
 Not going to happen
 ------------
 
-- events alias like: delegate, live, click, focus
-- cancel bubbling and prevent default with false return
+- event aliases like delegate, live, click, focus
+- cancel bubbling and prevent default by returning false
 - effects and animation - do it with CSS
-- not default use of `$`
-- Dont stack selectors and use end() to restore
+- defining global `$`
+- end() or other chain-aware methods
