@@ -45,3 +45,4 @@ Not going to happen
 - cancel bubbling and prevent default with false return
 - effects and animation - do it with CSS
 - not default use of `$`
+- Dont stack selectors and use end() to restore
