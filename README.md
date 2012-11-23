@@ -1,7 +1,9 @@
 Rye
 ===
 
-Hello. By [jcemer](http://github.com/jcemer), [ricardobeat](http://github.com/ricardobeat) and waiting for [v42](http://github.com/v42)
+Hello. 
+
+Based in Ender and Zepto and coded by [jcemer](http://github.com/jcemer), [ricardobeat](http://github.com/ricardobeat) and [v42](http://github.com/v42)
 
 API wishlist
 ------------
