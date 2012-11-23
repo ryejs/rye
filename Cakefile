@@ -5,6 +5,7 @@ flour = require 'flour'
 sources = [
     'lib/rye.js'
     'lib/util.js'
+    'lib/eventemitter.js'
     'lib/selector.js'
     'lib/collection.js'
     'lib/manipulation.js'
@@ -20,15 +21,14 @@ task 'build:dev', ->
 
 task 'build:test', ->
     compile 'test/spec.coffee', 'test/spec.js'
+    compile 'test/spec.events.coffee', 'test/spec.events.js'
 
 task 'watch:test', ->
     invoke 'build:dev'
     invoke 'build:test'
 
-    watch [
-        'test/spec.coffee'
-        'test/index.html'
-    ], -> invoke 'build:test'
+    watch 'test/index.html', -> invoke 'build:test'
+    watch 'test/*.coffee', -> invoke 'build:test'
 
     watch 'lib/*.js', -> invoke 'build:dev'
 

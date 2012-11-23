@@ -21,4 +21,4 @@ thumbs.db
 
 dist
 
-test/spec.js
+test/spec*.js
