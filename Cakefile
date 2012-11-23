@@ -3,12 +3,10 @@ cp    = require 'child_process'
 flour = require 'flour'
 
 sources = [
-    'lib/core/rye.js'
-    'lib/core/intro.js'
-    'lib/core/modules.js'
-    'lib/core/elements.js'
-    'lib/core/selector.js'
-    'lib/core/outro.js'
+    'lib/rye.js'
+    'lib/util.js'
+    'lib/selector.js'
+    'lib/manipulation.js'
 ]
 
 task 'build', ->
@@ -23,6 +21,7 @@ task 'build:test', ->
     compile 'test/spec.coffee', 'test/spec.js'
 
 task 'watch:test', ->
+    invoke 'build:dev'
     invoke 'build:test'
 
     watch [
