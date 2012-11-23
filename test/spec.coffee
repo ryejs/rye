@@ -68,12 +68,12 @@ suite 'Collection methods', ->
 
     test 'map', ->
         list = list_items()
-        res = list.map (el) -> el.className
+        res = list.get().map (el) -> el.className
         assert.deepEqual res, ['a', 'b', 'c'], "List of classnames matches"
 
     test 'slice', ->
         list = list_items()
-        res = list.slice(0, 2)
+        res = list.get().slice(0, 2)
         assert.deepEqual res, [list.elements[0], list.elements[1]], "List of classnames matches"
 
     test 'reduce', ->
@@ -106,7 +106,7 @@ suite 'Collection methods', ->
         other = [document.createElement('div')]
         list2 = list.concat other
         assert list2.length is 4, "List length should increase by 1"
-        assert list2[3].tagName is 'DIV'
+        assert list2.get(3).tagName is 'DIV'
 
 suite 'Traversal methods', ->
 
@@ -146,4 +146,4 @@ suite 'Traversal methods', ->
         list = list_items()
         siblings = list.eq(1).siblings()
         assert siblings.length is 2, "Two siblings"
-        assert.deepEqual siblings.map((el) -> el.className), ['a', 'c']
+        assert.deepEqual siblings.get().map((el) -> el.className), ['a', 'c']
