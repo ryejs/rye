@@ -27,7 +27,7 @@ task 'watch:test', ->
 
     watch [
         'test/spec.coffee'
-        'index.html'
+        'test/index.html'
     ], -> invoke 'build:test'
 
     watch 'lib/*.js', -> invoke 'build:dev'
