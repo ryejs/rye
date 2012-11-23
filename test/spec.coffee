@@ -100,6 +100,8 @@ suite 'Collection methods', ->
         for el, i in list.get()
             assert list.indexOf(el) is i, "Indexes must match"
 
+suite 'Traversal methods', ->
+
     test 'concat', ->
         list = list_items()
         other = [document.createElement('div')]
@@ -107,14 +109,12 @@ suite 'Collection methods', ->
         assert list2.length is 4, "List length should increase by 1"
         assert list2.get(3).tagName is 'DIV'
 
-    test 'concat should ignore repeated elements', ->
+    test 'add', ->
         list = list_items()
         list2 = list_items()
-        list3 = list.concat(list2)
+        list3 = list.add(list2)
         assert list3.length is 3, "List length shouldn't change"
         assert.deepEqual list3.pluck('className'), ['a', 'b', 'c'], "Elements are the same"
-
-suite 'Traversal methods', ->
 
     test 'next', ->
         el = $('.a').next()
