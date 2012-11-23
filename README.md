@@ -12,7 +12,7 @@ API
 
 The API is similar to jQuery but not totally compatible. Inconsistencies like `.map()` behavior, `map/each()` argument ordering are fixed in Rye.
 
-It doesn't do any trickery to subclass `Array`, elements are stored in the `.elements` property instead. This means that array methods ran on a `Rye` instance return another `Rye` instance, while methods ran on `.get()` or `.elements` return instances of `Array` (ex: `$('li').each()` vs `$('li').get().(forEach()`).
+It doesn't do any trickery to subclass `Array`, elements are stored in the `.elements` property instead. This means that array methods ran on a `Rye` instance return another `Rye` instance, while methods ran on `.get()` or `.elements` return instances of `Array` (ex: `$('li').each()` vs `$('li').get().forEach()`).
 
 #### Traversing
 
