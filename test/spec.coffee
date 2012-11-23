@@ -2,6 +2,8 @@ assert = chai.assert
 
 $ = Rye
 
+list_items = -> $('.list li')
+
 setup ->
     document.getElementById('test').style.display = 'block'
 
@@ -39,12 +41,22 @@ suite 'Querying', ->
 
 suite 'Collection methods', ->
 
-    list_items = -> $('.list li')
-
-    test 'get', ->
+    test 'get all', ->
         list = list_items()
-        assert.lengthOf list, 3, "List has 3 elements"
-        assert list.get(1).className is 'b', "List[1] has class 'b'"
+        nodelist = list.get()
+        assert nodelist.length is 3, "List has 3 elements"
+
+    test 'get index', ->
+        list = list_items()
+        el = list.get(0)
+        assert el instanceof HTMLElement, "list.get(0) is an element"
+        assert el.className is 'a', "list.get(0) is .a"
+
+    test 'eq', ->
+        list = list_items()
+        b = list.eq(1)
+        assert b instanceof Rye, "Returns Rye instance"
+        assert b.length is 1, "One element"
 
     test 'forEach', ->
         list = list_items()
@@ -102,3 +114,43 @@ suite 'Collection methods', ->
         list2 = list.concat other
         assert list2.length is 4, "List length should increase by 1"
         assert list2.get(3).tagName is 'DIV'
+
+    test 'concat should ignore repeated elements', ->
+        list = list_items()
+        list2 = list_items()
+        list3 = list.concat(list2)
+        assert list3.length is 3, "List length shouldn't change"
+        assert.deepEqual list3.pluck('className'), ['a', 'b', 'c'], "Elements are the same"
+
+suite 'Traversal methods', ->
+
+    test 'next', ->
+        el = $('.a').next()
+        assert el.length is 1, "One element found"
+        assert el.get(0).className is 'b', "Next element is .b"
+
+    test 'prev', ->
+        el = $('.c').prev()
+        assert el.length is 1, "One element found"
+        assert el.get(0).className is 'b', "Previous element is .b"
+
+    test 'parent', ->
+        el = $('.a').parent()
+        assert el.length is 1, "One element found"
+        assert el.get(0).className is 'list', "Parent is .list"
+
+    test 'first', ->
+        first = list_items().first()
+        assert first.length is 1, "One element found"
+        assert first.get(0).className is 'a', "first() is .a"
+
+    test 'last', ->
+        last = list_items().last()
+        assert last.length is 1, "One element found"
+        assert last.get(0).className is 'c', "last() is .c"
+
+    test 'siblings', ->
+        list = list_items()
+        siblings = list.eq(1).siblings()
+        assert siblings.length is 2, "Two siblings"
+        assert.deepEqual siblings.map((el) -> el.className), ['a', 'c']
