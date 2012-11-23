@@ -38,15 +38,66 @@ suite 'Querying', ->
 
 suite 'Collection methods', ->
 
-    lis = '.list li'
+    list_items = -> $('.list li')
 
     test 'get', ->
-        el = $(lis)
-        assert.lengthOf el, 3
-        assert el.get(1).className is 'b'
+        list = list_items()
+        assert.lengthOf list, 3
+        assert list.get(1).className is 'b'
 
     test 'forEach', ->
-        el = $(lis)
-        i = 0
-        el.forEach -> i++
-        assert.equal i, 3
+        list = list_items()
+        count = 0
+        list.forEach (el, i) ->
+            assert.strictEqual el, list.get(i)
+            count++
+        assert.equal count, 3
+
+    test 'map', ->
+        list = list_items()
+        res = list.map (el) -> el.className
+        assert.deepEqual res, ['a', 'b', 'c'], "list of classnames should match"
+
+    test 'reduce', ->
+        list = list_items()
+        res = list.reduce (p, c, i) ->
+            p + c.className
+        , 'ø'
+        assert.strictEqual res, 'øabc', "concat classnames"
+
+    test 'reduceRight', ->
+        list = list_items()
+        res = list.reduceRight (p, c, i) ->
+            p + c.className
+        , 'ø'
+        assert.strictEqual res, 'øcba', "reverse concat"
+
+    test 'push', ->
+        list = list_items()
+        list.push(document.createElement('div'))
+        assert list.length is 4, "list has 4 elements"
+        assert list.get(3).tagName is 'DIV', "list[3] is a div"
+
+    test 'push accepts only elements', ->
+        list = list_items()
+        list.push 'bacon'
+        assert list.length is 3, "list still has 3 elements"
+        assert list.get(3) is undefined, "element at 3 doesn't exist"
+
+    test 'sort', ->
+        list = list_items()
+        # reverse alphabetical order
+        list.sort (a, b) -> a.className < b.className
+        assert list.get(0).className is 'c', ".c is first in the list"
+
+    test 'indexOf', ->
+        list = list_items()
+        for el, i in list.get()
+            assert list.indexOf(el) is i, "indexes must match"
+
+    test 'concat', ->
+        list = list_items()
+        other = [document.createElement('div')]
+        list2 = list.concat other
+        assert list2.length is 4, "list length should increase by 1"
+        assert list2.get(3).tagName is 'DIV'
