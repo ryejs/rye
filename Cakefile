@@ -2,7 +2,6 @@ fs    = require 'fs'
 flour = require 'flour'
 
 sources = [
-    'lib/intro.js'
     'lib/core/rye.js'
     'lib/core/intro.js'
     'lib/core/modules.js'
