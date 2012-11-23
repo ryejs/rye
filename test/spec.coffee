@@ -66,6 +66,10 @@ suite 'Collection methods', ->
             count++
         assert.equal count, 3, "Three iterations completed"
 
+    test 'forEach', ->
+        list = list_items()
+        assert.equal list.forEach(->), list, "Should return the same Rye instance"
+
     test 'map', ->
         list = list_items()
         res = list.map (el) -> el.className
