@@ -73,21 +73,26 @@ suite 'Collection methods', ->
     test 'map', ->
         list = list_items()
         res = list.map (el) -> el.className
-        assert.deepEqual res.elements, ['a', 'b', 'c'], "List of classnames matches"
+        assert.deepEqual res, ['a', 'b', 'c'], "List of classnames matches"
+
+    test 'slice', ->
+        list = list_items()
+        res = list.slice(0, 2)
+        assert.deepEqual res, [list.elements[0], list.elements[1]], "List of classnames matches"
 
     test 'reduce', ->
         list = list_items()
         res = list.reduce (p, c, i) ->
             p + c.className
         , 'ø'
-        assert.strictEqual res.elements, 'øabc', "Result includes concatenated classes"
+        assert.strictEqual res, 'øabc', "Result includes concatenated classes"
 
     test 'reduceRight', ->
         list = list_items()
         res = list.reduceRight (p, c, i) ->
             p + c.className
         , 'ø'
-        assert.strictEqual res.elements, 'øcba', "Result includes reverse concatenated classes"
+        assert.strictEqual res, 'øcba', "Result includes reverse concatenated classes"
 
     test 'sort', ->
         list = list_items()
@@ -100,14 +105,14 @@ suite 'Collection methods', ->
         for el, i in list.get()
             assert list.indexOf(el) is i, "Indexes must match"
 
-suite 'Traversal methods', ->
-
     test 'concat', ->
         list = list_items()
         other = [document.createElement('div')]
         list2 = list.concat other
         assert list2.length is 4, "List length should increase by 1"
-        assert list2.get(3).tagName is 'DIV'
+        assert list2[3].tagName is 'DIV'
+
+suite 'Traversal methods', ->
 
     test 'add', ->
         list = list_items()
