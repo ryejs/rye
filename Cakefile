@@ -1,4 +1,5 @@
 fs    = require 'fs'
+cp    = require 'child_process'
 flour = require 'flour'
 
 sources = [
@@ -14,9 +15,26 @@ task 'build', ->
     try fs.mkdirSync 'dist'
     bundle sources, 'dist/rye.min.js'
 
-task 'build:test', ->
+task 'build:dev', ->
     flour.minifiers.js = null
-    invoke 'build'
+    bundle sources, 'dist/rye.js'
+
+task 'build:test', ->
+    compile 'test/spec.coffee', 'test/spec.js'
+
+task 'watch:test', ->
+    invoke 'build:test'
+
+    watch [
+        'test/spec.coffee'
+        'index.html'
+    ], -> invoke 'build:test'
+
+    watch 'lib/*.js', -> invoke 'build:dev'
+
+task 'test:browser', ->
+    cp.exec 'open test/index.html'
+
 
 task 'lint', ->
     flour.linters.js.options =
