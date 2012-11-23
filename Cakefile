@@ -6,6 +6,7 @@ sources = [
     'lib/rye.js'
     'lib/util.js'
     'lib/selector.js'
+    'lib/collection.js'
     'lib/manipulation.js'
 ]
 
