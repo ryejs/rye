@@ -56,4 +56,4 @@ task 'lint', ->
         Rye: true
 
     lint 'lib/*.js'
-    lint 'lib/core/*.js'
+    
