@@ -85,18 +85,6 @@ suite 'Collection methods', ->
         , 'ø'
         assert.strictEqual res.elements, 'øcba', "Result includes reverse concatenated classes"
 
-    test 'push', ->
-        list = list_items()
-        list.push(document.createElement('div'))
-        assert list.length is 4, "List has 4 elements"
-        assert list.get(3).tagName is 'DIV', "list[3] is a div"
-
-    test 'push accepts only elements', ->
-        list = list_items()
-        list.push 'bacon'
-        assert list.length is 3, "List still has 3 elements"
-        assert list.get(3) is undefined, "Element at 3 doesn't exist"
-
     test 'sort', ->
         list = list_items()
         # reverse alphabetical order
