@@ -11,6 +11,12 @@ suite 'CSS methods', ->
         el.show()
         assert el.get(0).style.display is 'block', "Display set to block"
 
+    test 'show/hide preserve Rye', ->
+        el = $('#test')
+        
+        assert el.hide() is el, "Display set to none"
+        assert el.show() is el, "Display set to block"
+
     test 'show/hide preserves display', ->
         el = $('.a')
         el.get(0).style.display = 'inline'
