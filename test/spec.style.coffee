@@ -31,6 +31,8 @@ suite 'CSS methods', ->
         assert.equal el.get(0).className, 'a b c d', "Class c and d added"
         el.addClass('a')
         assert.equal el.get(0).className, 'a b c d'
+        el.addClass('with-a')
+        assert.equal el.get(0).className, 'a b c d with-a'
 
     test 'addClass fallback', ->
         el = $([])
