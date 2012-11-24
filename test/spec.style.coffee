@@ -38,7 +38,6 @@ suite 'CSS methods', ->
         el.elements.push({ className: 'a b' })
         el._update()
         el.addClass('a c')
-        console.log(el.elements)
         assert el.get(0).className is 'a b c', "Class .c added, .a ignored"
 
 
