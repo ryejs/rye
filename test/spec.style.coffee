@@ -11,11 +11,10 @@ suite 'CSS methods', ->
         el.show()
         assert.equal el.get(0).style.display, 'block', "Display set to block"
 
-    test 'show/hide preserve Rye', ->
+    test 'show/hide returns Rye', ->
         el = $('#test')
-
-        assert el.hide() is el, "Display set to none"
-        assert el.show() is el, "Display set to block"
+        assert.equal el.hide(), el
+        assert.equal el.show(), el
 
     test 'show/hide preserves display', ->
         el = $('.a')
