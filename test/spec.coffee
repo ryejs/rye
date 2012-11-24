@@ -4,12 +4,6 @@ $ = Rye
 
 list_items = -> $('.list li')
 
-setup ->
-    document.getElementById('test').style.display = 'block'
-
-teardown ->
-    document.getElementById('test').style.display = 'none'
-
 suite 'Basic functionality', ->
 
     test 'Rye()', ->
@@ -168,3 +162,20 @@ suite 'Traversal methods', ->
         siblings = list.eq(1).siblings()
         assert siblings.length is 2, "Two siblings"
         assert.deepEqual siblings.get().map((el) -> el.className), ['a', 'c']
+
+    test 'closest', ->
+        el = $('.a')
+        closest = el.closest('ul')
+        assert.lengthOf closest, 1
+        assert.equal closest.get(0).className, 'list'
+
+        closest = el.closest('section#test')
+        assert.lengthOf closest, 1
+        assert.equal closest.get(0).id, 'test'
+
+        closest = el.closest('html')
+        assert.lengthOf closest, 1
+        assert.equal closest.get(0), document.documentElement
+
+        closest = el.closest('bacon')
+        assert.lengthOf closest, 0
