@@ -6,7 +6,8 @@
             [
                 ".gitkeep",
                 "*.sublime-project",
-                "*.sublime-workspace"
+                "*.sublime-workspace",
+                "spec*.js"
             ],
             "folder_exclude_patterns":
             [
