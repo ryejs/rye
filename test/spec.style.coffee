@@ -13,7 +13,7 @@ suite 'CSS methods', ->
 
     test 'show/hide preserve Rye', ->
         el = $('#test')
-        
+
         assert el.hide() is el, "Display set to none"
         assert el.show() is el, "Display set to block"
 
@@ -30,4 +30,15 @@ suite 'CSS methods', ->
         assert.equal el.get(0).className, 'a b', "Class b added"
         el.addClass(' c d ')
         assert.equal el.get(0).className, 'a b c d', "Class c and d added"
+        el.addClass('a')
+        assert.equal el.get(0).className, 'a b c d'
+
+    test 'addClass fallback', ->
+        el = $([])
+        el.elements.push({ className: 'a b' })
+        el._update()
+        el.addClass('a c')
+        console.log(el.elements)
+        assert el.get(0).className is 'a b c', "Class .c added, .a ignored"
+
 
