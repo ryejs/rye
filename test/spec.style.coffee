@@ -81,4 +81,24 @@ suite 'CSS methods', ->
         el.removeClass('  b d')
         assert.equal el.get(0).className, 'a', "Class .b removed, .d ignored"
 
+    test 'toggleClass', ->
+        div = document.createElement('div')
+        el = $(div)
+        div.className = '  a b   c '
+        el.toggleClass('a')
+        assert.equal el.get(0).className, 'b   c ', "Class .a removed"
+        el.toggleClass('a')
+        assert.equal el.get(0).className, 'b   c a', "Class .a added" 
+
+    test 'toggleClass forced', ->
+        div = document.createElement('div')
+        el = $(div)
+        div.className = '  a b   c '
+        el.toggleClass('a', true)
+        assert.equal el.get(0).className, '  a b   c ', "Nothing happens"
+        el.toggleClass('d', false)
+        assert.equal el.get(0).className, '  a b   c ', "Nothing happens"
+        el.toggleClass('d', true)
+        assert.equal el.get(0).className, '  a b   c d', "Class .d added"
+
 
