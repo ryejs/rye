@@ -34,11 +34,15 @@ suite 'CSS methods', ->
         el.addClass('with-a')
         assert.equal el.get(0).className, 'a b c d with-a'
 
+        el = $(document.createElement('div'))
+        el.addClass('with-a')
+        assert.equal el.get(0).className, 'with-a'
+
     test 'addClass fallback', ->
         el = $([])
-        el.elements.push({ className: 'a b' })
+        el.elements.push({ className: ' a b' })
         el._update()
-        el.addClass('a c')
-        assert el.get(0).className is 'a b c', "Class .c added, .a ignored"
+        el.addClass('   a c')
+        assert.equal el.get(0).className, ' a b c', "Class .c added, .a ignored"
 
 
