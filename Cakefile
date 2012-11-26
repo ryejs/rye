@@ -22,9 +22,7 @@ task 'build:dev', ->
     bundle sources, 'dist/rye.js'
 
 task 'build:test', ->
-    compile 'test/spec.coffee', 'test/spec.js'
-    compile 'test/spec.events.coffee', 'test/spec.events.js'
-    compile 'test/spec.style.coffee', 'test/spec.style.js'
+    bundle 'test/*.coffee', 'test/spec.js'
 
 task 'watch:test', ->
     invoke 'build:dev'
@@ -40,8 +38,13 @@ task 'test:browser', ->
 
 task 'test:cov', ->
     # requires http://github.com/visionmedia/node-jscoverage
-    cp.exec 'jscoverage dist .coverage', ->
-        cp.exec 'open test/coverage.html'
+    flour.minifiers.js = null
+    bundle sources, 'dist/rye.js', ->
+        try fs.unlinkSync '.coverage/rye.js'
+        try fs.unlinkSync '.coverage/rye.min.js'
+        try fs.rmdirSync '.coverage'
+        cp.exec 'jscoverage dist .coverage', ->
+            cp.exec 'open test/coverage.html'
 
 task 'lint', ->
     flour.linters.js.options =
