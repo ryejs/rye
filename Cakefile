@@ -17,27 +17,18 @@ task 'build', ->
     try fs.mkdirSync 'dist'
     bundle sources, 'dist/rye.min.js'
 
+
 task 'build:dev', ->
     try fs.mkdirSync 'dist'
     flour.minifiers.js = null
     bundle sources, 'dist/rye.js'
 
+
 task 'build:test', ->
-    bundle 'test/*.coffee', 'test/spec.js'
+    bundle 'test/spec/*.coffee', 'test/spec.js'
 
-task 'watch:test', ->
-    invoke 'build:dev'
-    invoke 'build:test'
 
-    watch 'test/index.html', -> invoke 'build:test'
-    watch 'test/*.coffee', -> invoke 'build:test'
-
-    watch 'lib/*.js', -> invoke 'build:dev'
-
-task 'test:browser', ->
-    cp.exec 'open test/index.html'
-
-task 'test:cov', ->
+task 'build:test:cov', ->
     # requires http://github.com/visionmedia/node-jscoverage
     flour.minifiers.js = null
     bundle sources, 'dist/rye.js', ->
@@ -46,6 +37,17 @@ task 'test:cov', ->
         try fs.rmdirSync '.coverage'
         cp.exec 'jscoverage dist .coverage', ->
             cp.exec 'open test/coverage.html'
+
+
+task 'watch:test', ->
+    invoke 'build:dev'
+    invoke 'build:test'
+
+    watch 'test/index.html', -> invoke 'build:test'
+    watch 'test/spec/*.coffee', -> invoke 'build:test'
+
+    watch 'lib/*.js', -> invoke 'build:dev'
+
 
 task 'lint', ->
     flour.linters.js.options =
@@ -65,7 +67,7 @@ task 'lint', ->
         browser  : true
 
     flour.linters.js.globals =
-        Rye: true
+        Rye      : true
 
     lint 'lib/*.js'
 
