@@ -17,7 +17,7 @@ suite 'Data', ->
         Data.set(e, 'key', 'bar')
         assert.equal Data.get(e, 'key'), 'bar', "Data changed to bar in key"
 
-        assert.equal Data.get(e), {key: 'bar'}, "Get all data"
+        assert.deepEqual Data.get(e), {key: 'bar'}, "Get all data"
 
     test 'Element storage data', ->
         el = $(document.createElement('div'))
@@ -27,7 +27,7 @@ suite 'Data', ->
         assert.equal el.data('key'), 'foo', "Data foo in key"
 
         el.data('key', {fizz: 1, buzz: 2})
-        assert.equal el.data('key'), {fizz: 1, buzz: 2}, "Data changed to object in key"
+        assert.deepEqual el.data('key'), {fizz: 1, buzz: 2}, "Data changed to object in key"
 
     test 'List storage data', ->
         el = $([
