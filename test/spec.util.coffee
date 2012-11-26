@@ -21,3 +21,8 @@ suite 'Util', ->
         assert.equal obj.barbecue, true
         assert.instanceOf obj.hello, Function
         assert.equal obj.hello(), 'hi'
+
+    test 'prefix', ->
+        assert.strictEqual util.prefix('document'), document, "find unprefixed object"
+        context = { mozBacon: -> }
+        assert.strictEqual util.prefix('bacon', context), context.mozBacon, "find prefixed object"
