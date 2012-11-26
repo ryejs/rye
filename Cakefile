@@ -1,6 +1,10 @@
-fs    = require 'fs'
-cp    = require 'child_process'
-flour = require 'flour'
+fs     = require 'fs'
+cp     = require 'child_process'
+flour  = require 'flour'
+rimraf = require 'rimraf'
+
+# Build tasks
+# ===========
 
 sources = [
     'lib/rye.js'
@@ -17,29 +21,40 @@ task 'build', ->
     try fs.mkdirSync 'dist'
     bundle sources, 'dist/rye.min.js'
 
-
-task 'build:dev', ->
-    try fs.mkdirSync 'dist'
+build_dev = (cb) ->
     flour.minifiers.js = null
-    bundle sources, 'dist/rye.js'
+    try fs.mkdirSync 'dist'
+    bundle sources, 'dist/rye.js', cb
 
+task 'build:dev', build_dev
+
+# Testing
+# =======
 
 task 'build:test', ->
     bundle 'test/spec/*.coffee', 'test/spec.js'
 
+task 'build:cov', ->
+    rimraf.sync '.coverage'
+    cp.exec 'jscoverage lib .coverage', ->
+        cov_sources = sources.map (f) -> f.replace('lib/', '.coverage/')
+        flour.minifiers.js = null
+        bundle cov_sources, '.coverage/rye.instrumented.js'
 
-task 'build:test:cov', ->
-    # requires http://github.com/visionmedia/node-jscoverage
-    flour.minifiers.js = null
-    bundle sources, 'dist/rye.js', ->
-        try fs.unlinkSync '.coverage/rye.js'
-        try fs.unlinkSync '.coverage/rye.min.js'
-        try fs.rmdirSync '.coverage'
-        cp.exec 'jscoverage dist .coverage', ->
-            cp.exec 'open test/coverage.html'
+# Open test harness in a browser so we don't have
+# to run a server or know the absolute URL
+task 'cov', ->
+    invoke 'build:cov'
+    cp.exec 'open test/coverage.html'
 
+task 'test', ->
+    invoke 'build:test'
+    cp.exec 'open test/index.html'
 
-task 'watch:test', ->
+# Development
+# ===========
+
+task 'watch', ->
     invoke 'build:dev'
     invoke 'build:test'
 
@@ -47,7 +62,6 @@ task 'watch:test', ->
     watch 'test/spec/*.coffee', -> invoke 'build:test'
 
     watch 'lib/*.js', -> invoke 'build:dev'
-
 
 task 'lint', ->
     flour.linters.js.options =
@@ -70,4 +84,3 @@ task 'lint', ->
         Rye      : true
 
     lint 'lib/*.js'
-
