@@ -46,16 +46,34 @@ suite 'EventEmitter', ->
 
     test 'emit event', (done) ->
         x = new EventEmitter
-        x.on 'test', (arg) ->
+        x.on 'click', (arg) ->
             assert arg is 55, "Argument received"
             done()
-        x.emit 'test', 55
+        x.emit 'click', 55
 
     test 'emit namespaced event', (done) ->
         x = new EventEmitter
-        x.on 'test.foo', (arg) ->
+        x.on 'click.foo', (arg) ->
             assert arg is 33, "Argument received"
             done()
         x.emit '.foo', 33
+
+    test 'emit name and namespaced event', (done) ->
+        x = new EventEmitter
+        x.on 'click.foo', (arg) ->
+            assert arg is 4, "Argument received"
+            done()
+        x.emit 'click.foo', 4
+
+    test 'emit once', (done) ->
+        x = new EventEmitter
+        x.once 'click', (arg) ->
+            assert arg is 4, "Argument received"
+        x.emit 'click', 4
+        x.emit 'click', 5
+        
+        setTimeout ->
+            assert x.events['click'] is undefined, "Event removed"
+            done()
 
 
