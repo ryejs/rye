@@ -18,6 +18,7 @@ task 'build', ->
     bundle sources, 'dist/rye.min.js'
 
 task 'build:dev', ->
+    try fs.mkdirSync 'dist'
     flour.minifiers.js = null
     bundle sources, 'dist/rye.js'
 
