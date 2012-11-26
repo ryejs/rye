@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+    <div id="mocha" hidden></div>
+
+    <section id="test">
+        <header>
+            <h2>This is the test area</h2>
+        </header>
+        <div class="content">
+            <p id="hello">Hello</p>
+            <ul class="list">
+                <li class="a">One</li>
+                <li class="b">Two</li>
+                <li class="c">Three</li>
+            </ul>
+        </div>
+    </section>
+
+    <script src="coverage-template.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script>mocha.setup('tdd')</script>
+    <script src="../.coverage/rye.js"></script>
+    <script src="spec.js"></script>
+    <script src="spec.events.js"></script>
+    <script src="spec.style.js"></script>
+
+    <script>
+    (function(){
+
+        function coverageClass(n) {
+          if (n >= 75) return 'high';
+          if (n >= 50) return 'medium';
+          if (n >= 25) return 'low';
+          return 'terrible';
+        }
+
+        process.stdout.write = function (res) {
+            var result = coverageTemplate({
+                cov: JSON.parse(res)
+              , coverageClass: coverageClass
+            })
+            var div = document.createElement('div')
+            div.innerHTML = result
+            div.id = 'cov'
+            document.body.appendChild(div)
+            document.getElementById('test').style.display = 'none'
+        }
+
+        Mocha.reporters.JSONCov(mocha.run(), true)
+
+    })()
+    </script>
+</body>
+</html>

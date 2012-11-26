@@ -22,3 +22,5 @@ thumbs.db
 dist
 
 test/spec*.js
+
+.coverage

@@ -38,6 +38,10 @@ task 'watch:test', ->
 task 'test:browser', ->
     cp.exec 'open test/index.html'
 
+task 'test:cov', ->
+    # requires http://github.com/visionmedia/node-jscoverage
+    cp.exec 'jscoverage dist .coverage', ->
+        cp.exec 'open test/coverage.html'
 
 task 'lint', ->
     flour.linters.js.options =
@@ -60,4 +64,4 @@ task 'lint', ->
         Rye: true
 
     lint 'lib/*.js'
-    
+
