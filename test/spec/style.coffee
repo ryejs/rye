@@ -2,7 +2,7 @@ assert = chai.assert
 
 $ = Rye
 
-suite 'CSS methods', ->
+suite 'Style methods', ->
 
     test 'show/hide', ->
         el = $('#test')
