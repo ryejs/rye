@@ -14,6 +14,10 @@ suite 'Util', ->
     test 'inherits', ->
         class Meat
             barbecue: true
-        class Bacon extends Meat
+            hello: -> 'hi'
+        class Bacon
+        util.inherits Bacon, Meat
         obj = new Bacon
         assert.equal obj.barbecue, true
+        assert.instanceOf obj.hello, Function
+        assert.equal obj.hello(), 'hi'
