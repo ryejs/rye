@@ -48,10 +48,10 @@ suite 'Util', ->
         assert.isFalse util.isNode(comment), "Comment isnt node"
 
         fragment = document.createDocumentFragment('div')
-        assert.isFalse util.isNode(fragment), "Fragment is node"
+        assert.isTrue util.isNode(fragment), "Fragment is node"
 
-        text = document.createText('hi')
-        assert.isFalse util.isNode(text), "Text is node"
+        text = document.createTextNode('hi')
+        assert.isTrue util.isNode(text), "Text is node"
 
     test 'isNodeList', ->
         assert.isFalse util.isNodeList(false), "False isnt node list"
