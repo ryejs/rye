@@ -23,6 +23,12 @@ suite 'Collection methods', ->
         assert b instanceof Rye, "Returns Rye instance"
         assert b.length is 1, "One element"
 
+    test 'eq null', ->
+        list = list_items()
+        b = list.eq()
+        assert b instanceof Rye, "Returns Rye instance"
+        assert b.length is 0, "Without elements"
+
     test 'forEach', ->
         list = list_items()
         count = 0
@@ -30,16 +36,6 @@ suite 'Collection methods', ->
             assert.strictEqual el, list.get(i), "Index in loop corresponds to element"
             count++
         assert.equal count, 3, "Three iterations completed"
-
-    test 'map', ->
-        list = list_items()
-        res = list.get().map (el) -> el.className
-        assert.deepEqual res, ['a', 'b', 'c'], "List of classnames matches"
-
-    test 'slice', ->
-        list = list_items()
-        res = list.get().slice(0, 2)
-        assert.deepEqual res, [list.elements[0], list.elements[1]], "List of classnames matches"
 
     test 'reduce', ->
         list = list_items()
@@ -55,16 +51,53 @@ suite 'Collection methods', ->
         , 'ø'
         assert.strictEqual res, 'øcba', "Result includes reverse concatenated classes"
 
+    test 'indexOf', ->
+        list = list_items()
+        for el, i in list.get()
+            assert list.indexOf(el) is i, "Indexes must match"
+    
+    test 'map', ->
+        list = list_items()
+        res = list.get().map (el) -> el.className
+        assert.deepEqual res, ['a', 'b', 'c'], "List of classnames matches"
+
     test 'sort', ->
         list = list_items()
         # reverse alphabetical order
         list.sort (a, b) -> if a.className < b.className then 1 else -1
         assert list.get(0).className is 'c', ".c is first in the list"
 
-    test 'indexOf', ->
+    test 'each', ->
         list = list_items()
-        for el, i in list.get()
-            assert list.indexOf(el) is i, "Indexes must match"
+        count = 0
+        list = list.each (el, i) ->
+            assert.strictEqual el, list.get(i), "Index in loop corresponds to element"
+            count++
+        assert list instanceof Rye, "Returns Rye instance"
+        assert.equal count, 3, "Three iterations completed"
+
+    test 'push', ->
+        list = list_items()
+        div = document.createElement('div')
+        list_length = list.length
+        ret = list.push div
+        assert.equal ret, list_length, "Push position"
+        assert.equal list.length, list_length + 1, "Increase size"
+        assert.equal list.get(3), div, "Adds the element to last position"
+
+    test 'push not elements', ->
+        list = list_items()
+        obj = {}
+        list_length = list.length
+        ret = list.push obj
+        assert.equal ret, -1, "Fail operation"
+        assert.equal list.length, list_length, "Keep size"
+
+    test 'slice', ->
+        list = list_items()
+        res = list.slice(0, 2)
+        assert.deepEqual res.elements, [list.elements[0], list.elements[1]], "List of classnames matches"
+        assert.deepEqual list, list_items(), "Doesnt affect the original"
 
     test 'concat', ->
         list = list_items()
