@@ -6,12 +6,13 @@
   "dependencies": {
   },
   "devDependencies": {
+    "rimraf": "",
     "flour": "",
     "mocha": "",
     "chai": "",
-    "uglify-js": "",
+    "uglify-js": "2.2.0",
     "jshint": "",
-    "coffee-script": ""
+    "coffee-script": "1.4.0"
   },
   "scripts": {
     "test": "mocha"

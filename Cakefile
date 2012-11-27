@@ -21,12 +21,10 @@ task 'build', ->
     try fs.mkdirSync 'dist'
     bundle sources, 'dist/rye.min.js'
 
-build_dev = (cb) ->
+task 'build:dev', ->
     flour.minifiers.js = null
     try fs.mkdirSync 'dist'
-    bundle sources, 'dist/rye.js', cb
-
-task 'build:dev', build_dev
+    bundle sources, 'dist/rye.js'
 
 # Testing
 # =======
