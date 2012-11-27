@@ -34,7 +34,10 @@ task 'build:test', ->
 
 task 'build:cov', ->
     rimraf.sync '.coverage'
-    cp.exec 'jscoverage lib .coverage', ->
+    cp.exec 'jscoverage lib .coverage', (err) ->
+        if err?.code is 127
+            console.log 'cov requires github.com/visionmedia/node-jscoverage'
+            return
         cov_sources = sources.map (f) -> f.replace('lib/', '.coverage/')
         flour.minifiers.js = null
         bundle cov_sources, '.coverage/rye.instrumented.js'
