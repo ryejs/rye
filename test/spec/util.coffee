@@ -34,25 +34,6 @@ suite 'Util', ->
         fragment = document.createDocumentFragment('div')
         assert.isFalse util.isElement(fragment), "Fragment isnt element"
 
-    test 'isNode', ->
-        assert.isFalse util.isNode(false), "False isnt element"
-
-        assert.isTrue util.isNode(document), "document is node"
-
-        assert.isTrue util.isNode(window), "window is node"
-
-        div = document.createElement('div')
-        assert.isTrue util.isNode(div), "DIV is node"
-
-        comment = document.createComment('hi')
-        assert.isFalse util.isNode(comment), "Comment isnt node"
-
-        fragment = document.createDocumentFragment('div')
-        assert.isTrue util.isNode(fragment), "Fragment is node"
-
-        text = document.createTextNode('hi')
-        assert.isTrue util.isNode(text), "Text is node"
-
     test 'isNodeList', ->
         assert.isFalse util.isNodeList(false), "False isnt node list"
 
