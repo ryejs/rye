@@ -82,6 +82,15 @@ suite 'Traversal methods', ->
 
         assert.deepEqual all, $('*'), "Doesnt affect the original"
 
+    test 'has', ->
+        lists = $('ul')
+        list = lists.has('.a')
+        assert.deepEqual list.elements, $('.list').elements
+
+        lists = $('ul')
+        list = lists.has('.list')
+        assert.lengthOf list.elements, 0
+
     test 'is', ->
         doc = $(document)
         assert.isTrue doc.is(document), "Document is document"

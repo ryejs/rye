@@ -18,6 +18,7 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 
 - `find()`
 - `filter()`
+- `has()`
 - `is()`
 - `not()`
 - `add()`
@@ -58,7 +59,6 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 API wishlist
 ------------
 
-- `has()`
 - `after()`
 - `before()`
 - `toggle()` - maybe not?
