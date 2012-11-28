@@ -30,7 +30,7 @@ task 'build:dev', ->
 # =======
 
 task 'build:test', ->
-    bundle 'test/spec/*.coffee', 'test/spec.js'
+    bundle 'test/*.coffee', 'test/spec.js'
 
 task 'build:cov', ->
     rimraf.sync '.coverage'
@@ -46,11 +46,11 @@ task 'build:cov', ->
 # to run a server or know the absolute URL
 task 'cov', ->
     invoke 'build:cov'
-    cp.exec 'open test/coverage.html'
+    cp.exec 'open test/assets/coverage.html'
 
 task 'test', ->
     invoke 'build:test'
-    cp.exec 'open test/index.html'
+    cp.exec 'open test/assets/index.html'
 
 # Development
 # ===========
@@ -59,8 +59,8 @@ task 'watch', ->
     invoke 'build:dev'
     invoke 'build:test'
 
-    watch 'test/index.html', -> invoke 'build:test'
-    watch 'test/spec/*.coffee', -> invoke 'build:test'
+    watch 'test/assets/index.html', -> invoke 'build:test'
+    watch 'test/*.coffee', -> invoke 'build:test'
 
     watch 'lib/*.js', -> invoke 'build:dev'
 
