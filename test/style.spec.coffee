@@ -37,7 +37,7 @@ suite 'Style methods', ->
         assert.isFalse el.hasClass('c')
 
     getClass = (el) ->
-        el.get(0).className.trim().split(/\s/)
+        el.get(0).className.trim().split(/\s+/)
 
     test 'addClass', ->
         el = $('.a')
