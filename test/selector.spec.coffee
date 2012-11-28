@@ -103,7 +103,6 @@ suite 'Traversal methods', ->
 
     test 'not', ->
         list = list_items()
-        console.log(list.not('.a'))
         assert.equal list.not('.a').length , 2, "Removes .a element"
 
         doc = $(document)
