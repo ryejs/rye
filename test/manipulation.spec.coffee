@@ -64,6 +64,12 @@ suite 'Manipulation', ->
         found = $('#after-element')
         assert.equal el.next().get(0), found.get(0)
 
+        el = $('.list .c')
+        li = makeElement 'li', null, { id: 'after-element' }
+        el.after(li)
+        assert.equal el.next().get(0), li
+        assert.equal $('.list li').last().get(0), li
+
     test 'before', ->
         el = $('#hello')
         el.before('<div id="before"></div>')
