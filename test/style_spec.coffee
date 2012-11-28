@@ -36,27 +36,33 @@ suite 'Style methods', ->
         assert.isTrue el.hasClass('a')
         assert.isFalse el.hasClass('c')
 
+    getClass = (el) ->
+        el.get(0).className.trim().split(/\s/)
+
     test 'addClass', ->
         el = $('.a')
         el.addClass('b')
-        assert.equal el.get(0).className, 'a b', "Class b added"
+        assert.deepEqual getClass(el), ['a', 'b']
+
         el.addClass(' c d ')
-        assert.equal el.get(0).className, 'a b c d', "Class c and d added"
+        assert.deepEqual getClass(el), ['a', 'b', 'c', 'd']
+
         el.addClass('a')
-        assert.equal el.get(0).className, 'a b c d'
+        assert.deepEqual getClass(el), ['a', 'b', 'c', 'd']
+
         el.addClass('with-a')
-        assert.equal el.get(0).className, 'a b c d with-a'
+        assert.deepEqual getClass(el), ['a', 'b', 'c', 'd', 'with-a']
 
         el = $(document.createElement('div'))
         el.addClass('with-a')
-        assert.equal el.get(0).className, 'with-a'
+        assert.deepEqual getClass(el), ['with-a']
 
     test 'addClass fallback', ->
         el = $([])
         el.elements.push({ className: ' a b' })
         el._update()
         el.addClass('   a c')
-        assert.equal el.get(0).className, ' a b c', "Class .c added, .a ignored"
+        assert.deepEqual getClass(el), ['a', 'b', 'c']
 
     test 'removeClass', ->
         div = document.createElement('div')
