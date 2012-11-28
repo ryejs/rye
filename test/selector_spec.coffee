@@ -92,6 +92,21 @@ suite 'Traversal methods', ->
         all = $('*')
         assert.isTrue all.is(list_items()), "Filter the list items with Rye instance"
 
+    test 'not', ->
+        list = list_items()
+        console.log(list.not('.a'))
+        assert.equal list.not('.a').length , 2, "Removes .a element"
+
+        doc = $(document)
+        assert.equal doc.not(document).length , 0, "Removes document"
+
+        list = list_items()
+        assert.equal list.not($('.a')).length , 2, "Removes Rye .a element"
+
+        list = list_items()
+        el = list.not (item, index) -> item.className isnt 'a'
+        assert.equal el.get(0) , $('.a').get(0), "Keeps .a element"
+
     test 'add multiple (Rye)', ->
         list = list_items()
         list2 = list_items()
