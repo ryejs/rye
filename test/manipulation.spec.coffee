@@ -29,6 +29,13 @@ suite 'Manipulation', ->
         assert.equal x.getElementsByTagName('p')[0].innerText, 'Hello'
         assert.equal x.getElementsByTagName('*')[1].tagName, 'P'
 
+    test 'append element', ->
+        el = makeElement 'p', 'test', { className: 'test-append-element' }
+        $('#test').append(el)
+        assert.lengthOf $('#test .test-append-element'), 1
+        assert.equal $('#test .content').next().get(0), el
+        assert.equal $('#test p').get(-1), el
+
     test 'prepend', ->
         x = makeElement 'div', '<span>2</span>'
         contents = '<p>Hello</p>'
@@ -37,6 +44,12 @@ suite 'Manipulation', ->
         assert.equal x.getElementsByTagName('p')[0].innerText, 'Hello'
         assert.equal x.getElementsByTagName('*')[0].tagName, 'P'
 
+    test 'prepend element', ->
+        el = makeElement 'p', 'test', { className: 'test-prepend-element' }
+        $('#test').prepend(el)
+        assert.lengthOf $('#test .test-prepend-element'), 1
+        assert.equal $('#test p').get(0), el
+
     test 'after', ->
         el = $('#hello')
         el.after('<div id="after"></div>')
@@ -44,10 +57,23 @@ suite 'Manipulation', ->
         assert.equal el.next().get(0), found.get(0)
         #found.remove() - not implemented
 
+    test 'after with element', ->
+        el = $('#hello')
+        div = makeElement 'div', null, { id: 'after-element' }
+        el.after(div)
+        found = $('#after-element')
+        assert.equal el.next().get(0), found.get(0)
+
     test 'before', ->
         el = $('#hello')
         el.before('<div id="before"></div>')
         found = $('#before')
         assert.equal el.prev().get(0), found.get(0)
-        #found.remove() - not implemented
+
+    test 'before with element', ->
+        el = $('#hello')
+        div = makeElement 'div', null, { id: 'before-element' }
+        el.before(div)
+        found = $('#before-element')
+        assert.equal el.prev().get(0), found.get(0)
 
