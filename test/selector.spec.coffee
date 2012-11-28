@@ -103,14 +103,21 @@ suite 'Traversal methods', ->
 
     test 'not', ->
         list = list_items()
-        assert.equal list.not('.a').length , 2, "Removes .a element"
+        filtered = list.not('.a')
+        assert.equal filtered.length , 2, "Removes .a element"
+        assert.deepEqual filtered.pluck('className'), ['b', 'c']
 
+    test 'not element', ->
         doc = $(document)
-        assert.equal doc.not(document).length , 0, "Removes document"
+        assert.lengthOf doc.not(document) , 0
+        el = $('#hello')
+        assert.lengthOf el.not(el.elements[0]), 0
 
+    test 'not rye', ->
         list = list_items()
         assert.equal list.not($('.a')).length , 2, "Removes Rye .a element"
 
+    test 'not function', ->
         list = list_items()
         el = list.not (item, index) -> item.className isnt 'a'
         assert.equal el.get(0) , $('.a').get(0), "Keeps .a element"
