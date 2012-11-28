@@ -60,6 +60,14 @@ suite 'Util', ->
         ]
         assert.deepEqual util.pluck(array, 'prop'), [1,2], "Get prop property of objects"
 
+    test 'put', ->
+        arr = [
+            { id: 1 }
+            { id: 2 }
+        ]
+        util.put(arr, 'loco', true)
+        assert.deepEqual util.pluck(arr, 'loco'), [true, true]
+
     test 'prefix', ->
         assert.strictEqual util.prefix('document'), document, "find unprefixed object"
         context = { mozBacon: -> }
