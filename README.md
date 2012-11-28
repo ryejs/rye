@@ -24,6 +24,7 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 - `prev()`
 - `first()`
 - `last()`
+- `siblings()`
 - `parent()`
 - `closest()`
 - `parents()`
@@ -44,6 +45,14 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 - `slice()`
 - `concat()`
 
+#### Style
+
+- `show()`
+- `hide()`
+- `hasClass()`
+- `addClass()`
+- `removeClass()`
+- `toggleClass()`
 
 API wishlist
 ------------
@@ -52,9 +61,6 @@ API wishlist
 - `has()`
 - `after()`
 - `before()`
-- `addClass()`
-- `removeClass()`
-- `toggleClass()`
 - `toggle()` - maybe not?
 - other css methods
 - `html()`
