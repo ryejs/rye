@@ -39,27 +39,43 @@ suite 'Querying', ->
         assert.lengthOf el.filter(), 0, "matches filter only elements"
 
     test 'matches fallback', ->
-        # this test is really dont cool
         util = $.require('util')
 
-        parent = document.createElement('div')
-        children_foo = document.createElement('div')
-        children_foo.className = 'foo'
-        children = document.createElement('div')
-        parent.appendChild children_foo
-        parent.appendChild children
+        (parent = document.createElement('div')).innerHTML = """
+            <div class="foo"></div>
+            <div></div>
+        """
+
+        parent.id = 'matches-fallback'
+
         el = $(parent)
 
-        prefix = util.prefix
+        # overwrite util.prefix so that the attempt to get
+        # the `matchesSelector` method fails
+        _prefix = util.prefix
         util.prefix = -> return false
 
         filter_div = el.filter('div')
+
+        assert.lengthOf filter_div, 1
+        assert.deepEqual filter_div.elements, [parent]
+
         filter_foo = el.children().filter('.foo')
+        foo = parent.getElementsByClassName('foo')[0]
 
-        util.prefix = prefix # restore prefix
+        assert.lengthOf filter_foo, 1
+        assert.deepEqual filter_foo.elements, [foo]
 
-        assert.deepEqual filter_div.elements, [parent], "Remains the parent"
-        assert.deepEqual filter_foo.elements, [children_foo], "Remains the parent"
+        filter_null = el.filter('batata')
+
+        assert.lengthOf filter_null, 0
+
+        filter_all = el.children().filter('*')
+
+        assert.lengthOf filter_all, 2
+        assert.equal filter_all.get(0), foo
+
+        util.prefix = _prefix # restore prefix
         
 suite 'Traversal methods', ->
     test 'find', ->
