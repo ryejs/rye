@@ -5,7 +5,7 @@ Rye
 
 Loosely based on Zepto and Ender.
 
-by [jcemer](http://github.com/jcemer), [ricardobeat](http://github.com/ricardobeat) and [v42](http://github.com/v42)
+by [jcemer](http://github.com/jcemer) and [ricardobeat](http://github.com/ricardobeat)
 
 API
 ---
@@ -47,10 +47,20 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 - `slice()`
 - `concat()`
 
+#### Manipulation
+
+- `html()`
+- `text()`
+- `append()`
+- `prepend()`
+- `after()`
+- `before()`
+
 #### Style
 
 - `show()`
 - `hide()`
+- `css()`
 - `hasClass()`
 - `addClass()`
 - `removeClass()`
@@ -59,12 +69,6 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 API wishlist
 ------------
 
-- `after()`
-- `before()`
-- `toggle()` - maybe not?
-- other css methods
-- `html()`
-- `text()`
 - `attr()`, `val()`, `prop()` ?
 
 ### Events

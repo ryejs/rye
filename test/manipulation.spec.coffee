@@ -12,22 +12,32 @@ makeElement = (tagName, html, attrs) ->
 
 suite 'Manipulation', ->
 
+    test 'get text', ->
+        div = makeElement 'div', '<p>x</p>'
+        el = $(div)
+        assert.equal el.text(), 'x'
+
+    test 'set text', ->
+        div = makeElement 'div'
+        el = $(div).text('<')
+        assert.equal el.html(), '&lt;'
+
     test 'get html', ->
         assert.equal $('body').html(), document.getElementsByTagName('body')[0].innerHTML
 
     test 'set html', ->
-        x = makeElement 'div'
+        div = makeElement 'div'
         contents = '<p><b>X</b></p>'
-        $(x).html(contents)
-        assert.equal $(x).html(), contents
+        $(div).html(contents)
+        assert.equal $(div).html(), contents
 
     test 'append', ->
-        x = makeElement 'div', '<span>1</span>'
+        div = makeElement 'div', '<span>1</span>'
         contents = '<p>Hello</p>'
-        $(x).append(contents)
-        assert.lengthOf x.childNodes, 2
-        assert.equal x.getElementsByTagName('p')[0].innerText, 'Hello'
-        assert.equal x.getElementsByTagName('*')[1].tagName, 'P'
+        $(div).append(contents)
+        assert.lengthOf div.childNodes, 2
+        assert.equal div.getElementsByTagName('p')[0].innerText, 'Hello'
+        assert.equal div.getElementsByTagName('*')[1].tagName, 'P'
 
     test 'append element', ->
         el = makeElement 'p', 'test', { className: 'test-append-element' }
@@ -37,12 +47,12 @@ suite 'Manipulation', ->
         assert.equal $('#test p').get(-1), el
 
     test 'prepend', ->
-        x = makeElement 'div', '<span>2</span>'
+        div = makeElement 'div', '<span>2</span>'
         contents = '<p>Hello</p>'
-        $(x).prepend(contents)
-        assert.lengthOf x.childNodes, 2
-        assert.equal x.getElementsByTagName('p')[0].innerText, 'Hello'
-        assert.equal x.getElementsByTagName('*')[0].tagName, 'P'
+        $(div).prepend(contents)
+        assert.lengthOf div.childNodes, 2
+        assert.equal div.getElementsByTagName('p')[0].innerText, 'Hello'
+        assert.equal div.getElementsByTagName('*')[0].tagName, 'P'
 
     test 'prepend element', ->
         el = makeElement 'p', 'test', { className: 'test-prepend-element' }
