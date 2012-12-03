@@ -2,7 +2,17 @@ assert = chai.assert
 
 $ = Rye
 
+Style = Rye.require('Style')
+
 suite 'Style methods', ->
+
+    test 'getStyle', ->
+        div = document.createElement('div')
+        div.style.marginLeft = '2px'
+        assert.equal Style.getCSS(div, 'margin-left'), '2px'
+
+        test = document.getElementById('test')
+        assert.equal Style.getCSS(test, 'position'), 'absolute'
 
     test 'show/hide', ->
         el = $('#test')
