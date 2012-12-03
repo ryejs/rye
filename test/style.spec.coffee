@@ -6,7 +6,7 @@ Style = Rye.require('Style')
 
 suite 'Style methods', ->
 
-    test 'getStyle', ->
+    test 'getCSS', ->
         div = document.createElement('div')
         div.style.marginLeft = '2px'
         assert.equal Style.getCSS(div, 'margin-left'), '2px'
@@ -14,13 +14,17 @@ suite 'Style methods', ->
         test = document.getElementById('test')
         assert.equal Style.getCSS(test, 'position'), 'absolute'
     
-    test 'addStyle', ->
+    test 'setCSS', ->
         div = document.createElement('div')
-        Style.addCSS(div, 'margin-left', 2)
+        Style.setCSS(div, 'margin-left', 2)
         assert.equal div.style.marginLeft, '2px'
 
-        Style.addCSS(div, 'zoom', 2)
+        Style.setCSS(div, 'zoom', 2)
         assert.equal div.style.zoom, 2
+
+        Style.setCSS(div, 'zoom', '')
+        Style.setCSS(div, 'margin-left', '')
+        assert.equal div.getAttribute('style'), ''
 
     test 'css get', ->
         div = document.createElement('div')
@@ -34,8 +38,11 @@ suite 'Style methods', ->
         el.css('margin-left', 2)
         assert.equal div.style.marginLeft, '2px'
 
-        el.css marginRight: 3
+        el.css 'margin-right': 3
         assert.equal div.style.marginRight, '3px'
+
+        el.css 'margin': ''
+        assert.equal div.getAttribute('style'), ''
 
     test 'show/hide', ->
         el = $('#test')
