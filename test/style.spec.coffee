@@ -69,42 +69,75 @@ suite 'Style methods', ->
         el = $(div)
         div.className = '  a b   c '
         el.removeClass('a')
-        assert.equal el.get(0).className, 'b   c ', "Class .a removed"
+        assert.deepEqual getClass(el), ['b', 'c'], "Class .a removed"
         el.removeClass('b w')
-        assert.equal el.get(0).className, 'c ', "Class .b removed, .w ignored"
+        assert.deepEqual getClass(el), ['c'], "Class .b removed, .w ignored"
     
     test 'removeClass all', ->
         div = document.createElement('div')
         el = $(div)
         div.className = '  a b   c '
-        el.removeClass()
-        assert.equal el.get(0).className, '', "All classes removed"
+        el.removeClass('*')
+        assert.equal div.className, '', "All classes removed with *"
+
+        div.className = '  a b   c '
+        el.removeClass(/.*/)
+        assert.equal div.className, '', "All classes removed with /.*/"    
+    
+    test 'removeClass *', ->
+        div = document.createElement('div')
+        el = $(div)
+        div.className = '  class-a class-b   class-c '
+        el.removeClass('class-*')
+        assert.equal div.className, ''
+
+        div.className = '  class-a b   class-c '
+        el.removeClass('class-*')
+        assert.deepEqual getClass(el), ['b'] 
+
+    test 'removeClass regexp', ->
+        div = document.createElement('div')
+        el = $(div)
+        div.className = '  class-a class-b   class-c '
+        el.removeClass(/\bclass-\S\b/)
+        assert.deepEqual getClass(el), ['class-b', 'class-c']
+
+        div.className = '  class-a class-b   class-c ops'
+        el.removeClass(/\bclass-\S\b/g)
+        assert.deepEqual getClass(el), ['ops']
+
+    test 'removeClass mix', ->
+        div = document.createElement('div')
+        el = $(div)
+        div.className = '  class-a class-b   class-c a b c'
+        el.removeClass('class-* b')
+        assert.deepEqual getClass(el), ['a', 'c']
 
     test 'removeClass fallback', ->
         el = $([])
         el.elements.push({ className: ' a b  ' })
         el._update()
         el.removeClass('  b d')
-        assert.equal el.get(0).className, 'a', "Class .b removed, .d ignored"
+        assert.deepEqual getClass(el), ['a'], "Class .b removed, .d ignored"
 
     test 'toggleClass', ->
         div = document.createElement('div')
         el = $(div)
         div.className = '  a b   c '
         el.toggleClass('a')
-        assert.equal el.get(0).className, 'b   c ', "Class .a removed"
+        assert.deepEqual getClass(el), ['b', 'c'], "Class .a removed"
         el.toggleClass('a')
-        assert.equal el.get(0).className, 'b   c a', "Class .a added" 
+        assert.deepEqual getClass(el), ['b', 'c', 'a'], "Class .a added" 
 
     test 'toggleClass forced', ->
         div = document.createElement('div')
         el = $(div)
         div.className = '  a b   c '
         el.toggleClass('a', true)
-        assert.equal el.get(0).className, '  a b   c ', "Nothing happens"
+        assert.deepEqual getClass(el), ['a', 'b', 'c'], "Nothing happens"
         el.toggleClass('d', false)
-        assert.equal el.get(0).className, '  a b   c ', "Nothing happens"
+        assert.deepEqual getClass(el), ['a', 'b', 'c'], "Nothing happens"
         el.toggleClass('d', true)
-        assert.equal el.get(0).className, '  a b   c d', "Class .d added"
+        assert.deepEqual getClass(el), ['a', 'b', 'c', 'd'], "Class .d added"
 
 
