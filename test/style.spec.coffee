@@ -13,6 +13,14 @@ suite 'Style methods', ->
 
         test = document.getElementById('test')
         assert.equal Style.getCSS(test, 'position'), 'absolute'
+    
+    test 'addStyle', ->
+        div = document.createElement('div')
+        Style.addCSS(div, 'margin-left', 2)
+        assert.equal div.style.marginLeft, '2px'
+
+        Style.addCSS(div, 'zoom', 2)
+        assert.equal div.style.zoom, 2
 
     test 'show/hide', ->
         el = $('#test')
