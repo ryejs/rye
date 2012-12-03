@@ -93,3 +93,26 @@ suite 'Manipulation', ->
         found = $('#before-element')
         assert.equal el.prev().get(0), found.get(0)
 
+    test 'set val', ->
+        input = makeElement 'input', '', value: 'foo'
+        el = $(input).val('bar')
+        assert.equal input.value, 'bar'
+
+        select = makeElement 'select', '<option value="foo">f</option><option value="bar">b</option>'
+        el = $(select).val('bar')
+        assert.isTrue el.find('option').get(1).selected
+
+    test 'get val', ->
+        input = makeElement 'input', '', value: 'foo'
+        assert.equal $(input).val(), 'foo'
+
+        select = makeElement 'select', '<option value="foo">f</option><option value="bar" selected>b</option>'
+        assert.equal $(select).val(), 'bar'
+
+        select = makeElement 'select', '', multiple: 'multiple'
+        select.innerHTML = '<option value="foo" selected>f</option><option value="bar" selected>b</option><option value="fizz" disabled selected>f</option>'
+        assert.deepEqual $(select).val(), ['foo', 'bar']
+
+
+
+
