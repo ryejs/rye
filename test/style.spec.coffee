@@ -22,6 +22,21 @@ suite 'Style methods', ->
         Style.addCSS(div, 'zoom', 2)
         assert.equal div.style.zoom, 2
 
+    test 'css get', ->
+        div = document.createElement('div')
+        div.style.marginLeft = '2px'
+        el = $(div)
+        assert.equal el.css('margin-left'), '2px'
+
+    test 'css set', ->
+        div = document.createElement('div')
+        el = $(div)
+        el.css('margin-left', 2)
+        assert.equal div.style.marginLeft, '2px'
+
+        el.css marginRight: 3
+        assert.equal div.style.marginRight, '3px'
+
     test 'show/hide', ->
         el = $('#test')
         el.hide()
