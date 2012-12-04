@@ -39,7 +39,7 @@ suite 'Querying', ->
         assert.lengthOf el.filter(), 0, "matches filter only elements"
 
     test 'matches fallback', ->
-        util = $.require('util')
+        util = $.require('Util')
 
         (parent = document.createElement('div')).innerHTML = """
             <div class="foo"></div>

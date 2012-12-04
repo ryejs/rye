@@ -2,7 +2,7 @@ assert = chai.assert
 
 $ = Rye
 
-util = Rye.require 'util'
+util = Rye.require 'Util'
 
 suite 'Util', ->
 
