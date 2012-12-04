@@ -42,3 +42,8 @@ suite 'Constructor', ->
         obj = $(document.querySelectorAll('.list li'))
         assert.instanceOf obj, Rye
         assert.lengthOf obj, 3
+
+    test 'call with document', ->
+        obj = $(document)
+        assert.instanceOf obj, Rye
+        assert.lengthOf obj, 1
