@@ -11,7 +11,7 @@ sources = [
     'lib/util.js'
     'lib/eventemitter.js'
     'lib/data.js'
-    'lib/selector.js'
+    'lib/query.js'
     'lib/collection.js'
     'lib/manipulation.js'
     'lib/style.js'
