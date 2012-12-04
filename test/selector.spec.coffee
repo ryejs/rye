@@ -98,6 +98,11 @@ suite 'Traversal methods', ->
 
         assert.deepEqual all, $('*'), "Doesnt affect the original"
 
+    test 'filter function', ->
+        list = list_items()
+        el = list.filter (item, index) -> item.className isnt 'a'
+        assert.deepEqual el.elements , $('.b, .c').elements, "Keeps .a and .b element"
+
     test 'has', ->
         lists = $('ul')
         list = lists.has('.a')
