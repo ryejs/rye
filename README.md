@@ -95,7 +95,7 @@ Browser compatiblity
     </tr>
     <tr>
         <th>Firefox</th>
-        <td>6+</td>
+        <td>8+</td>
     </tr>
     <tr>
         <th>IE</th>
