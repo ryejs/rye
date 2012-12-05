@@ -51,6 +51,8 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 - `prepend()`
 - `after()`
 - `before()`
+- `val()`
+- `attr()`
 
 #### Style
 
@@ -65,7 +67,7 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 API wishlist
 ------------
 
-- `attr()`, `val()`, `prop()` ?
+:)
 
 ### Events
  
