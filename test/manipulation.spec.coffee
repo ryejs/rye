@@ -113,6 +113,26 @@ suite 'Manipulation', ->
         select.innerHTML = '<option value="foo" selected>f</option><option value="bar" selected>b</option><option value="fizz" disabled selected>f</option>'
         assert.deepEqual $(select).val(), ['foo', 'bar']
 
+    test 'get attr', ->
+        input = document.createElement('input')
+        input.title = 'title'
+        input.value = 'value'
+        el = $(input)
+        assert.equal el.attr('title'), 'title'
+        assert.equal el.attr('value'), 'value'
+
+    test 'set attr', ->
+        input = document.createElement('input')
+        el = $(input)
+        el.attr('value', 'value')
+        assert.equal input.value, 'value'
+
+        el.attr 'title': 'title'
+        assert.equal input.getAttribute('title'), 'title'
+
+        el.attr 'title': ''
+        assert.equal input.getAttribute('title'), ''
+
 
 
 
