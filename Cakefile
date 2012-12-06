@@ -9,7 +9,7 @@ rimraf = require 'rimraf'
 sources = [
     'lib/rye.js'
     'lib/util.js'
-    'lib/eventemitter.js'
+    'lib/event.js'
     'lib/data.js'
     'lib/query.js'
     'lib/collection.js'
