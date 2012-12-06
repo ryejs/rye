@@ -17,6 +17,7 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 - `has()`
 - `is()`
 - `not()`
+- `index()`
 - `add()`
 - `next()`
 - `prev()`
@@ -69,7 +70,7 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 API wishlist
 ------------
 
-:)
+- `height()` ?
 
 ### Events
  

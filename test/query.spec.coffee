@@ -128,6 +128,13 @@ suite 'Traversal methods', ->
         assert.equal filtered.length , 2, "Removes .a element"
         assert.deepEqual filtered.pluck('className'), ['b', 'c']
 
+    test 'index', ->
+        el = list_items().filter('.b')
+        assert.equal el.index(), 1
+
+        el = list_items()
+        assert.equal el.index('.list li.b'), 1
+
     test 'not element', ->
         doc = $(document)
         assert.lengthOf doc.not(document) , 0
