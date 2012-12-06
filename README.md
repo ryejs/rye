@@ -51,6 +51,7 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 - `prepend()`
 - `after()`
 - `before()`
+- `clone()`
 - `val()`
 - `attr()`
 

@@ -93,6 +93,13 @@ suite 'Manipulation', ->
         found = $('#before-element')
         assert.equal el.prev().get(0), found.get(0)
 
+    test 'clone', ->
+        div = makeElement 'div', 'content'
+        el = $(div)
+        cloned = el.clone()
+        assert.notEqual cloned.get(0), el.get(0)
+        assert.equal cloned.html(), el.html()
+
     test 'set val', ->
         input = makeElement 'input', '', value: 'foo'
         el = $(input).val('bar')
