@@ -70,7 +70,14 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 API wishlist
 ------------
 
+- `width()` ?
 - `height()` ?
+- `offset()` (position) ?
+- `offsetParent()` (first ancestor element that is positioned) ?
+- `position()`
+- `ready()`
+- `scrollTop()` ?
+- `[un]wrap[ | All | Inner]()` ?
 
 ### Events
  
