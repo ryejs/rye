@@ -31,6 +31,14 @@ suite 'Manipulation', ->
         $(div).html(contents)
         assert.equal $(div).html(), contents
 
+    test 'empty', ->
+        div = makeElement 'div', '<p>a</p><p>b</p><p>c</p>'
+        el = $(div).children()
+        el.empty()
+        assert.equal el.get(0).innerHTML, ''
+        assert.equal el.get(1).innerHTML, ''
+        assert.equal el.get(2).innerHTML, ''
+
     test 'append', ->
         div = makeElement 'div', '<span>1</span>'
         contents = '<p>Hello</p>'
