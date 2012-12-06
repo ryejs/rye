@@ -2,42 +2,44 @@ assert = chai.assert
 
 $ = Rye
 
-event = Rye.require('Event')
-EventEmitter = event.emitter
+list = -> $('.list')
+
+events = Rye.require('Events')
+EventEmitter = events.EventEmitter
 
 suite 'EventEmitter', ->
 
     test 'add listener', ->
         x = new EventEmitter
-        x.on 'click', ->
+        x.addEventListener 'click', ->
         assert x.events['click'].length is 1, "Event added to .events"
 
-        x.on 'click.foo', ->
+        x.addEventListener 'click.foo', ->
         assert x.events['click.foo'].length is 1, "Event added to .events"
 
     test 'remove listener', ->
         x = new EventEmitter
         fn = -> 123
 
-        x.on 'click', fn
+        x.addEventListener 'click', fn
         x.removeListener 'click', fn
         assert x.events['click'] is undefined, "Event removed by reference"
 
-        x.on 'click', fn
+        x.addEventListener 'click', fn
         x.removeListener 'click'
         assert x.events['click'] is undefined, "Event removed by name"
 
-        x.on 'click.foo', fn
+        x.addEventListener 'click.foo', fn
         x.removeListener 'click.foo'
         assert x.events['click.foo'] is undefined, "Event removed by name && ns"
 
-        x.on 'click.foo', fn
+        x.addEventListener 'click.foo', fn
         x.removeListener '.foo'
         assert x.events['click.foo'] is undefined, "Event removed by ns"
 
     test 'remove namespaced event', (done) ->
         x = new EventEmitter
-        x.on 'test.foo', ->
+        x.addEventListener 'test.foo', ->
             assert false, "Event shouldn't be emmited"
         x.removeListener '.foo'
         x.emit 'test'
@@ -47,21 +49,21 @@ suite 'EventEmitter', ->
 
     test 'emit event', (done) ->
         x = new EventEmitter
-        x.on 'click', (arg) ->
+        x.addEventListener 'click', (arg) ->
             assert arg is 55, "Argument received"
             done()
         x.emit 'click', 55
 
     test 'emit namespaced event', (done) ->
         x = new EventEmitter
-        x.on 'click.foo', (arg) ->
+        x.addEventListener 'click.foo', (arg) ->
             assert arg is 33, "Argument received"
             done()
         x.emit '.foo', 33
 
     test 'emit name and namespaced event', (done) ->
         x = new EventEmitter
-        x.on 'click.foo', (arg) ->
+        x.addEventListener 'click.foo', (arg) ->
             assert arg is 4, "Argument received"
             done()
         x.emit 'click.foo', 4
@@ -76,5 +78,24 @@ suite 'EventEmitter', ->
         setTimeout ->
             assert x.events['click'] is undefined, "Event removed"
             done()
+
+
+suite 'PubSub', ->
+
+    test 'subscribe publish', (done) ->
+        $.subscribe 'sign', (arg) ->
+            assert arg is 55, "Argument received"
+            done()
+        events.publish 'sign', 55
+
+    test 'unsubscribe', (done) ->
+        $.subscribe 'sign', ->
+            assert false, "Event shouldn't be emmited"
+        events.unsubscribe 'sign'
+        $.publish 'sign'
+        setTimeout ->
+            done()
+        , 0
+
 
 
