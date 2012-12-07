@@ -2,10 +2,8 @@ assert = chai.assert
 
 $ = Rye
 
-list = -> $('.list')
-
-events = Rye.require('Events')
-EventEmitter = events.EventEmitter
+Events = Rye.require('Events')
+EventEmitter = Events.EventEmitter
 
 suite 'EventEmitter', ->
 
@@ -86,12 +84,12 @@ suite 'PubSub', ->
         $.subscribe 'sign', (arg) ->
             assert arg is 55, "Argument received"
             done()
-        events.publish 'sign', 55
+        Events.publish 'sign', 55
 
     test 'unsubscribe', (done) ->
         $.subscribe 'sign', ->
             assert false, "Event shouldn't be emmited"
-        events.unsubscribe 'sign'
+        Events.unsubscribe 'sign'
         $.publish 'sign'
         setTimeout ->
             done()
