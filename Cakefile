@@ -10,11 +10,12 @@ sources = [
     'lib/rye.js'
     'lib/util.js'
     'lib/data.js'
-    'lib/events.js'
     'lib/query.js'
     'lib/collection.js'
     'lib/manipulation.js'
     'lib/style.js'
+    'lib/events.js'
+    'lib/dom-events.js'
 ]
 
 task 'build', ->
