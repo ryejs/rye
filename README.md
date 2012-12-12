@@ -93,10 +93,10 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 #### Touch Events
 
 - `swipe`
-- `swipeLeft` or `swipeRight`
-- `swipeUp` or `swipeDown` 
-- `doubleTap' or `singleTap`
-- `tap` or `longTap`
+- `swipeleft` or `swiperight`
+- `swipeup` or `swipedown` 
+- `doubletap' or `singletap`
+- `tap` or `longtap`
 
 API wishlist
 ------------
