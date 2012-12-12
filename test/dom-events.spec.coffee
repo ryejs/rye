@@ -21,6 +21,7 @@ suite 'DOMEvents', ->
         DOMEvents.on div, 'click', false, fn
 
         event = DOMEvents.createEvent('click')
+        assert.instanceOf event, MouseEvent
         DOMEvents.dispatchEvent div, event, 55
 
     test 'on', (done) ->
