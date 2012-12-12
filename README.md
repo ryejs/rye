@@ -67,6 +67,25 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 - `removeClass()`
 - `toggleClass()`
 
+#### Event Emitter
+
+- `emitter.on()`
+- `emitter.removeListener()`
+- `emitter.emit()`
+- `emitter.once()`
+
+#### Publish–subscribe
+
+`Rye.subscribe()`
+`Rye.unsubscribe()`
+`Rye.publish()`
+
+#### DOM Event
+
+- `on()` | `addEventListener()`
+- `off()` | `removeEventListener()`
+- `trigger()` | `dispatchEvent()`
+
 API wishlist
 ------------
 
@@ -78,13 +97,7 @@ API wishlist
 - `ready()`
 - `scrollTop()` ?
 - `[un]wrap[ | All | Inner]()` ?
-
-### Events
- 
-- `on` | `addEventListener`
-- `off` | `removeEventListener`
-- `trigger` | `emit` | `dispatchEvent`
-- `hasEventListener`
+- `hasEventListener()` ?
 
 Components wishlist
 -------------------

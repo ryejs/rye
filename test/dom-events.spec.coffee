@@ -139,7 +139,23 @@ suite 'DOMEvents', ->
 
         setTimeout (-> done()), 0
 
+    test 'Rye on', (done) ->
+        itens = $('.list li')
+        fn = (event) ->
+            assert event.data is 55, "Argument received"
+            done()
 
+        itens.on 'click', fn
+        itens.eq(2).trigger 'click', 55
 
+    test 'Rye off', (done) ->
+        itens = $('.list li')
+        foo = (event) -> assert false, "Foo"
+
+        itens.on 'blur', foo
+        itens.off 'blur'
+        itens.trigger 'blur'
+
+        setTimeout (-> done()), 0
 
 
