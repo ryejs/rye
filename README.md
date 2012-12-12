@@ -76,9 +76,9 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 
 #### Publish–subscribe
 
-`Rye.subscribe()`
-`Rye.unsubscribe()`
-`Rye.publish()`
+- `Rye.subscribe()`
+- `Rye.unsubscribe()`
+- `Rye.publish()`
 
 #### DOM Event
 
@@ -104,7 +104,6 @@ Components wishlist
 
 - ajax and serialize
 - gestures
-- data storage
 
 Browser compatiblity
 --------------------
