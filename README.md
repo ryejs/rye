@@ -84,11 +84,19 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 - `Rye.unsubscribe()`
 - `Rye.publish()`
 
-#### DOM Event
+#### DOM Events
 
-- `on()` | `addEventListener()`
-- `off()` | `removeEventListener()`
-- `trigger()` | `dispatchEvent()`
+- `on()`, `addEventListener()`
+- `off()`, `removeEventListener()`
+- `trigger()`, `dispatchEvent()`
+
+#### Touch Events
+
+- `swipe`
+- `swipeLeft` or `swipeRight`
+- `swipeUp` or `swipeDown` 
+- `doubleTap' or `singleTap`
+- `tap` or `longTap`
 
 API wishlist
 ------------
@@ -106,7 +114,6 @@ Components wishlist
 -------------------
 
 - ajax and serialize
-- gestures
 
 Browser compatiblity
 --------------------
