@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rye touch by Zepto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style type="text/css">
+        .touch_test {
+            width: 200px;
+            height: 200px;
+            -webkit-user-select: none
+        }
+    </style>
+</head>
+<body>
+
+    <div id="touch_test" class="touch_test" style="background: #cce">
+        touch events test
+    </div>
+
+    <div id="touch_test_scrollable" class="touch_test" style="background: #cec">
+        touch events test (scrollable cancel)
+    </div>
+
+    <div id="touch_test_single" class="touch_test" style="background: #ecc">
+        touch events test (scrollable cancel, single tap only)
+    </div>
+    
+    <script src="../dist/rye.js"></script>
+    <script>
+        /**
+         * #touch_test
+         * Container that captures all touch events.
+         *
+         * Prevents default on touchmove, disabling scrolling.
+         * Captures swipes in all directions.
+         * Captures tap, singleTap (after delay), doubleTap, longTap
+         */
+        new Rye('#touch_test').on('mousemove touchmove', function (event) {
+            event.preventDefault()
+        })
+        listen_to('#touch_test')
+
+        /**
+         * #touch_test_scrollable
+         * Container that allows scrolling while capturing all events except swipes in the direction of scroll
+         *
+         * Captures swipes in non-scrolling directions
+         * Captures tap, singleTap (after delay), doubleTap, longTap
+         */
+        listen_to('#touch_test_scrollable')
+
+        /**
+         * #touch_test_single
+         * Container that allows scrolling and captures only simple, single taps
+         * eg: a button or a tappable list item
+         *
+         * Cancels touch after tap, disabling other touch events (singleTap, doubleTap)
+         * Captures tap
+         */
+        new Rye('#touch_test_single').on('tap', function (event) {
+            event.cancelTouch()
+        })
+        listen_to('#touch_test_single')
+
+        function listen_to (selector) {
+            var element = new Rye(selector)
+            ;['tap', 'doubletap', 'swipe', 'swipeleft', 'swiperight', 'swipeup', 'swipedown', 'longtap', 'singletap'].forEach(function(type){
+                element.on(type, function(){
+                    new Rye(this).append(' | ' + type)
+                })
+            })
+        }
+    </script>
+</body>
+</html>
