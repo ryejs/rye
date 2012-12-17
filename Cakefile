@@ -9,12 +9,14 @@ rimraf = require 'rimraf'
 sources = [
     'lib/rye.js'
     'lib/util.js'
-    'lib/event.js'
     'lib/data.js'
     'lib/query.js'
     'lib/collection.js'
     'lib/manipulation.js'
     'lib/style.js'
+    'lib/events.js'
+    'lib/dom-events.js'
+    'lib/touch-events.js'
 ]
 
 task 'build', ->

@@ -2,8 +2,8 @@ assert = chai.assert
 
 $ = Rye
 
-event = Rye.require('Event')
-EventEmitter = event.emitter
+Events = Rye.require('Events')
+EventEmitter = Events.EventEmitter
 
 suite 'EventEmitter', ->
 
@@ -76,5 +76,24 @@ suite 'EventEmitter', ->
         setTimeout ->
             assert x.events['click'] is undefined, "Event removed"
             done()
+
+
+suite 'PubSub', ->
+
+    test 'subscribe publish', (done) ->
+        $.subscribe 'sign', (arg) ->
+            assert arg is 55, "Argument received"
+            done()
+        Events.publish 'sign', 55
+
+    test 'unsubscribe', (done) ->
+        $.subscribe 'sign', ->
+            assert false, "Event shouldn't be emmited"
+        Events.unsubscribe 'sign'
+        $.publish 'sign'
+        setTimeout ->
+            done()
+        , 0
+
 
 

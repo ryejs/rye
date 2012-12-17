@@ -10,6 +10,10 @@ The API is similar to jQuery but not totally compatible. Inconsistencies like `.
 
 It doesn't do any trickery to subclass `Array`, elements are stored in the `.elements` property instead. This means that array methods ran on a `Rye` instance return another `Rye` instance, while methods ran on `.get()` or `.elements` return instances of `Array` (ex: `$('li').each()` vs `$('li').get().forEach()`).
 
+#### Data
+
+- `data()`
+
 #### Traversing
 
 - `find()`
@@ -67,6 +71,33 @@ It doesn't do any trickery to subclass `Array`, elements are stored in the `.ele
 - `removeClass()`
 - `toggleClass()`
 
+#### Event Emitter
+
+- `emitter.on()`
+- `emitter.removeListener()`
+- `emitter.emit()`
+- `emitter.once()`
+
+#### Publish–subscribe
+
+- `Rye.subscribe()`
+- `Rye.unsubscribe()`
+- `Rye.publish()`
+
+#### DOM Events
+
+- `on()`, `addEventListener()`
+- `off()`, `removeEventListener()`
+- `trigger()`, `dispatchEvent()`
+
+#### Touch Events
+
+- `swipe`
+- `swipeleft` or `swiperight`
+- `swipeup` or `swipedown` 
+- `doubletap' or `singletap`
+- `tap` or `longtap`
+
 API wishlist
 ------------
 
@@ -75,23 +106,14 @@ API wishlist
 - `offset()` (position) ?
 - `offsetParent()` (first ancestor element that is positioned) ?
 - `position()`
-- `ready()`
 - `scrollTop()` ?
 - `[un]wrap[ | All | Inner]()` ?
-
-### Events
- 
-- `on` | `addEventListener`
-- `off` | `removeEventListener`
-- `trigger` | `emit` | `dispatchEvent`
-- `hasEventListener`
+- `hasEventListener()` ?
 
 Components wishlist
 -------------------
 
 - ajax and serialize
-- gestures
-- data storage
 
 Browser compatiblity
 --------------------
