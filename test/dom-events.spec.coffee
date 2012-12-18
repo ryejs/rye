@@ -26,14 +26,14 @@ suite 'DOMEvents', ->
         DOMEvents.removeListener div, 'foo'
         assert true
 
-    test 'remove', (done) ->
+    test 'remove listener', (done) ->
         div = makeElement('div')
         count = 0
         foo = (event) -> assert false, "Foo"
         bar = (event) -> count++
 
-        DOMEvents.addListener div, 'foo', false, foo
-        DOMEvents.addListener div, 'bar', false, bar
+        DOMEvents.addListener div, 'foo', foo
+        DOMEvents.addListener div, 'bar', bar
         DOMEvents.removeListener div, 'foo'
 
         DOMEvents.trigger div, 'bar'
@@ -44,22 +44,22 @@ suite 'DOMEvents', ->
             done()
         , 0
 
-    test.skip 'remove selector', (done) ->
+    test 'remove selector', (done) ->
         div = makeElement('div')
         count = 0
-        foo = (event) -> assert false, "Foo"
-        bar = (event) -> count++
+        foo = -> assert false
+        bar = -> count++
 
-        DOMEvents.addListener div, 'click', 'div', foo
-        DOMEvents.addListener div, 'click', 'a', bar
-        DOMEvents.removeListener div, 'click', 'div'
+        DOMEvents.addListener div, 'click', 'div', bar
+        DOMEvents.addListener div, 'click', 'a', foo
+        DOMEvents.removeListener div, 'click', 'a'
 
         DOMEvents.trigger div, 'click'
 
         setTimeout ->
             assert.equal count, 1
             done()
-        , 0   
+        , 0
 
     test 'remove handler', (done) ->
         div = makeElement('div')
@@ -76,7 +76,7 @@ suite 'DOMEvents', ->
         setTimeout ->
             assert.equal count, 1
             done()
-        , 0  
+        , 0
 
     test 'remove all', (done) ->
         div = makeElement('div')
@@ -91,13 +91,14 @@ suite 'DOMEvents', ->
 
         setTimeout (-> done()), 0
 
-    test.skip 'delegate', (done) ->
+    test 'delegate', (done) ->
         list = $('.list').get(0)
         item = $('.a').get(0)
         count = 0
         fn = (event) ->
             count++
-            assert.equal event.currentTarget, item, "Argument received"
+            assert.equal event.currentTarget, document
+            assert.equal event.target, item
 
         DOMEvents.addListener document, 'click', '.a', fn
 
