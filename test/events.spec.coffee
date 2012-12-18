@@ -7,9 +7,9 @@ EventEmitter = Rye.require('EventEmitter')
 suite 'EventEmitter', ->
 
     test 'add listener', ->
-        x = new EventEmitter
-        x.on 'click', ->
-        assert x.events['click'].length is 1, "Event added to .events"
+        emitter = new EventEmitter
+        emitter.on 'click', -> null
+        assert.equal emitter.events['click'].length, 1
 
     test 'remove listener', ->
         x = new EventEmitter
@@ -54,6 +54,21 @@ suite 'EventEmitter', ->
         setTimeout ->
             assert x.events['click'] is undefined, "Event removed"
             done()
+
+    test 'multiple events', ->
+        emitter = new EventEmitter
+        count = 0
+        emitter.on 'derp dorp', ->
+            count++
+
+        emitter.emit 'derp'
+        assert.equal count, 1
+
+        emitter.emit 'dorp'
+        assert.equal count, 2
+
+        emitter.emit 'derp dorp'
+        assert.equal count, 4
 
 suite 'PubSub', ->
 
