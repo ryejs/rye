@@ -72,12 +72,3 @@ suite 'Util', ->
         assert.strictEqual Util.prefix('document'), document, "find unprefixed object"
         context = { mozBacon: -> }
         assert.strictEqual Util.prefix('bacon', context), context.mozBacon, "find prefixed object"
-
-    test 'bindMethod', ->
-        obj =
-            method: -> arguments
-            that: -> this
-
-        assert.deepEqual Util.bindMethod(obj, 'method', 1)('a'), ['a'], "One param"
-        assert.deepEqual Util.bindMethod(obj, 'method', 2)('a', 'b', 'c'), ['a', 'b'], "Two with one cropped param"
-        assert.deepEqual Util.bindMethod(obj, 'that', 0)(), obj, "This"
