@@ -22,6 +22,20 @@ suite 'EventEmitter', ->
         x.on 'click', fn
         x.removeListener 'click'
         assert x.events['click'] is undefined, "Event removed by name"
+    
+    test 'remove all listener', ->
+        x = new EventEmitter
+        fn = -> 123
+
+        x.on 'click', fn
+        x.on 'keydown', fn
+        x.removeListener '*', fn
+        assert x.events['click'] is undefined, "Event removed by reference"
+
+        x.on 'click', fn
+        x.on 'keydown', fn
+        x.removeListener '*'
+        assert x.events['click'] is undefined, "Event removed by name"
 
     test 'emit event', (done) ->
         x = new EventEmitter
