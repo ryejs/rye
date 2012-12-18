@@ -12,64 +12,31 @@ makeElement = (tagName, html, attrs) ->
 
 suite 'DOMEvents', ->
 
-    test 'create event', (done) ->
-        div = makeElement('div')
-        fn = (event) ->
-            assert event.data is 55, "Argument received"
-            done()
-
-        DOMEvents.on div, 'click', false, fn
-
-        event = DOMEvents.createEvent('click')
-        assert.instanceOf event, MouseEvent
-        DOMEvents.dispatchEvent div, event, 55
-
     test 'on', (done) ->
         div = makeElement('div')
         fn = (event) ->
-            assert event.data is 55, "Argument received"
+            assert.equal event.data, 55
             done()
 
-        DOMEvents.on div, 'click', false, fn
-        DOMEvents.dispatchEvent div, 'click', 55
-
-    test 'on with namespace', (done) ->
-        div = makeElement('div')
-        fn = (event) ->
-            assert event.data is 55, "Argument received"
-            done()
-
-        DOMEvents.on div, 'click.foo', false, fn
-        DOMEvents.dispatchEvent div, 'click', 55
+        DOMEvents.addListener div, 'click', fn
+        DOMEvents.trigger div, 'click', 55
 
     test 'remove nothing', ->
         div = makeElement('div')
         DOMEvents.removeListener div, 'foo'
+        assert true
 
     test 'remove', (done) ->
         div = makeElement('div')
         foo = (event) -> assert false, "Foo"
         bar = (event) -> assert true, "Bar"
 
-        DOMEvents.on div, 'foo', false, foo
-        DOMEvents.on div, 'bar', false, bar
+        DOMEvents.addListener div, 'foo', false, foo
+        DOMEvents.addListener div, 'bar', false, bar
         DOMEvents.removeListener div, 'foo'
 
-        DOMEvents.dispatchEvent div, 'bar'
-        DOMEvents.dispatchEvent div, 'foo'
-
-        setTimeout (-> done()), 0
-
-    test 'remove with namespace', (done) ->
-        div = makeElement('div')
-        foo = (event) -> assert false, "Foo"
-        bar = (event) -> assert true, "Bar"
-
-        DOMEvents.on div, 'click.foo', false, foo
-        DOMEvents.on div, 'click.bar', false, bar
-        DOMEvents.removeListener div, '.foo'
-
-        DOMEvents.dispatchEvent div, 'click'
+        DOMEvents.trigger div, 'bar'
+        DOMEvents.trigger div, 'foo'
 
         setTimeout (-> done()), 0
 
@@ -78,37 +45,24 @@ suite 'DOMEvents', ->
         foo = (event) -> assert false, "Foo"
         bar = (event) -> assert true, "Bar"
 
-        DOMEvents.on div, 'click', 'div', foo
-        DOMEvents.on div, 'click', 'a', bar
+        DOMEvents.addListener div, 'click', 'div', foo
+        DOMEvents.addListener div, 'click', 'a', bar
         DOMEvents.removeListener div, 'click', 'div'
 
-        DOMEvents.dispatchEvent div, 'click'
+        DOMEvents.trigger div, 'click'
 
         setTimeout (-> done()), 0    
-
-    test 'remove selector with namespace', (done) ->
-        div = makeElement('div')
-        foo = (event) -> assert false, "Foo"
-        bar = (event) -> assert true, "Bar"
-
-        DOMEvents.on div, 'click.foo', 'div', foo
-        DOMEvents.on div, 'click', 'div', bar
-        DOMEvents.removeListener div, 'click.foo', 'div'
-
-        DOMEvents.dispatchEvent div, 'click'
-
-        setTimeout (-> done()), 0
 
     test 'remove handler', (done) ->
         div = makeElement('div')
         foo = (event) -> assert false, "Foo"
         bar = (event) -> assert true, "Bar"
 
-        DOMEvents.on div, 'click', false, foo
-        DOMEvents.on div, 'click', false, bar
+        DOMEvents.addListener div, 'click', false, foo
+        DOMEvents.addListener div, 'click', false, bar
         DOMEvents.removeListener div, '*', false, foo
 
-        DOMEvents.dispatchEvent div, 'click'
+        DOMEvents.trigger div, 'click'
 
         setTimeout (-> done()), 0
 
@@ -116,26 +70,26 @@ suite 'DOMEvents', ->
         div = makeElement('div')
         foo = (event) -> assert false, "Foo"
 
-        DOMEvents.on div, 'click', false, foo
-        DOMEvents.on div, 'focus.space', false, foo
-        DOMEvents.on div, 'blur.space', false, foo
+        DOMEvents.addListener div, 'click', false, foo
+        DOMEvents.addListener div, 'focus.space', false, foo
+        DOMEvents.addListener div, 'blur.space', false, foo
         DOMEvents.removeListener div, '*'
 
-        DOMEvents.dispatchEvent div, 'click focus blur'
+        DOMEvents.trigger div, 'click focus blur'
 
         setTimeout (-> done()), 0
 
-    test 'delegate', (done) ->
+    test.skip 'delegate', (done) ->
         list = $('.list').get(0)
         item = $('.a').get(0)
         fn = (event) ->
             assert.equal event.currentTarget, item, "Argument received"
 
-        DOMEvents.on document, 'click', '.a', fn
+        DOMEvents.addListener document, 'click', '.a', fn
 
-        DOMEvents.dispatchEvent item, 'click'
-        DOMEvents.dispatchEvent list, 'click'
-        DOMEvents.dispatchEvent document, 'click'
+        DOMEvents.trigger item, 'click'
+        DOMEvents.trigger list, 'click'
+        DOMEvents.trigger document, 'click'
 
         setTimeout (-> done()), 0
 

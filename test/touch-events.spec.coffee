@@ -2,7 +2,7 @@ assert = chai.assert
 
 $ = Rye
 
-domEvents = Rye.require('DOMEvents')
+DOMEvents = Rye.require('DOMEvents')
 touchEvents = Rye.require('TouchEvents')
 
 fire = (type, element, x, y) ->
@@ -30,13 +30,13 @@ suite 'TouchEvents', ->
         element = $('.a').get(0)
         count = 0
 
-        domEvents.on element, 'tap', -> count++
+        DOMEvents.addListener element, 'tap', -> count++
         down(element, 10, 10)
         up(element)
 
         setTimeout ->
             assert.equal count, 1
-            domEvents.removeListener element, '*'
+            DOMEvents.removeListener element, '*'
             done()
         , 0
 
@@ -45,9 +45,9 @@ suite 'TouchEvents', ->
         text = element.childNodes[0]
         count = 0
 
-        domEvents.on element, 'tap', (event) ->
+        DOMEvents.addListener element, 'tap', (event) ->
             assert.equal event.target, element
-            domEvents.removeListener element, '*'
+            DOMEvents.removeListener element, '*'
             done()
         down(text, 10, 10)
         up(text)
@@ -56,7 +56,7 @@ suite 'TouchEvents', ->
         element = $('.a').get(0)
         count = 0
 
-        domEvents.on element, 'tap', (event) -> count++
+        DOMEvents.addListener element, 'tap', (event) -> count++
         down(element, 10, 10)
         up(element)
 
@@ -66,7 +66,7 @@ suite 'TouchEvents', ->
 
             setTimeout ->
                 assert.equal count, 2
-                domEvents.removeListener element, '*'
+                DOMEvents.removeListener element, '*'
                 done()
             , 0
         , 200
@@ -75,8 +75,8 @@ suite 'TouchEvents', ->
         element = $('.a').get(0)
         singleCount = 0; doubleCount = 0
 
-        domEvents.on element, 'singletap', (event) -> singleCount++
-        domEvents.on element, 'doubletap', (event) -> doubleCount++
+        DOMEvents.addListener element, 'singletap', (event) -> singleCount++
+        DOMEvents.addListener element, 'doubletap', (event) -> doubleCount++
 
         down(element, 10, 10)
         up(element)
@@ -84,7 +84,7 @@ suite 'TouchEvents', ->
         setTimeout ->
             assert.equal singleCount, 1
             assert.equal doubleCount, 0
-            domEvents.removeListener element, '*'
+            DOMEvents.removeListener element, '*'
             done()
         , 300
 
@@ -92,8 +92,8 @@ suite 'TouchEvents', ->
         element = $('.a').get(0)
         singleCount = 0; doubleCount = 0
 
-        domEvents.on element, 'singletap', (event) -> singleCount++
-        domEvents.on element, 'doubletap', (event) -> doubleCount++
+        DOMEvents.addListener element, 'singletap', (event) -> singleCount++
+        DOMEvents.addListener element, 'doubletap', (event) -> doubleCount++
 
         down(element, 10, 10)
         up(element)
@@ -105,7 +105,7 @@ suite 'TouchEvents', ->
             setTimeout ->
                 assert.equal singleCount, 0
                 assert.equal doubleCount, 1
-                domEvents.removeListener element, '*'
+                DOMEvents.removeListener element, '*'
                 done()
             , 100
         , 100
@@ -114,13 +114,13 @@ suite 'TouchEvents', ->
         element = $('.a').get(0)
         count = 0
 
-        domEvents.on element, 'longtap', -> count++
+        DOMEvents.addListener element, 'longtap', -> count++
         down(element, 10, 10)
 
         setTimeout ->
             up(element)
             assert.equal count, 1
-            domEvents.removeListener element, '*'
+            DOMEvents.removeListener element, '*'
             done()
         , 900
 
@@ -128,7 +128,7 @@ suite 'TouchEvents', ->
         element = $('.a').get(0)
         count = 0
 
-        domEvents.on element, 'longtap', -> count++
+        DOMEvents.addListener element, 'longtap', -> count++
         down(element, 10, 10)
 
         setTimeout ->
@@ -136,7 +136,7 @@ suite 'TouchEvents', ->
             setTimeout ->
                 up(element)
                 assert.equal count, 0
-                domEvents.removeListener element, '*'
+                DOMEvents.removeListener element, '*'
                 done()
             , 450
         , 450
@@ -145,7 +145,7 @@ suite 'TouchEvents', ->
         element = $('.a').get(0)
         count = 0
 
-        domEvents.on element, 'swipe', -> count++
+        DOMEvents.addListener element, 'swipe', -> count++
         down(element, 10, 10)
 
         setTimeout ->
@@ -154,7 +154,7 @@ suite 'TouchEvents', ->
 
             setTimeout ->
                 assert.equal count, 1
-                domEvents.removeListener element, '*'
+                DOMEvents.removeListener element, '*'
                 done()
             , 0
         , 50
