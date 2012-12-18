@@ -111,6 +111,20 @@ suite 'DOMEvents', ->
             done()
         , 0
 
+    test.skip 'remove delegate', (done) ->
+        list = $('.list').get(0)
+        item = $('.a').get(0)
+        foo = (event) -> assert false, "Foo"
+
+        DOMEvents.addListener document, 'click', '.a', foo
+
+        DOMEvents.removeListener document, 'click'
+        DOMEvents.trigger item, 'click'
+
+        setTimeout ->
+            done()
+        , 0
+
     test 'Rye on', (done) ->
         itens = $('.list li')
         fn = (event) ->
