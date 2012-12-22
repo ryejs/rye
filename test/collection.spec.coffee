@@ -105,3 +105,15 @@ suite 'Collection methods', ->
         list2 = list.concat other
         assert list2.length is 4, "List length should increase by 1"
         assert list2.get(3).tagName is 'DIV'
+
+    test 'pluck', ->
+        rye = $()
+        rye.elements = [{k: 'rye'}, {k: 'js'}]
+        ret = rye.pluck('k')
+        assert.deepEqual ret, ['rye', 'js']
+
+    test 'put', ->
+        rye = $()
+        rye.elements = [{k: 'rye'}, {k: 'js'}]
+        rye.put('k', '-')
+        assert.deepEqual rye.elements, [{k: '-'}, {k: '-'}]
