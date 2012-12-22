@@ -74,13 +74,13 @@ suite 'Manipulation', ->
         assert.lengthOf $('#test .test-prepend-element'), 1
         assert.equal $('#test p').get(0), el
 
-    test 'prepend element to elements', ->
+    test 'prepend to a collection', ->
         el = makeElement 'p', 'test', { className: 'test-append-element' }
         list = list_items()
         list.prepend(el)
         assert.lengthOf list.find('.test-append-element'), 3
 
-    test 'after', ->
+    test 'after with html', ->
         el = $('#hello')
         el.after('<div id="after"></div>')
         found = $('#after')
@@ -100,13 +100,13 @@ suite 'Manipulation', ->
         assert.equal el.next().get(0), li
         assert.equal $('.list li').last().get(0), li
 
-    test 'after with element to elements', ->
+    test 'after to collection', ->
         list = list_items()
         li = makeElement 'li', null, { class: 'after-element' }
         list.after(li)
         assert.equal list_items().length, 6
 
-    test 'before', ->
+    test 'before with html', ->
         el = $('#hello')
         el.before('<div id="before"></div>')
         found = $('#before')
@@ -119,7 +119,7 @@ suite 'Manipulation', ->
         found = $('#before-element')
         assert.equal el.prev().get(0), found.get(0)
 
-    test 'after with element to elements', ->
+    test 'before to collection', ->
         list = list_items()
         li = makeElement 'li', null, { class: 'before-element' }
         list.before(li)
