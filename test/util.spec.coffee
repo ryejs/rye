@@ -72,3 +72,30 @@ suite 'Util', ->
         assert.strictEqual util.prefix('document'), document, "find unprefixed object"
         context = { mozBacon: -> }
         assert.strictEqual util.prefix('bacon', context), context.mozBacon, "find prefixed object"
+
+    test 'applier', ->
+        context = {}
+        fn = (a, b, c) ->
+            assert.equal this, context
+            assert.deepEqual [a, b, c], ['call1', 'call2', 'apply']
+        util.applier(fn, context, ['apply'])('call1', 'call2')
+
+    test 'applier left', ->
+        context = {}
+        fn = (a, b, c) ->
+            assert.equal this, context
+            assert.deepEqual [a, b, c], ['apply', 'call1', 'call2']
+        util.applierLeft(fn, context, ['apply'])('call1', 'call2')
+
+    test 'curry', ->
+        fn = (a, b, c) ->
+            assert.equal this, util
+            assert.deepEqual [a, b, c], ['apply1', 'apply2', 'call1']
+        util.curry(fn, 'apply1', 'apply2')('call1')
+
+    test 'type', ->
+        assert.equal util.type(/\b/), 'regexp'
+
+    test 'is', ->
+        assert.isTrue util.is(/\b/, 'regexp')
+
