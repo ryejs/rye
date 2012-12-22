@@ -2,22 +2,22 @@ assert = chai.assert
 
 $ = Rye
 
-Data = Rye.require('Data')
+data = Rye.require('Data')
 
 suite 'Data', ->
 
     test 'storage data', ->
         e = {}
 
-        assert.equal Data.get(e, 'key'), undefined, "No initial data"
+        assert.equal data.get(e, 'key'), undefined, "No initial data"
 
-        Data.set(e, 'key', 'foo')
-        assert.equal Data.get(e, 'key'), 'foo', "Data foo in key"
+        data.set(e, 'key', 'foo')
+        assert.equal data.get(e, 'key'), 'foo', "Data foo in key"
 
-        Data.set(e, 'key', 'bar')
-        assert.equal Data.get(e, 'key'), 'bar', "Data changed to bar in key"
+        data.set(e, 'key', 'bar')
+        assert.equal data.get(e, 'key'), 'bar', "Data changed to bar in key"
 
-        assert.deepEqual Data.get(e), {key: 'bar'}, "Get all data"
+        assert.deepEqual data.get(e), {key: 'bar'}, "Get all data"
 
     test 'Element storage data', ->
         el = $(document.createElement('div'))

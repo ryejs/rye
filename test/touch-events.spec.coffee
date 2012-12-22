@@ -2,7 +2,7 @@ assert = chai.assert
 
 $ = Rye
 
-DOMEvents = Rye.require('DOMEvents')
+domEvents = Rye.require('DOMEvents')
 touchEvents = Rye.require('TouchEvents')
 
 makeElement = (tagName, html, attrs) ->
@@ -36,13 +36,13 @@ suite 'TouchEvents', ->
         element = $('.a').get(0)
         counter = new Number.Counter
 
-        DOMEvents.addListener element, 'tap', counter.step
+        domEvents.addListener element, 'tap', counter.step
         down(element, 10, 10)
         up(element)
 
         setTimeout ->
             assert.equal counter, 1
-            DOMEvents.removeListener element, '*'
+            domEvents.removeListener element, '*'
             done()
         , 0
 
@@ -50,9 +50,9 @@ suite 'TouchEvents', ->
         element = $('.a').get(0)
         text = element.childNodes[0]
 
-        DOMEvents.addListener element, 'tap', (event) ->
+        domEvents.addListener element, 'tap', (event) ->
             assert.equal event.target, element
-            DOMEvents.removeListener element, '*'
+            domEvents.removeListener element, '*'
             done()
         down(text, 10, 10)
         up(text)
@@ -61,7 +61,7 @@ suite 'TouchEvents', ->
         element = $('.a').get(0)
         counter = new Number.Counter
 
-        DOMEvents.addListener element, 'tap', counter.step
+        domEvents.addListener element, 'tap', counter.step
         down(element, 10, 10)
         up(element)
 
@@ -71,7 +71,7 @@ suite 'TouchEvents', ->
 
             setTimeout ->
                 assert.equal counter, 2
-                DOMEvents.removeListener element, '*'
+                domEvents.removeListener element, '*'
                 done()
             , 0
         , 200
@@ -81,8 +81,8 @@ suite 'TouchEvents', ->
         counterSingle = new Number.Counter
         counterDouble = new Number.Counter
 
-        DOMEvents.addListener element, 'singletap', counterSingle.step
-        DOMEvents.addListener element, 'doubletap', counterDouble.step
+        domEvents.addListener element, 'singletap', counterSingle.step
+        domEvents.addListener element, 'doubletap', counterDouble.step
 
         down(element, 10, 10)
         up(element)
@@ -90,7 +90,7 @@ suite 'TouchEvents', ->
         setTimeout ->
             assert.equal counterSingle, 1
             assert.equal counterDouble, 0
-            DOMEvents.removeListener element, '*'
+            domEvents.removeListener element, '*'
             done()
         , 300
 
@@ -99,8 +99,8 @@ suite 'TouchEvents', ->
         counterSingle = new Number.Counter
         counterDouble = new Number.Counter
 
-        DOMEvents.addListener element, 'singletap', counterSingle.step
-        DOMEvents.addListener element, 'doubletap', counterDouble.step
+        domEvents.addListener element, 'singletap', counterSingle.step
+        domEvents.addListener element, 'doubletap', counterDouble.step
 
         down(element, 10, 10)
         up(element)
@@ -112,7 +112,7 @@ suite 'TouchEvents', ->
             setTimeout ->
                 assert.equal counterSingle, 0
                 assert.equal counterDouble, 1
-                DOMEvents.removeListener element, '*'
+                domEvents.removeListener element, '*'
                 done()
             , 100
         , 100
@@ -121,13 +121,13 @@ suite 'TouchEvents', ->
         element = $('.a').get(0)
         counter = new Number.Counter
 
-        DOMEvents.addListener element, 'longtap', counter.step
+        domEvents.addListener element, 'longtap', counter.step
         down(element, 10, 10)
 
         setTimeout ->
             up(element)
             assert.equal counter, 1
-            DOMEvents.removeListener element, '*'
+            domEvents.removeListener element, '*'
             done()
         , 900
 
@@ -135,7 +135,7 @@ suite 'TouchEvents', ->
         element = $('.a').get(0)
         counter = new Number.Counter
 
-        DOMEvents.addListener element, 'longtap', counter.step
+        domEvents.addListener element, 'longtap', counter.step
         down(element, 10, 10)
 
         setTimeout ->
@@ -143,7 +143,7 @@ suite 'TouchEvents', ->
             setTimeout ->
                 up(element)
                 assert.equal counter, 0
-                DOMEvents.removeListener element, '*'
+                domEvents.removeListener element, '*'
                 done()
             , 450
         , 450
@@ -152,7 +152,7 @@ suite 'TouchEvents', ->
         element = $('.a').get(0)
         counter = new Number.Counter
 
-        DOMEvents.addListener element, 'swipe', counter.step
+        domEvents.addListener element, 'swipe', counter.step
         down(element, 10, 10)
 
         setTimeout ->
@@ -161,7 +161,7 @@ suite 'TouchEvents', ->
 
             setTimeout ->
                 assert.equal counter, 1
-                DOMEvents.removeListener element, '*'
+                domEvents.removeListener element, '*'
                 done()
             , 0
         , 50
@@ -176,7 +176,7 @@ suite 'TouchEvents', ->
             element = $('.a').get(0)
             counter = new Number.Counter
 
-            DOMEvents.addListener element, "swipe#{direction}", counter.step
+            domEvents.addListener element, "swipe#{direction}", counter.step
             down(element, 50, 50)
 
             setTimeout ->
@@ -185,7 +185,7 @@ suite 'TouchEvents', ->
 
                 setTimeout ->
                     assert.equal counter, 1
-                    DOMEvents.removeListener element, '*'
+                    domEvents.removeListener element, '*'
                     done()
                 , 0
             , 50
@@ -195,7 +195,7 @@ suite 'TouchEvents', ->
         element = $('.a').get(0)
         counter = new Number.Counter
 
-        DOMEvents.addListener element, 'swipe', counter.step
+        domEvents.addListener element, 'swipe', counter.step
         down(element, 10, 10)
 
         setTimeout ->
@@ -205,7 +205,7 @@ suite 'TouchEvents', ->
 
             setTimeout ->
                 assert.equal counter, 0
-                DOMEvents.removeListener element, '*'
+                domEvents.removeListener element, '*'
                 done()
             , 0
         , 50

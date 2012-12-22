@@ -2,28 +2,28 @@ assert = chai.assert
 
 $ = Rye
 
-Style = Rye.require('Style')
+style = Rye.require('Style')
 
 suite 'Style methods', ->
 
     test 'getCSS', ->
         div = document.createElement('div')
         div.style.marginLeft = '2px'
-        assert.equal Style.getCSS(div, 'margin-left'), '2px'
+        assert.equal style.getCSS(div, 'margin-left'), '2px'
 
         test = document.getElementById('test')
-        assert.equal Style.getCSS(test, 'position'), 'absolute'
+        assert.equal style.getCSS(test, 'position'), 'absolute'
     
     test 'setCSS', ->
         div = document.createElement('div')
-        Style.setCSS(div, 'margin-left', 2)
+        style.setCSS(div, 'margin-left', 2)
         assert.equal div.style.marginLeft, '2px'
 
-        Style.setCSS(div, 'zoom', 2)
+        style.setCSS(div, 'zoom', 2)
         assert.equal div.style.zoom, 2
 
-        Style.setCSS(div, 'zoom', '')
-        Style.setCSS(div, 'margin-left', '')
+        style.setCSS(div, 'zoom', '')
+        style.setCSS(div, 'margin-left', '')
         assert.isFalse !!div.getAttribute('style')
 
     test 'get css', ->
