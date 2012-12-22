@@ -74,7 +74,7 @@ task 'lint', ->
         newcap   : true
         nonew    : true
         undef    : true
-        unused   : true
+        #unused   : true
         asi      : true
         boss     : true
         curly    : true
@@ -82,6 +82,7 @@ task 'lint', ->
         laxbreak : true
         laxcomma : true
         browser  : true
+        supernew : true
 
     flour.linters.js.globals =
         Rye      : true
