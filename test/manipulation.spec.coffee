@@ -147,6 +147,24 @@ suite 'Manipulation', ->
         el.attr 'title': ''
         assert.equal input.getAttribute('title'), ''
 
+    test 'get prop', ->
+        input = document.createElement('input')
+        input.title = 'title'
+        el = $(input)
+        assert.equal el.prop('title'), 'title'
+
+    test 'set prop', ->
+        input = document.createElement('input')
+        el = $(input)
+        el.prop('title', 'title')
+        assert.equal input.title, 'title'
+
+        el.prop 'title': 'title'
+        assert.equal input.title, 'title'
+
+        el.prop 'title': ''
+        assert.equal input.title, ''
+
 
 
 
