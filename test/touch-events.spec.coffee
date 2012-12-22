@@ -5,9 +5,15 @@ $ = Rye
 DOMEvents = Rye.require('DOMEvents')
 touchEvents = Rye.require('TouchEvents')
 
+makeElement = (tagName, html, attrs) ->
+    el = document.createElement(tagName)
+    el.innerHTML = html
+    el[key] = value for key, value of attrs
+    return el
+
 fire = (type, element, x, y) ->
     event = document.createEvent('Event')
-    touch = pageX: x, pageY: y, target: element
+    touch = pageX: x or 0, pageY: y or 0, target: element
 
     event.initEvent('touch' + type, true, true)
     event.touches = [touch]
@@ -18,24 +24,24 @@ down = (element, x, y) -> fire 'start', element, x, y
 move = (element, x, y) -> fire 'move', element, x, y
 up = (element) -> fire 'end', element
 
-makeElement = (tagName, html, attrs) ->
-    el = document.createElement(tagName)
-    el.innerHTML = html
-    el[key] = value for key, value of attrs
-    return el
+class Number.Counter
+    constructor: (@index = 0) ->
+    valueOf: -> @index
+    toString: -> @index.toString()
+    step: => ++@index
 
 suite 'TouchEvents', ->
 
     test 'tap', (done) ->
         element = $('.a').get(0)
-        count = 0
+        counter = new Number.Counter
 
-        DOMEvents.addListener element, 'tap', -> count++
+        DOMEvents.addListener element, 'tap', counter.step
         down(element, 10, 10)
         up(element)
 
         setTimeout ->
-            assert.equal count, 1
+            assert.equal counter, 1
             DOMEvents.removeListener element, '*'
             done()
         , 0
@@ -43,7 +49,6 @@ suite 'TouchEvents', ->
     test 'tap textnode', (done) ->
         element = $('.a').get(0)
         text = element.childNodes[0]
-        count = 0
 
         DOMEvents.addListener element, 'tap', (event) ->
             assert.equal event.target, element
@@ -54,9 +59,9 @@ suite 'TouchEvents', ->
 
     test 'tap twice', (done) ->
         element = $('.a').get(0)
-        count = 0
+        counter = new Number.Counter
 
-        DOMEvents.addListener element, 'tap', (event) -> count++
+        DOMEvents.addListener element, 'tap', counter.step
         down(element, 10, 10)
         up(element)
 
@@ -65,7 +70,7 @@ suite 'TouchEvents', ->
             up(element)
 
             setTimeout ->
-                assert.equal count, 2
+                assert.equal counter, 2
                 DOMEvents.removeListener element, '*'
                 done()
             , 0
@@ -73,27 +78,29 @@ suite 'TouchEvents', ->
 
     test 'single tap', (done) ->
         element = $('.a').get(0)
-        singleCount = 0; doubleCount = 0
+        counterSingle = new Number.Counter
+        counterDouble = new Number.Counter
 
-        DOMEvents.addListener element, 'singletap', (event) -> singleCount++
-        DOMEvents.addListener element, 'doubletap', (event) -> doubleCount++
+        DOMEvents.addListener element, 'singletap', counterSingle.step
+        DOMEvents.addListener element, 'doubletap', counterDouble.step
 
         down(element, 10, 10)
         up(element)
 
         setTimeout ->
-            assert.equal singleCount, 1
-            assert.equal doubleCount, 0
+            assert.equal counterSingle, 1
+            assert.equal counterDouble, 0
             DOMEvents.removeListener element, '*'
             done()
         , 300
 
     test 'double tap', (done) ->
         element = $('.a').get(0)
-        singleCount = 0; doubleCount = 0
+        counterSingle = new Number.Counter
+        counterDouble = new Number.Counter
 
-        DOMEvents.addListener element, 'singletap', (event) -> singleCount++
-        DOMEvents.addListener element, 'doubletap', (event) -> doubleCount++
+        DOMEvents.addListener element, 'singletap', counterSingle.step
+        DOMEvents.addListener element, 'doubletap', counterDouble.step
 
         down(element, 10, 10)
         up(element)
@@ -103,8 +110,8 @@ suite 'TouchEvents', ->
             up(element)
 
             setTimeout ->
-                assert.equal singleCount, 0
-                assert.equal doubleCount, 1
+                assert.equal counterSingle, 0
+                assert.equal counterDouble, 1
                 DOMEvents.removeListener element, '*'
                 done()
             , 100
@@ -112,30 +119,30 @@ suite 'TouchEvents', ->
 
     test 'long tap', (done) ->
         element = $('.a').get(0)
-        count = 0
+        counter = new Number.Counter
 
-        DOMEvents.addListener element, 'longtap', -> count++
+        DOMEvents.addListener element, 'longtap', counter.step
         down(element, 10, 10)
 
         setTimeout ->
             up(element)
-            assert.equal count, 1
+            assert.equal counter, 1
             DOMEvents.removeListener element, '*'
             done()
         , 900
 
     test 'a move cancels long tap', (done) ->
         element = $('.a').get(0)
-        count = 0
+        counter = new Number.Counter
 
-        DOMEvents.addListener element, 'longtap', -> count++
+        DOMEvents.addListener element, 'longtap', counter.step
         down(element, 10, 10)
 
         setTimeout ->
             move(element, 50, 10)
             setTimeout ->
                 up(element)
-                assert.equal count, 0
+                assert.equal counter, 0
                 DOMEvents.removeListener element, '*'
                 done()
             , 450
@@ -143,9 +150,9 @@ suite 'TouchEvents', ->
 
     test 'swipe', (done) ->
         element = $('.a').get(0)
-        count = 0
+        counter = new Number.Counter
 
-        DOMEvents.addListener element, 'swipe', -> count++
+        DOMEvents.addListener element, 'swipe', counter.step
         down(element, 10, 10)
 
         setTimeout ->
@@ -153,7 +160,51 @@ suite 'TouchEvents', ->
             up(element)
 
             setTimeout ->
-                assert.equal count, 1
+                assert.equal counter, 1
+                DOMEvents.removeListener element, '*'
+                done()
+            , 0
+        , 50
+
+    [
+        ['left',    0,  50]
+        ['right', 100,  50]
+        ['up',     50,   0]
+        ['down',   50, 100]
+    ].forEach ([direction, x, y]) ->
+        test "swipe #{direction}", (done) ->
+            element = $('.a').get(0)
+            counter = new Number.Counter
+
+            DOMEvents.addListener element, "swipe#{direction}", counter.step
+            down(element, 50, 50)
+
+            setTimeout ->
+                move(element, x, y)
+                up(element)
+
+                setTimeout ->
+                    assert.equal counter, 1
+                    DOMEvents.removeListener element, '*'
+                    done()
+                , 0
+            , 50
+
+
+    test 'cancel', (done) ->
+        element = $('.a').get(0)
+        counter = new Number.Counter
+
+        DOMEvents.addListener element, 'swipe', counter.step
+        down(element, 10, 10)
+
+        setTimeout ->
+            move(element, 70, 10)
+            fire('cancel', element)
+            up(element)
+
+            setTimeout ->
+                assert.equal counter, 0
                 DOMEvents.removeListener element, '*'
                 done()
             , 0
