@@ -50,10 +50,6 @@ task 'cov', ->
     invoke 'build:cov'
     cp.exec 'open test/assets/coverage.html'
 
-task 'test', ->
-    invoke 'build:test'
-    cp.exec 'open test/assets/index.html'
-
 # Development
 # ===========
 
@@ -88,3 +84,31 @@ task 'lint', ->
         Rye      : true
 
     lint 'lib/*.js'
+
+option '-b', '--browser [BROWSER]', 'Browser for test tasks'
+option '-q', '--quick', 'Skip slow tests'
+
+task 'test', (options) ->
+
+    ###
+    Examples:
+        cake test (open default browser and run all tests)
+        cake -q test (run in Chrome, skip slow tests)
+        cake -q -b Safari (run in Safari, skip slow tests)
+    Browsers: 'Google Chrome', 'Firefox', 'Safari'
+    ###
+    
+    testScript = require('./test-browsers')
+    browser = options.browser or 'Google Chrome'
+    test_url = "file:///#{process.cwd()}/test/assets/index.html?grep=TouchEvents&invert=true"
+
+    invoke 'build:test'
+
+    if not options.browser and not options.quick
+        cp.exec """open '#{test_url}'"""
+    else if process.platform is 'darwin'
+        osa = cp.spawn 'osascript', []
+        osa.stdin.write testScript browser, test_url
+        osa.stdin.end()
+    else
+        cp.exec """open -a "#{browser}" '#{test_url}'"""
