@@ -78,14 +78,14 @@ suite 'Util', ->
         fn = (a, b, c) ->
             assert.equal this, context
             assert.deepEqual [a, b, c], ['call1', 'call2', 'apply']
-        util.applier(fn, context, ['apply'])('call1', 'call2')
+        util.applier('right', fn, context, ['apply'])('call1', 'call2')
 
     test 'applier left', ->
         context = {}
         fn = (a, b, c) ->
             assert.equal this, context
             assert.deepEqual [a, b, c], ['apply', 'call1', 'call2']
-        util.applierLeft(fn, context, ['apply'])('call1', 'call2')
+        util.applier('left', fn, context, ['apply'])('call1', 'call2')
 
     test 'curry', ->
         fn = (a, b, c) ->
