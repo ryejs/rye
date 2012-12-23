@@ -55,21 +55,6 @@ suite 'EventEmitter', ->
             assert x.events['click'] is undefined, "Event removed"
             done()
 
-    test 'multiple events', ->
-        emitter = new EventEmitter
-        count = 0
-        emitter.on 'derp dorp', ->
-            count++
-
-        emitter.emit 'derp'
-        assert.equal count, 1
-
-        emitter.emit 'dorp'
-        assert.equal count, 2
-
-        emitter.emit 'derp dorp'
-        assert.equal count, 4
-
 suite 'PubSub', ->
 
     test 'subscribe publish', (done) ->
