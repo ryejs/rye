@@ -35,10 +35,13 @@ suite 'DOMEvents', ->
         counter = new Number.Counter
 
         domEvents.addListener div, 'foo', do_not_call
+        domEvents.addListener div, 'buz', do_not_call
         domEvents.addListener div, 'bar', counter.step
         domEvents.removeListener div, 'foo'
+        domEvents.removeListener div, 'buz*'
 
         domEvents.trigger div, 'bar'
+        domEvents.trigger div, 'buz'
         domEvents.trigger div, 'foo'
 
         setTimeout ->
@@ -52,14 +55,21 @@ suite 'DOMEvents', ->
         assert.ok true
 
     test 'remove listener trought selector', (done) ->
-        div = makeElement('div')
+        el = $('#test .content')
+        item = $('.a').get(0)
         counter = new Number.Counter
 
-        domEvents.addListener div, 'click div', counter.step
-        domEvents.addListener div, 'click a', do_not_call
-        domEvents.removeListener div, 'click a'
+        domEvents.addListener el, 'click li', counter.step
+        domEvents.addListener el, 'click ul', do_not_call
+        domEvents.addListener el, 'blur li', do_not_call
+        domEvents.addListener el, 'focus li', do_not_call
+        domEvents.removeListener el, 'click ul'
+        domEvents.removeListener el, 'blur *' 
+        domEvents.removeListener el, 'focus*' 
 
-        domEvents.trigger div, 'click'
+        domEvents.trigger item, 'click'
+        domEvents.trigger item, 'blur'
+        domEvents.trigger item, 'focus'
 
         setTimeout ->
             assert.equal counter, 1
