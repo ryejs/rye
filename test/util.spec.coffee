@@ -73,11 +73,12 @@ suite 'Util', ->
         context = { mozBacon: -> }
         assert.strictEqual util.prefix('bacon', context), context.mozBacon, "find prefixed object"
 
-    test 'applier', ->
+    test 'applier right', ->
         context = {}
         fn = (a, b, c) ->
             assert.equal this, context
             assert.deepEqual [a, b, c], ['call1', 'call2', 'apply']
+        util.applier('right', fn, context, ['apply'])('call1', 'call2')
         util.applier('right', fn, context, ['apply'])('call1', 'call2')
 
     test 'applier left', ->
@@ -86,11 +87,13 @@ suite 'Util', ->
             assert.equal this, context
             assert.deepEqual [a, b, c], ['apply', 'call1', 'call2']
         util.applier('left', fn, context, ['apply'])('call1', 'call2')
+        util.applier('left', fn, context, ['apply'])('call1', 'call2')
 
     test 'curry', ->
         fn = (a, b, c) ->
             assert.equal this, util
             assert.deepEqual [a, b, c], ['apply1', 'apply2', 'call1']
+        util.curry(fn, 'apply1', 'apply2')('call1')
         util.curry(fn, 'apply1', 'apply2')('call1')
 
     test 'type', ->
