@@ -55,9 +55,9 @@ suite 'DOMEvents', ->
         div = makeElement('div')
         counter = new Number.Counter
 
-        domEvents.addListener div, 'click', 'div', counter.step
-        domEvents.addListener div, 'click', 'a', do_not_call
-        domEvents.removeListener div, 'click', 'a'
+        domEvents.addListener div, 'click div', counter.step
+        domEvents.addListener div, 'click a', do_not_call
+        domEvents.removeListener div, 'click a'
 
         domEvents.trigger div, 'click'
 
@@ -70,8 +70,8 @@ suite 'DOMEvents', ->
         div = makeElement('div')
         counter = new Number.Counter
 
-        domEvents.addListener div, 'click', false, do_not_call
-        domEvents.addListener div, 'click', false, counter.step
+        domEvents.addListener div, 'click', do_not_call
+        domEvents.addListener div, 'click', counter.step
         domEvents.removeListener div, '*', do_not_call
 
         domEvents.trigger div, 'click'
@@ -84,12 +84,28 @@ suite 'DOMEvents', ->
     test 'remove all listeners', (done) ->
         div = makeElement('div')
 
-        domEvents.addListener div, 'click', false, do_not_call
-        domEvents.addListener div, 'focus', false, do_not_call
-        domEvents.addListener div, 'blur', false, do_not_call
+        domEvents.addListener div, 'click', do_not_call
+        domEvents.addListener div, 'focus', do_not_call
+        domEvents.addListener div, 'blur', do_not_call
         domEvents.removeListener div, '*'
 
-        domEvents.trigger div, 'click focus blur'
+        domEvents.trigger(div, 'click')
+        domEvents.trigger(div, 'focus')
+        domEvents.trigger(div, 'blur')
+
+        setTimeout (-> done()), 0
+
+    test 'destroy listener', (done) ->
+        div = makeElement('div')
+
+        domEvents.addListener div, 'click', do_not_call
+        domEvents.addListener div, 'focus', do_not_call
+        domEvents.addListener div, 'blur',  do_not_call
+        domEvents.getEmitter(div).destroy()
+
+        domEvents.trigger(div, 'click')
+        domEvents.trigger(div, 'focus')
+        domEvents.trigger(div, 'blur')
 
         setTimeout (-> done()), 0
 
@@ -109,7 +125,7 @@ suite 'DOMEvents', ->
             assert.equal event.currentTarget, document
             assert.equal event.target, item
 
-        domEvents.addListener document, 'click', '.a', fn
+        domEvents.addListener document, 'click .a', fn
 
         domEvents.trigger item, 'click'
         domEvents.trigger list, 'click'
@@ -124,9 +140,9 @@ suite 'DOMEvents', ->
         list = $('.list').get(0)
         item = $('.a').get(0)
 
-        domEvents.addListener document, 'click', '.a', do_not_call
+        domEvents.addListener document, 'click .a', do_not_call
 
-        domEvents.removeListener document, 'click', '.a'
+        domEvents.removeListener document, 'click .a'
         domEvents.trigger item, 'click'
 
         setTimeout ->
@@ -145,8 +161,7 @@ suite 'DOMEvents', ->
     test 'Rye off', (done) ->
         itens = $('.list li')
 
-        itens.on 'blur', do_not_call
-        itens.off 'blur'
+        itens.on('blur', do_not_call).off 'blur'
         itens.trigger 'blur'
 
         setTimeout (-> done()), 0
