@@ -159,6 +159,26 @@ suite 'DOMEvents', ->
             done()
         , 0
 
+    test 'handler context', (done) ->
+        list = $('.list').get(0)
+        item = $('.a').get(0)
+        counter = new Number.Counter
+
+        domEvents.addListener list, 'click .a', ->
+            assert.equal @, item
+            counter.step()
+
+        domEvents.addListener list, 'click', ->
+            assert.equal @, list
+            counter.step()
+
+        domEvents.trigger item, 'click'
+
+        setTimeout ->
+            assert.equal counter, 2
+            done()
+        , 0
+
     test 'Rye on', (done) ->
         itens = $('.list li')
         fn = (event) ->
