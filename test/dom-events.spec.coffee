@@ -30,6 +30,19 @@ suite 'DOMEvents', ->
         DOMEventEmitter.addListener div, 'click', fn
         DOMEventEmitter.trigger div, 'click', 55
 
+    test 'one', (done) ->
+        div = makeElement('div')
+        counter = new Number.Counter
+
+        DOMEventEmitter.one div, 'click', counter.step
+        DOMEventEmitter.trigger div, 'click'
+        DOMEventEmitter.trigger div, 'click'
+
+        setTimeout ->
+            assert.equal counter, 1
+            done()
+        , 0
+
     test 'remove listener', (done) ->
         div = makeElement('div')
         counter = new Number.Counter
