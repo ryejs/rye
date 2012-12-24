@@ -100,5 +100,5 @@ suite 'Util', ->
         assert.equal util.type(/\b/), 'regexp'
 
     test 'is', ->
-        assert.isTrue util.is(/\b/, 'regexp')
+        assert.isTrue util.is('regexp', /\b/)
 
