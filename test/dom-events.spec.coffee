@@ -120,6 +120,23 @@ suite 'DOMEvents', ->
 
         setTimeout (-> done()), 0
 
+    test 'accept multiple', (done) ->
+        list = $('.list').get(0)
+        emitter = new DOMEventEmitter(list)
+        item = $('.a').get(0)
+        counter = new Number.Counter
+
+        emitter.on
+            'click .a': counter.step
+            'click': counter.step
+
+        DOMEventEmitter.trigger item, 'click'
+
+        setTimeout ->
+            assert.equal counter, 2
+            done()
+        , 0
+
     test 'create event', ->
         event = DOMEventEmitter.createEvent type: 'click'
         assert.equal event.type, 'click'
