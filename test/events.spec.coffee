@@ -2,7 +2,7 @@ assert = chai.assert
 
 $ = Rye
 
-EventEmitter = Rye.require('EventEmitter')
+EventEmitter = Rye.require('Events').EventEmitter
 
 suite 'EventEmitter', ->
 

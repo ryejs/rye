@@ -15,7 +15,6 @@ sources = [
     'lib/manipulation.js'
     'lib/style.js'
     'lib/events.js'
-    'lib/dom-events.js'
     'lib/touch-events.js'
 ]
 

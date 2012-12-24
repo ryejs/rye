@@ -2,7 +2,8 @@ assert = chai.assert
 
 $ = Rye
 
-DOMEventEmitter = Rye.require('DOMEventEmitter')
+events = Rye.require('Events')
+DOMEventEmitter = Rye.require('Events').DOMEventEmitter
 
 makeElement = (tagName, html, attrs) ->
     el = document.createElement(tagName)
@@ -27,16 +28,16 @@ suite 'DOMEvents', ->
             assert.equal event.data, 55
             done()
 
-        DOMEventEmitter.addListener div, 'click', fn
-        DOMEventEmitter.trigger div, 'click', 55
+        events.addListener div, 'click', fn
+        events.trigger div, 'click', 55
 
-    test 'one', (done) ->
+    test 'once', (done) ->
         div = makeElement('div')
         counter = new Number.Counter
 
-        DOMEventEmitter.one div, 'click', counter.step
-        DOMEventEmitter.trigger div, 'click'
-        DOMEventEmitter.trigger div, 'click'
+        events.once div, 'click', counter.step
+        events.trigger div, 'click'
+        events.trigger div, 'click'
 
         setTimeout ->
             assert.equal counter, 1
@@ -47,15 +48,15 @@ suite 'DOMEvents', ->
         div = makeElement('div')
         counter = new Number.Counter
 
-        DOMEventEmitter.addListener div, 'foo', do_not_call
-        DOMEventEmitter.addListener div, 'buz', do_not_call
-        DOMEventEmitter.addListener div, 'bar', counter.step
-        DOMEventEmitter.removeListener div, 'foo'
-        DOMEventEmitter.removeListener div, 'buz*'
+        events.addListener div, 'foo', do_not_call
+        events.addListener div, 'buz', do_not_call
+        events.addListener div, 'bar', counter.step
+        events.removeListener div, 'foo'
+        events.removeListener div, 'buz*'
 
-        DOMEventEmitter.trigger div, 'bar'
-        DOMEventEmitter.trigger div, 'buz'
-        DOMEventEmitter.trigger div, 'foo'
+        events.trigger div, 'bar'
+        events.trigger div, 'buz'
+        events.trigger div, 'foo'
 
         setTimeout ->
             assert.equal counter, 1
@@ -64,7 +65,7 @@ suite 'DOMEvents', ->
 
     test 'remove listener in element without emitter', ->
         div = makeElement('div')
-        DOMEventEmitter.removeListener div, 'foo'
+        events.removeListener div, 'foo'
         assert.ok true
 
     test 'remove listener trought selector', (done) ->
@@ -72,17 +73,17 @@ suite 'DOMEvents', ->
         item = $('.a').get(0)
         counter = new Number.Counter
 
-        DOMEventEmitter.addListener el, 'click li', counter.step
-        DOMEventEmitter.addListener el, 'click ul', do_not_call
-        DOMEventEmitter.addListener el, 'blur li', do_not_call
-        DOMEventEmitter.addListener el, 'focus li', do_not_call
-        DOMEventEmitter.removeListener el, 'click ul'
-        DOMEventEmitter.removeListener el, 'blur *' 
-        DOMEventEmitter.removeListener el, 'focus*' 
+        events.addListener el, 'click li', counter.step
+        events.addListener el, 'click ul', do_not_call
+        events.addListener el, 'blur li', do_not_call
+        events.addListener el, 'focus li', do_not_call
+        events.removeListener el, 'click ul'
+        events.removeListener el, 'blur *' 
+        events.removeListener el, 'focus*' 
 
-        DOMEventEmitter.trigger item, 'click'
-        DOMEventEmitter.trigger item, 'blur'
-        DOMEventEmitter.trigger item, 'focus'
+        events.trigger item, 'click'
+        events.trigger item, 'blur'
+        events.trigger item, 'focus'
 
         setTimeout ->
             assert.equal counter, 1
@@ -93,11 +94,11 @@ suite 'DOMEvents', ->
         div = makeElement('div')
         counter = new Number.Counter
 
-        DOMEventEmitter.addListener div, 'click', do_not_call
-        DOMEventEmitter.addListener div, 'click', counter.step
-        DOMEventEmitter.removeListener div, '*', do_not_call
+        events.addListener div, 'click', do_not_call
+        events.addListener div, 'click', counter.step
+        events.removeListener div, '*', do_not_call
 
-        DOMEventEmitter.trigger div, 'click'
+        events.trigger div, 'click'
 
         setTimeout ->
             assert.equal counter, 1
@@ -107,14 +108,14 @@ suite 'DOMEvents', ->
     test 'remove all listeners', (done) ->
         div = makeElement('div')
 
-        DOMEventEmitter.addListener div, 'click', do_not_call
-        DOMEventEmitter.addListener div, 'focus', do_not_call
-        DOMEventEmitter.addListener div, 'blur', do_not_call
-        DOMEventEmitter.removeListener div, '*'
+        events.addListener div, 'click', do_not_call
+        events.addListener div, 'focus', do_not_call
+        events.addListener div, 'blur', do_not_call
+        events.removeListener div, '*'
 
-        DOMEventEmitter.trigger div, 'click'
-        DOMEventEmitter.trigger div, 'focus'
-        DOMEventEmitter.trigger div, 'blur'
+        events.trigger div, 'click'
+        events.trigger div, 'focus'
+        events.trigger div, 'blur'
 
         setTimeout (-> done()), 0
 
@@ -139,11 +140,11 @@ suite 'DOMEvents', ->
         item = $('.a').get(0)
         counter = new Number.Counter
 
-        emitter.on
+        emitter.addListener
             'click .a': counter.step
             'click': counter.step
 
-        DOMEventEmitter.trigger item, 'click'
+        events.trigger item, 'click'
 
         setTimeout ->
             assert.equal counter, 2
@@ -151,10 +152,10 @@ suite 'DOMEvents', ->
         , 0
 
     test 'create event', ->
-        event = DOMEventEmitter.createEvent type: 'click'
+        event = events.createEvent type: 'click'
         assert.equal event.type, 'click'
 
-        event = DOMEventEmitter.createEvent 'click', prop: 'value'
+        event = events.createEvent 'click', prop: 'value'
         assert.equal event.prop, 'value'
 
     test 'delegate', (done) ->
@@ -166,11 +167,11 @@ suite 'DOMEvents', ->
             assert.equal event.currentTarget, document
             assert.equal event.target, item
 
-        DOMEventEmitter.addListener document, 'click .a', fn
+        events.addListener document, 'click .a', fn
 
-        DOMEventEmitter.trigger item, 'click'
-        DOMEventEmitter.trigger list, 'click'
-        DOMEventEmitter.trigger document, 'click'
+        events.trigger item, 'click'
+        events.trigger list, 'click'
+        events.trigger document, 'click'
 
         setTimeout ->
             assert.equal counter, 1
@@ -181,10 +182,10 @@ suite 'DOMEvents', ->
         list = $('.list').get(0)
         item = $('.a').get(0)
 
-        DOMEventEmitter.addListener document, 'click .a', do_not_call
+        events.addListener document, 'click .a', do_not_call
 
-        DOMEventEmitter.removeListener document, 'click .a'
-        DOMEventEmitter.trigger item, 'click'
+        events.removeListener document, 'click .a'
+        events.trigger item, 'click'
 
         setTimeout ->
             done()
@@ -195,15 +196,15 @@ suite 'DOMEvents', ->
         item = $('.a').get(0)
         counter = new Number.Counter
 
-        DOMEventEmitter.addListener list, 'click .a', ->
+        events.addListener list, 'click .a', ->
             assert.equal @, item
             counter.step()
 
-        DOMEventEmitter.addListener list, 'click', ->
+        events.addListener list, 'click', ->
             assert.equal @, list
             counter.step()
 
-        DOMEventEmitter.trigger item, 'click'
+        events.trigger item, 'click'
 
         setTimeout ->
             assert.equal counter, 2
@@ -219,10 +220,10 @@ suite 'DOMEvents', ->
         itens.on 'click', fn
         itens.eq(2).trigger 'click', 55
 
-    test 'Rye off', (done) ->
+    test 'Rye removeListener', (done) ->
         itens = $('.list li')
 
-        itens.on('blur', do_not_call).off 'blur'
+        itens.on('blur', do_not_call).removeListener 'blur'
         itens.trigger 'blur'
 
         setTimeout (-> done()), 0
