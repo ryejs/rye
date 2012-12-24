@@ -28,28 +28,6 @@ task 'build:dev', ->
     try fs.mkdirSync 'dist'
     bundle sources, 'dist/rye.js'
 
-# Testing
-# =======
-
-task 'build:test', ->
-    bundle 'test/*.coffee', 'test/spec.js'
-
-task 'build:cov', ->
-    rimraf.sync '.coverage'
-    cp.exec 'jscoverage lib .coverage', (err) ->
-        if err?.code is 127
-            console.log 'cov requires github.com/visionmedia/node-jscoverage'
-            return
-        cov_sources = sources.map (f) -> f.replace('lib/', '.coverage/')
-        flour.minifiers.js = null
-        bundle cov_sources, '.coverage/rye.instrumented.js'
-
-# Open test harness in a browser so we don't have
-# to run a server or know the absolute URL
-task 'cov', ->
-    invoke 'build:cov'
-    cp.exec 'open test/assets/coverage.html'
-
 # Development
 # ===========
 
@@ -85,8 +63,14 @@ task 'lint', ->
 
     lint 'lib/*.js'
 
+# Testing
+# =======
+
 option '-b', '--browser [BROWSER]', 'Browser for test tasks'
 option '-q', '--quick', 'Skip slow tests'
+
+task 'build:test', ->
+    bundle 'test/*.coffee', 'test/spec.js'
 
 task 'test', (options) ->
 
@@ -112,3 +96,19 @@ task 'test', (options) ->
         osa.stdin.end()
     else
         cp.exec """open -a "#{browser}" '#{test_url}'"""
+
+task 'build:cov', ->
+    rimraf.sync '.coverage'
+    cp.exec 'jscoverage lib .coverage', (err) ->
+        if err?.code is 127
+            console.log 'cov requires github.com/visionmedia/node-jscoverage'
+            return
+        cov_sources = sources.map (f) -> f.replace('lib/', '.coverage/')
+        flour.minifiers.js = null
+        bundle cov_sources, '.coverage/rye.instrumented.js'
+
+# Open test harness in a browser so we don't have
+# to run a server or know the absolute URL
+task 'cov', ->
+    invoke 'build:cov'
+    cp.exec 'open test/assets/coverage.html'
