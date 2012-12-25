@@ -16,6 +16,7 @@ sources = [
     'lib/style.js'
     'lib/events.js'
     'lib/touch-events.js'
+    'lib/ajax.js'
 ]
 
 task 'build', ->
