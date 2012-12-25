@@ -101,4 +101,7 @@ suite 'Util', ->
 
     test 'is', ->
         assert.isTrue util.is('regexp', /\b/)
+        assert.isTrue util.is(['regexp', 'object'], /\b/)
+        assert.isFalse util.is(['regexp', 'object'], '')
+        assert.isTrue util.is(['regexp', 'object'], {})
 
