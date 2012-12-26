@@ -68,11 +68,18 @@ task 'lint', ->
 
 option '-b', '--browser [BROWSER]', 'Browser for test tasks'
 option '-q', '--quick', 'Skip slow tests'
+option '-p', '--port', 'Server port'
 
 task 'build:test', ->
     bundle 'test/*.coffee', 'test/spec.js'
 
 task 'test', (options) ->
+
+    port = options.port || 3000
+    url = "http://localhost:#{port}/"
+
+    testServer = require('./test-server')
+    testServer.listen port
 
     ###
     Examples:
@@ -84,7 +91,7 @@ task 'test', (options) ->
     
     testScript = require('./test-browsers')
     browser = options.browser or 'Google Chrome'
-    test_url = "file:///#{process.cwd()}/test/assets/index.html?grep=TouchEvents&invert=true"
+    test_url = "#{url}test/assets/index.html?grep=TouchEvents&invert=true"
 
     invoke 'build:test'
 
@@ -96,6 +103,9 @@ task 'test', (options) ->
         osa.stdin.end()
     else
         cp.exec """open -a "#{browser}" '#{test_url}'"""
+
+# Coverage
+# =======
 
 task 'build:cov', ->
     rimraf.sync '.coverage'
