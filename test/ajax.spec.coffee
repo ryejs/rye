@@ -5,7 +5,24 @@ $ = Rye
 ajax = Rye.require('Ajax')
 escape = (v) -> v.replace /[[\]]/g, (v) -> ('[': '%5B', ']': '%5D')[v]
 
+class Number.Countdown
+    constructor: (@index = 0, @done) ->
+    valueOf: -> @index
+    toString: -> @index.toString()
+    fire: => if --@index then @done()
+
 suite 'Ajax', ->
+
+    test 'get', (done) ->
+        countdown = new Number.Countdown(2, done)
+        ajax.request '/echo', (data) ->
+            assert.equal data, 'get no data'
+            countdown.fire()
+
+        ajax.request url: '/echo', data: {fizz: 1, bar: 2}, callback: (data) ->
+            assert.equal data, 'get 2'
+            countdown.fire()
+
 
     test 'params', ->
         assert.equal ajax.param({foo: {one: 1, two: 2}}), escape 'foo[one]=1&foo[two]=2'
