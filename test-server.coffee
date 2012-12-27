@@ -20,9 +20,24 @@ app.post '/echo', (req, res) ->
     debug req
     res.send 'post ' + (req.body.bar or 'no data')
 
+app.all '/accept', (req, res) ->
+    debug req
+    if req.accepts 'json'
+        res.send {json: 'ok'}
+    else if req.accepts 'xml'
+        res.send '<?xml version="1.0" encoding="UTF-8" ?><xml>ok</xml>'
+    else if req.accepts 'html'
+        res.send 'html ok'
+    else if req.accepts 'text'
+        res.send 'text ok'
+
+app.all '/content', (req, res) ->
+    debug req
+    res.send 'content type ' + req.headers['content-type']
+
 app.all '/requested-with', (req, res) ->
     debug req
-    res.send 'X-Requested-With ' + req.get 'X-Requested-With'
+    res.send 'requested with ' + req.get 'X-Requested-With'
 
 
 module.exports = app

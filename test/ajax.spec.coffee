@@ -33,18 +33,52 @@ suite 'Ajax', ->
             assert.equal data, 'post 2'
             countdown.fire()
 
-    test 'X-Requested-With', (done) ->
+    test 'accept json', (done) ->
+        ajax.request url: '/accept', dataType: 'json', (data, settings) ->
+            assert.deepEqual data, {json: 'ok'}
+            done()
+
+    test 'accept xml', (done) ->
+        ajax.request url: '/accept', dataType: 'xml', (data, settings) ->
+            assert.equal data.documentElement.textContent, 'ok'
+            done()
+
+    test 'accept html', (done) ->
+        ajax.request url: '/accept', dataType: 'html', (data, settings) ->
+            assert.equal data, 'html ok'
+            done()
+
+    test 'accept text', (done) ->
+        ajax.request url: '/accept', dataType: 'text', (data, settings) ->
+            assert.equal data, 'text ok'
+            done()
+
+    test 'content type', (done) ->
+        countdown = new Number.Countdown(3, done)
+        ajax.request url: '/content', type: 'post', (data, settings) ->
+            assert.equal data, 'content type application/x-www-form-urlencoded'
+            countdown.fire()
+
+        ajax.request url: '/content', (data, settings) ->
+            assert.equal data, 'content type undefined'
+            countdown.fire()
+
+        ajax.request url: '/content', contentType: 'xxx', (data, settings) ->
+            assert.equal data, 'content type xxx'
+            countdown.fire()
+
+    test 'requested with', (done) ->
         countdown = new Number.Countdown(3, done)
         ajax.request url: '/requested-with', (data) ->
-            assert.equal data, 'X-Requested-With XMLHttpRequest'
+            assert.equal data, 'requested with XMLHttpRequest'
             countdown.fire()
 
         ajax.request method: 'post', url: '/requested-with', (data) ->
-            assert.equal data, 'X-Requested-With XMLHttpRequest'
+            assert.equal data, 'requested with XMLHttpRequest'
             countdown.fire()
 
         ajax.request crossDomain: true, url: '/requested-with', (data) ->
-            assert.equal data, 'X-Requested-With undefined'
+            assert.equal data, 'requested with undefined'
             countdown.fire()
 
     test 'appendQuery', ->
