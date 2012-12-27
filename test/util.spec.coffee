@@ -6,6 +6,15 @@ util = Rye.require 'Util'
 
 suite 'Util', ->
 
+    test 'each', ->
+        obj = {key: 'value'}
+        util.each obj, (value, key) ->
+            assert.deepEqual [value, key], ['value', 'key']
+        
+        array = ['value']
+        util.each array, (value, key) ->
+            assert.deepEqual [value, key], ['value', '0']
+
     test 'extend', ->
         one = {one: 1}
         two = util.extend one, {two: 2}
