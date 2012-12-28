@@ -86,10 +86,10 @@ suite 'Ajax', ->
         assert.equal ajax.appendQuery('url?par=1', 'bar=2'), 'url?par=1&bar=2'
         assert.equal ajax.appendQuery('??', '?par=1'), '?par=1'
 
-    test 'params', ->
-        assert.equal ajax.param({foo: {one: 1, two: 2}}), escape 'foo[one]=1&foo[two]=2'
-        assert.equal ajax.param({ids: [1,2,3]}), escape 'ids[]=1&ids[]=2&ids[]=3'
-        assert.equal ajax.param({foo: 'bar', nested: {will: 'not be ignored'}}), escape 'foo=bar&nested[will]=not+be+ignored'
-        assert.equal ajax.param([{name: 'foo', value: 'bar'}]), escape 'foo=bar'
+    test 'query', ->
+        assert.equal ajax.query({foo: {one: 1, two: 2}}), escape 'foo[one]=1&foo[two]=2'
+        assert.equal ajax.query({ids: [1,2,3]}), escape 'ids[]=1&ids[]=2&ids[]=3'
+        assert.equal ajax.query({foo: 'bar', nested: {will: 'not be ignored'}}), escape 'foo=bar&nested[will]=not+be+ignored'
+        assert.equal ajax.query([{name: 'foo', value: 'bar'}]), escape 'foo=bar'
 
 
