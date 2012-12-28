@@ -25,11 +25,11 @@ suite 'Ajax', ->
 
     test 'post request', (done) ->
         countdown = new Number.Countdown(2, done)
-        ajax.request url: '/echo', type: 'post', (data) ->
+        ajax.request url: '/echo', method: 'post', (data) ->
             assert.equal data, 'post no data'
             countdown.fire()
 
-        ajax.request url: '/echo', data: {fizz: 1, bar: 2}, type: 'post', (data) ->
+        ajax.request url: '/echo', data: {fizz: 1, bar: 2}, method: 'post', (data) ->
             assert.equal data, 'post 2'
             countdown.fire()
 
@@ -55,7 +55,7 @@ suite 'Ajax', ->
 
     test 'content type', (done) ->
         countdown = new Number.Countdown(3, done)
-        ajax.request url: '/content', type: 'post', (data, settings) ->
+        ajax.request url: '/content', method: 'post', (data, settings) ->
             assert.equal data, 'content type application/x-www-form-urlencoded'
             countdown.fire()
 
