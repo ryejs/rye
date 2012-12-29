@@ -103,6 +103,12 @@ suite 'Traversal methods', ->
         el = list.filter (item, index) -> item.className isnt 'a'
         assert.deepEqual el.elements , $('.b, .c').elements, "Keeps .a and .b element"
 
+    test 'filter not', ->
+        list = list_items()
+        filtered = list.filter('!.a')
+        assert.equal filtered.length , 2, "Removes .a element"
+        assert.deepEqual filtered.pluck('className'), ['b', 'c']
+
     test 'has', ->
         lists = $('ul')
         list = lists.has('.a')
@@ -121,12 +127,6 @@ suite 'Traversal methods', ->
 
         all = $('*')
         assert.isTrue all.is(list_items()), "Filter the list items with Rye instance"
-
-    test 'not', ->
-        list = list_items()
-        filtered = list.not('.a')
-        assert.equal filtered.length , 2, "Removes .a element"
-        assert.deepEqual filtered.pluck('className'), ['b', 'c']
 
     test 'index', ->
         el = list_items().filter('.b')
