@@ -109,13 +109,13 @@ suite 'Traversal methods', ->
         assert.equal filtered.length , 2, "Removes .a element"
         assert.deepEqual filtered.pluck('className'), ['b', 'c']
 
-    test 'has', ->
+    test 'contains', ->
         lists = $('ul')
-        list = lists.has('.a')
+        list = lists.contains('.a')
         assert.deepEqual list.elements, $('.list').elements
 
         lists = $('ul')
-        list = lists.has('.list')
+        list = lists.contains('.list')
         assert.lengthOf list.elements, 0
 
     test 'is', ->
