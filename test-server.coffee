@@ -2,6 +2,7 @@ express = require 'express'
 app = express()
 
 debug = (req) ->
+    return if app.silent
     method = req.route.method.toUpperCase()
     result = if method is 'GET' then req.query else req.body
     console.log "#{method} #{JSON.stringify(result)}\n"

@@ -1,7 +1,8 @@
-fs     = require 'fs'
-cp     = require 'child_process'
-flour  = require 'flour'
-rimraf = require 'rimraf'
+fs             = require 'fs'
+cp             = require 'child_process'
+flour          = require 'flour'
+rimraf         = require 'rimraf'
+util           = require 'util'
 
 # Build tasks
 # ===========
@@ -19,6 +20,8 @@ sources = [
     'lib/ajax.js'
 ]
 
+[minifiers, flour.minifiers.js] = [flour.minifiers.js, null]
+
 task 'build', ->
     try fs.mkdirSync 'dist'
     bundle sources, 'dist/rye.min.js'
@@ -26,7 +29,7 @@ task 'build', ->
 task 'build:dev', ->
     flour.minifiers.js = null
     try fs.mkdirSync 'dist'
-    bundle sources, 'dist/rye.js'
+    bundle sources, 'dist/rye.js'        
 
 # Development
 # ===========
@@ -74,35 +77,47 @@ task 'build:test', ->
     bundle 'test/*.coffee', 'test/spec.js'
 
 task 'test', (options) ->
-
-    port = options.port || 3000
-    url = "http://localhost:#{port}/"
-
-    testServer = require('./test-server')
-    testServer.listen port
+    invoke 'build:dev'
+    invoke 'build:test'
 
     ###
     Examples:
         cake test (open default browser and run all tests)
         cake -q test (run in Chrome, skip slow tests)
         cake -q -b Safari (run in Safari, skip slow tests)
-    Browsers: 'Google Chrome', 'Firefox', 'Safari'
+    Browsers: 'Google Chrome', 'Firefox', 'Safari', 'PhantomJS'
     ###
     
-    testScript = require('./test-browsers')
+    port = options.port || 3000
     browser = options.browser or 'Google Chrome'
+
+    url = "http://localhost:#{port}/"
     test_url = "#{url}test/assets/index.html?grep=TouchEvents&invert=true"
 
-    invoke 'build:test'
+    testServer = require('./test-server')
+    testServer.listen port
 
-    if not options.browser and not options.quick
-        cp.exec """open '#{test_url}'"""
-    else if process.platform is 'darwin'
-        osa = cp.spawn 'osascript', []
-        osa.stdin.write testScript browser, test_url
-        osa.stdin.end()
+    if browser is 'PhantomJS'
+        testServer.silent = true
+        mocha = cp.spawn "mocha-phantomjs", [test_url]
+
+        mocha.stdout.on 'data', (data) ->
+            util.print data.toString()
+
+        mocha.on 'exit', (code) ->
+            process.exit(code)
+
     else
-        cp.exec """open -a "#{browser}" '#{test_url}'"""
+        testScript = require('./test-browsers')
+
+        if not options.browser and not options.quick
+            cp.exec """open '#{test_url}'"""
+        else if process.platform is 'darwin'
+            osa = cp.spawn 'osascript', []
+            osa.stdin.write testScript browser, test_url
+            osa.stdin.end()
+        else
+            cp.exec """open -a "#{browser}" '#{test_url}'"""
 
 # Coverage
 # =======
