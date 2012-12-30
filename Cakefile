@@ -93,7 +93,7 @@ task 'test', (options) ->
     Browsers: 'Google Chrome', 'Firefox', 'Safari', 'PhantomJS'
     ###
     
-    port = options.port || 3000
+    port = options.port || 3999
     browser = options.browser or 'Google Chrome'
 
     url = "http://localhost:#{port}/"
@@ -105,13 +105,15 @@ task 'test', (options) ->
 
     if browser is 'PhantomJS'
         testServer.silent = true
-        mocha = cp.spawn "mocha-phantomjs", [test_url]
+        setTimeout ->
+            mocha = cp.spawn "mocha-phantomjs", [test_url]
 
-        mocha.stdout.on 'data', (data) ->
-            util.print data.toString()
+            mocha.stdout.on 'data', (data) ->
+                util.print data.toString()
 
-        mocha.on 'exit', (code) ->
-            process.exit(code)
+            mocha.on 'exit', (code) ->
+                process.exit(code)
+        , 1000
 
     else
         testScript = require('./test-browsers')

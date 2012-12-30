@@ -14,8 +14,9 @@
         "uglify-js": "2.2.0",
         "jshint": "",
         "coffee-script": "1.4.0",
-
-        "phantomjs": "",
+        
+        "mocha-phantomjs": "",
+        "phantomjs": "0.2.6",
         "es5-shim": ""
     },
     "scripts": {
