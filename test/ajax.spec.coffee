@@ -1,15 +1,3 @@
-assert = chai.assert
-
-$ = Rye
-
-ajax = Rye.require('Ajax')
-escape = (v) -> v.replace /[[\]]/g, (v) -> ('[': '%5B', ']': '%5D')[v]
-
-class Number.Countdown
-    constructor: (@index = 0, @done) ->
-    valueOf: -> @index
-    toString: -> @index.toString()
-    fire: => @done() unless --@index
 
 suite 'Ajax', ->
 
