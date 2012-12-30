@@ -1,8 +1,3 @@
-assert = chai.assert
-
-$ = Rye
-
-data = Rye.require('Data')
 
 suite 'Data', ->
 

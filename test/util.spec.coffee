@@ -1,8 +1,3 @@
-assert = chai.assert
-
-$ = Rye
-
-util = Rye.require 'Util'
 
 suite 'Util', ->
 

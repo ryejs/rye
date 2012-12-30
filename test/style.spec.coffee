@@ -1,8 +1,3 @@
-assert = chai.assert
-
-$ = Rye
-
-style = Rye.require('Style')
 
 suite 'Style methods', ->
 

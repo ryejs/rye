@@ -1,17 +1,5 @@
-assert = chai.assert
 
-$ = Rye
-
-ajax = Rye.require('Ajax')
-escape = (v) -> v.replace /[[\]]/g, (v) -> ('[': '%5B', ']': '%5D')[v]
-
-class Number.Countdown
-    constructor: (@index = 0, @done) ->
-    valueOf: -> @index
-    toString: -> @index.toString()
-    fire: => @done() unless --@index
-
-suite 'Ajax', ->
+suite 'Ajax (slow)', ->
 
     test 'get request', (done) ->
         countdown = new Number.Countdown(2, done)
@@ -63,8 +51,8 @@ suite 'Ajax', ->
             assert.equal data, 'content type undefined'
             countdown.fire()
 
-        ajax.request url: '/content', contentType: 'xxx', (data, settings) ->
-            assert.equal data, 'content type xxx'
+        ajax.request url: '/content', contentType: 'text/plain', (data, settings) ->
+            assert.equal data, 'content type text/plain'
             countdown.fire()
 
     test 'requested with', (done) ->

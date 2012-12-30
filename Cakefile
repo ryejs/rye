@@ -24,10 +24,11 @@ sources = [
 
 task 'build', ->
     try fs.mkdirSync 'dist'
-    bundle sources, 'dist/rye.min.js'
+    flour.minifiers.js = minifiers
+    bundle sources, 'dist/rye.min.js', ->
+        flour.minifiers.js = null
 
 task 'build:dev', ->
-    flour.minifiers.js = null
     try fs.mkdirSync 'dist'
     bundle sources, 'dist/rye.js'        
 
@@ -77,8 +78,12 @@ task 'build:test', ->
     bundle 'test/*.coffee', 'test/spec.js'
 
 task 'test', (options) ->
+
     invoke 'build:dev'
     invoke 'build:test'
+
+    testServer = require('./test-server')
+    testServer.listen port
 
     ###
     Examples:
@@ -92,7 +97,8 @@ task 'test', (options) ->
     browser = options.browser or 'Google Chrome'
 
     url = "http://localhost:#{port}/"
-    test_url = "#{url}test/assets/index.html?grep=TouchEvents&invert=true"
+    test_url = "#{url}test/assets/index.html?"
+    test_url += "grep=(slow)&invert=true&" if options.quick
 
     testServer = require('./test-server')
     testServer.listen port
