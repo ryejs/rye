@@ -51,8 +51,8 @@ suite 'Ajax (slow)', ->
             assert.equal data, 'content type undefined'
             countdown.fire()
 
-        ajax.request url: '/content', contentType: 'xxx', (data, settings) ->
-            assert.equal data, 'content type xxx'
+        ajax.request url: '/content', contentType: 'text/plain', (data, settings) ->
+            assert.equal data, 'content type text/plain'
             countdown.fire()
 
     test 'requested with', (done) ->
