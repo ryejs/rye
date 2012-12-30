@@ -80,7 +80,7 @@ task 'test', (options) ->
 
     port = options.port || 3000
     url = "http://localhost:#{port}/"
-
+    
     testServer = require('./test-server')
     testServer.listen port
 
@@ -94,7 +94,8 @@ task 'test', (options) ->
     
     testScript = require('./test-browsers')
     browser = options.browser or 'Google Chrome'
-    test_url = "#{url}test/assets/index.html?grep=TouchEvents&invert=true"
+    test_url = "#{url}test/assets/index.html?"
+    test_url += "grep=(slow)&invert=true&" if options.quick
 
     invoke 'build:test'
 

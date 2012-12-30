@@ -1,5 +1,5 @@
 
-suite 'Ajax', ->
+suite 'Ajax (slow)', ->
 
     test 'get request', (done) ->
         countdown = new Number.Countdown(2, done)

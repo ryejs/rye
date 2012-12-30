@@ -1,5 +1,5 @@
 
-suite 'TouchEvents', ->
+suite 'TouchEvents (slow)', ->
 
     test 'tap', (done) ->
         element = $('.a').get(0)
