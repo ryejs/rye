@@ -19,12 +19,15 @@ sources = [
     'lib/ajax.js'
 ]
 
+[minifiers, flour.minifiers.js] = [flour.minifiers.js, null]
+
 task 'build', ->
     try fs.mkdirSync 'dist'
-    bundle sources, 'dist/rye.min.js'
+    flour.minifiers.js = minifiers
+    bundle sources, 'dist/rye.min.js', ->
+        flour.minifiers.js = null
 
 task 'build:dev', ->
-    flour.minifiers.js = null
     try fs.mkdirSync 'dist'
     bundle sources, 'dist/rye.js'
 
