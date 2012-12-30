@@ -19,26 +19,26 @@ sources = [
     'lib/ajax.js'
 ]
 
-task 'build', ->
-    try fs.mkdirSync 'dist'
-    bundle sources, 'dist/rye.min.js'
+[minifiers, flour.minifiers.js] = [flour.minifiers.js, null]
 
-task 'build:dev', ->
-    flour.minifiers.js = null
+task 'build:lib', ->
     try fs.mkdirSync 'dist'
-    bundle sources, 'dist/rye.js'
+    bundle sources, 'dist/rye.js', ->
+        flour.minifiers.js = minifiers
+        bundle sources, 'dist/rye.min.js', ->
+            flour.minifiers.js = null            
 
 # Development
 # ===========
 
 task 'watch', ->
-    invoke 'build:dev'
+    invoke 'build:lib'
     invoke 'build:test'
 
     watch 'test/assets/index.html', -> invoke 'build:test'
     watch 'test/*.coffee', -> invoke 'build:test'
 
-    watch 'lib/*.js', -> invoke 'build:dev'
+    watch 'lib/*.js', -> invoke 'build:lib'
 
 task 'lint', ->
     flour.linters.js.options =
@@ -75,6 +75,8 @@ task 'build:test', ->
 
 task 'test', (options) ->
 
+    invoke 'build:test'
+
     port = options.port || 3000
     url = "http://localhost:#{port}/"
 
@@ -92,8 +94,6 @@ task 'test', (options) ->
     testScript = require('./test-browsers')
     browser = options.browser or 'Google Chrome'
     test_url = "#{url}test/assets/index.html?grep=TouchEvents&invert=true"
-
-    invoke 'build:test'
 
     if not options.browser and not options.quick
         cp.exec """open '#{test_url}'"""
