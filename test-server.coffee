@@ -4,8 +4,9 @@ app = express()
 debug = (req) ->
     return if app.silent
     method = req.route.method.toUpperCase()
+    path = req.route.path
     result = if method is 'GET' then req.query else req.body
-    console.log "#{method} #{JSON.stringify(result)}\n"
+    console.log "#{path} : #{method} #{JSON.stringify(result)}\n"
 
 # serve static files
 app.use express.static(__dirname)
@@ -26,7 +27,8 @@ app.all '/accept', (req, res) ->
     if req.accepts 'json'
         res.send {json: 'ok'}
     else if req.accepts 'xml'
-        res.send '<?xml version="1.0" encoding="UTF-8" ?><xml>ok</xml>'
+        res.set 'Content-Type', 'application/xml, text/xml'
+        res.send '<?xml version="1.0" encoding="UTF-8" ?><content>ok</content>'
     else if req.accepts 'html'
         res.send 'html ok'
     else if req.accepts 'text'

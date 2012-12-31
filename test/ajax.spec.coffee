@@ -22,22 +22,22 @@ suite 'Ajax (slow)', ->
             countdown.fire()
 
     test 'accept json', (done) ->
-        ajax.request url: '/accept', dataType: 'json', (data, settings) ->
+        ajax.request url: '/accept?json', dataType: 'json', (data, settings) ->
             assert.deepEqual data, {json: 'ok'}
             done()
 
     test 'accept xml', (done) ->
-        ajax.request url: '/accept', dataType: 'xml', (data, settings) ->
+        ajax.request url: '/accept?xml', dataType: 'xml', (data, settings) ->
             assert.equal data.documentElement.textContent, 'ok'
             done()
 
     test 'accept html', (done) ->
-        ajax.request url: '/accept', dataType: 'html', (data, settings) ->
+        ajax.request url: '/accept?html', dataType: 'html', (data, settings) ->
             assert.equal data, 'html ok'
             done()
 
     test 'accept text', (done) ->
-        ajax.request url: '/accept', dataType: 'text', (data, settings) ->
+        ajax.request url: '/accept?text', dataType: 'text', (data, settings) ->
             assert.equal data, 'text ok'
             done()
 
@@ -51,21 +51,17 @@ suite 'Ajax (slow)', ->
             assert.equal data, 'content type undefined'
             countdown.fire()
 
-        # ajax.request url: '/content', contentType: 'text/html', (data, settings) ->
-        #     assert.equal data, 'content type text/html'
-        #     countdown.fire()
-
     test 'requested with', (done) ->
         countdown = new Number.Countdown(3, done)
-        ajax.request url: '/requested-with', (data) ->
+        ajax.request url: '/requested-with?1', (data) ->
             assert.equal data, 'requested with XMLHttpRequest'
             countdown.fire()
 
-        ajax.request method: 'post', url: '/requested-with', (data) ->
+        ajax.request method: 'post', url: '/requested-with?2', (data) ->
             assert.equal data, 'requested with XMLHttpRequest'
             countdown.fire()
 
-        ajax.request crossDomain: true, url: '/requested-with', (data) ->
+        ajax.request crossDomain: true, url: '/requested-with?3', (data) ->
             assert.equal data, 'requested with undefined'
             countdown.fire()
 
