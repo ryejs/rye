@@ -78,12 +78,6 @@ task 'build:test', ->
 
 task 'test', (options) ->
 
-    port = options.port || 3000
-    url = "http://localhost:#{port}/"
-    
-    testServer = require('./test-server')
-    testServer.listen port
-
     ###
     Examples:
         cake test (open default browser and run all tests)
@@ -91,11 +85,20 @@ task 'test', (options) ->
         cake -q -b Safari (run in Safari, skip slow tests)
     Browsers: 'Google Chrome', 'Firefox', 'Safari'
     ###
+
+    test_path = "test/assets/index.html"
+
+    if options.quick
+        test_url = "file:///#{process.cwd()}/#{test_path}?grep=(slow)&invert=true"
+    else
+        port = options.port || 3000
+        test_url = "http://localhost:#{port}/#{test_path}"
+
+        testServer = require('./test-server')
+        testServer.listen port
     
     testScript = require('./test-browsers')
     browser = options.browser or 'Google Chrome'
-    test_url = "#{url}test/assets/index.html?"
-    test_url += "grep=(slow)&invert=true&" if options.quick
 
     invoke 'build:test'
 
