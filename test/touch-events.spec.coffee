@@ -18,13 +18,18 @@ suite 'TouchEvents (slow)', ->
     test 'tap textnode', (done) ->
         element = $('.a').get(0)
         text = element.childNodes[0]
+        counter = new Number.Counter
 
         events.addListener element, 'tap', (event) ->
             assert.equal event.target, element
-            events.removeListener element, '*'
-            done()
+            counter.step()
         down(text, 10, 10)
         up(text)
+
+        setTimeout ->
+            events.removeListener element, '*'
+            done()
+        , 0
 
     test 'tap twice', (done) ->
         element = $('.a').get(0)
