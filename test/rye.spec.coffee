@@ -1,8 +1,3 @@
-assert = chai.assert
-
-$ = Rye
-
-list_items = -> $('.list li')
 
 suite 'Constructor', ->
 

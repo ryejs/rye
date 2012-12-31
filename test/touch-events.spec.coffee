@@ -1,36 +1,5 @@
-assert = chai.assert
 
-$ = Rye
-
-events = Rye.require('Events')
-touchEvents = Rye.require('TouchEvents')
-
-makeElement = (tagName, html, attrs) ->
-    el = document.createElement(tagName)
-    el.innerHTML = html
-    el[key] = value for key, value of attrs
-    return el
-
-fire = (type, element, x, y) ->
-    event = document.createEvent('Event')
-    touch = pageX: x or 0, pageY: y or 0, target: element
-
-    event.initEvent('touch' + type, true, true)
-    event.touches = [touch]
-
-    element.dispatchEvent event
-
-down = (element, x, y) -> fire 'start', element, x, y
-move = (element, x, y) -> fire 'move', element, x, y
-up = (element) -> fire 'end', element
-
-class Number.Counter
-    constructor: (@index = 0) ->
-    valueOf: -> @index
-    toString: -> @index.toString()
-    step: => ++@index
-
-suite 'TouchEvents', ->
+suite 'TouchEvents (slow)', ->
 
     test 'tap', (done) ->
         element = $('.a').get(0)
