@@ -58,6 +58,12 @@
 
     <script src="../../dist/rye.js"></script>
     <script src="../spec.js"></script>
-    <script>mocha.run()</script>
+    <script>
+    if (window.cloud){
+        cloud(mocha.run())
+    } else {
+        mocha.run()
+    }
+    </script>
 </body>
 </html>
