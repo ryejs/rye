@@ -13,10 +13,14 @@
         "express": "",
         "uglify-js": "2.2.0",
         "jshint": "",
-        "coffee-script": "1.4.0"
+        "coffee-script": "1.4.0",
+        
+        "mocha-phantomjs": "",
+        "phantomjs": "0.2.6",
+        "es5-shim": ""
     },
     "scripts": {
-        "test": "mocha"
+        "test": "cake -b PhantomJS test"
     },
     "repository": {
         "type": "git",

@@ -1,7 +1,8 @@
-fs     = require 'fs'
-cp     = require 'child_process'
-flour  = require 'flour'
-rimraf = require 'rimraf'
+fs             = require 'fs'
+cp             = require 'child_process'
+flour          = require 'flour'
+rimraf         = require 'rimraf'
+util           = require 'util'
 
 # Build tasks
 # ===========
@@ -29,7 +30,7 @@ task 'build', ->
 
 task 'build:dev', ->
     try fs.mkdirSync 'dist'
-    bundle sources, 'dist/rye.js'
+    bundle sources, 'dist/rye.js'        
 
 # Development
 # ===========
@@ -78,12 +79,15 @@ task 'build:test', ->
 
 task 'test', (options) ->
 
+    invoke 'build:dev'
+    invoke 'build:test'
+    
     ###
     Examples:
         cake test (open default browser and run all tests)
         cake -q test (run in Chrome, skip slow tests)
         cake -q -b Safari (run in Safari, skip slow tests)
-    Browsers: 'Google Chrome', 'Firefox', 'Safari'
+    Browsers: 'Google Chrome', 'Firefox', 'Safari', 'PhantomJS'
     ###
 
     test_path = "test/assets/index.html"
@@ -96,20 +100,33 @@ task 'test', (options) ->
 
         testServer = require('./test-server')
         testServer.listen port
-    
-    testScript = require('./test-browsers')
+
     browser = options.browser or 'Google Chrome'
 
-    invoke 'build:test'
+    if browser is 'PhantomJS'
+        testServer.silent = true
 
-    if not options.browser and not options.quick
-        cp.exec """open '#{test_url}'"""
-    else if process.platform is 'darwin'
-        osa = cp.spawn 'osascript', []
-        osa.stdin.write testScript browser, test_url
-        osa.stdin.end()
+        setTimeout ->
+            mocha = cp.spawn "mocha-phantomjs", [test_url]
+
+            mocha.stdout.on 'data', (data) ->
+                util.print data.toString()
+
+            mocha.on 'exit', (code) ->
+                process.exit(code)
+        , 1000
+
     else
-        cp.exec """open -a "#{browser}" '#{test_url}'"""
+        testScript = require('./test-browsers')
+
+        if not options.browser and not options.quick
+            cp.exec """open '#{test_url}'"""
+        else if process.platform is 'darwin'
+            osa = cp.spawn 'osascript', []
+            osa.stdin.write testScript browser, test_url
+            osa.stdin.end()
+        else
+            cp.exec """open -a "#{browser}" '#{test_url}'"""
 
 # Coverage
 # =======
