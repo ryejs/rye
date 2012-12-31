@@ -112,6 +112,26 @@ task 'test', (options) ->
     else
         cp.exec """open -a "#{browser}" '#{test_url}'"""
 
+task 'cloud', ->
+    Cloud = require 'mocha-cloud'
+    cloud = new Cloud 'RyeJS', 'ryejs', '48244d4e-a12c-4266-ad1b-3814e840a64a'
+
+    cloud.browser 'iphone', '5.0', 'Mac 10.6'
+    cloud.browser 'ipad', '6', 'Mac 10.8'
+
+    cloud.url 'http://jcemer.github.com/rye/test/assets/index.html?grep=(slow)&invert=true'
+
+    cloud.on 'init', (browser) ->
+        console.log '  init : %s %s', browser.browserName, browser.version
+
+    cloud.on 'start', (browser) ->
+        console.log '  start : %s %s', browser.browserName, browser.version
+
+    cloud.on 'end', (browser) ->
+        console.log '  end : %s %s : %d failures', browser.browserName, browser.version, res.failures
+
+    cloud.start()
+
 # Coverage
 # =======
 
