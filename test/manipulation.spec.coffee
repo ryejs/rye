@@ -69,6 +69,12 @@ suite 'Manipulation', ->
         list.prepend(el)
         assert.lengthOf list.find('.test-append-element'), 3
 
+    test 'prepend to empty', ->
+        el = makeElement 'p', 'test', { className: 'test-prepend-element' }
+        item = list_items().filter('.a')
+        item.prepend(el)
+        assert.lengthOf item.children(), 1
+
     test 'after with html', ->
         el = $('#hello')
         el.after('<div id="after"></div>')
