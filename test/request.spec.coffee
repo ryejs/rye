@@ -80,7 +80,7 @@ suite 'Request (slow)', ->
             done()
 
     test 'timeout', (done) ->
-        request url: '/echo' + Date.now(), timeout: '1', (err, data) ->
+        request url: '/sleep', timeout: '1', (err, data) ->
             assert.equal err.message, 'Timeout'
             done()
 

@@ -10,7 +10,6 @@
         "flour": "",
         "mocha": "",
         "chai": "",
-        "express": "",
         "uglify-js": "2.2.0",
         "jshint": "",
         "coffee-script": "1.4.0",
