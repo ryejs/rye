@@ -14,10 +14,10 @@ suite 'Style methods', ->
         style.setCSS(div, 'margin-left', 2)
         assert.equal div.style.marginLeft, '2px'
 
-        style.setCSS(div, 'zoom', 2)
-        assert.equal div.style.zoom, 2
+        style.setCSS(div, 'opacity', 0.2)
+        assert.equal div.style.opacity, '0.2'
 
-        style.setCSS(div, 'zoom', '')
+        style.setCSS(div, 'opacity', '')
         style.setCSS(div, 'margin-left', '')
         assert.isFalse !!div.getAttribute('style')
 
