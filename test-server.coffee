@@ -38,9 +38,10 @@ app.all '/content', (req, res) ->
     debug req
     res.send 'content type ' + req.headers['content-type']
 
-app.all '/requested-with', (req, res) ->
+app.all '/status', (req, res) ->
     debug req
-    res.send 'requested with ' + req.get 'X-Requested-With'
+    res.status req.query.status
+    res.send 'status ' + req.query.status
 
 
 module.exports = app

@@ -53,12 +53,12 @@ exports.up = (element) -> fire 'end', element
 #
 
 exports.util            = Rye.require('Util')
-exports.ajax            = Rye.require('Ajax')
 exports.data            = Rye.require('Data')
 exports.events          = Rye.require('Events')
 exports.EventEmitter    = Rye.require('Events').EventEmitter
 exports.DOMEventEmitter = Rye.require('Events').DOMEventEmitter
 exports.touchEvents     = Rye.require('TouchEvents')
+exports.request         = Rye.require('Request')
 exports.style           = Rye.require('Style')
 
 #

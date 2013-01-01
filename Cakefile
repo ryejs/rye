@@ -14,10 +14,10 @@ sources = [
     'lib/query.js'
     'lib/collection.js'
     'lib/manipulation.js'
-    'lib/style.js'
     'lib/events.js'
     'lib/touch-events.js'
-    'lib/ajax.js'
+    'lib/request.js'
+    'lib/style.js'
 ]
 
 [minifiers, flour.minifiers.js] = [flour.minifiers.js, null]

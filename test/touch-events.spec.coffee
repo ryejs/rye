@@ -22,12 +22,12 @@ suite 'TouchEvents (slow)', ->
 
         events.addListener element, 'tap', (event) ->
             assert.equal event.target, element
+            events.removeListener element, '*'
             counter.step()
         down(text, 10, 10)
         up(text)
-
+        
         setTimeout ->
-            events.removeListener element, '*'
             done()
         , 0
 
