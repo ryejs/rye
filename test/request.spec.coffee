@@ -86,7 +86,7 @@ suite 'Request (slow)', ->
 
     test 'parse error', (done) ->
         request url: '/echo', responseType: 'json', (err, data) ->
-            assert.equal err.message, 'Parser Error'
+            assert.instanceOf err, Error
             done()
 
     test 'sended content type', (done) ->
