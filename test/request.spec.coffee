@@ -3,7 +3,7 @@ suite 'Request (slow)', ->
 
     test 'get request', (done) ->
         countdown = new Number.Countdown(4, done)
-        obj = {fizz: 1, bar: 2}
+        obj = fizz: 1, bar: 2
         query = request.query obj
 
         request '/echo', (err, data) ->
@@ -27,7 +27,7 @@ suite 'Request (slow)', ->
 
     test 'post request', (done) ->
         countdown = new Number.Countdown(3, done)
-        obj = {fizz: 1, bar: 2}
+        obj = fizz: 1, bar: 2
         query = request.query obj
 
         request url: '/echo', method: 'post', (err, data) ->
@@ -80,8 +80,8 @@ suite 'Request (slow)', ->
             done()
 
     test 'timeout', (done) ->
-        request url: '/sleep', timeout: '1', (err, data) ->
-            assert.equal err.message, 'Timeout'
+        request url: '/sleep?' + Date.now(), timeout: '1', (err, data) ->
+            assert.instanceOf err, Error
             done()
 
     test 'parse error', (done) ->
@@ -128,7 +128,50 @@ suite 'Request (slow)', ->
         assert.equal request.query({foo: {one: 1, two: 2}}), escape 'foo[one]=1&foo[two]=2'
         assert.equal request.query({ids: [1,2,3]}), escape 'ids[]=1&ids[]=2&ids[]=3'
         assert.equal request.query({foo: 'bar', nested: {will: 'not be ignored'}}), escape 'foo=bar&nested[will]=not+be+ignored'
-        assert.equal request.query([{name: 'foo', value: 'bar'}]), escape 'foo=bar'
+
+    test 'form query', ->
+        form = makeElement 'form', """
+            <input name="email" value="koss@nocorp.me">
+            <input name="password" value="123456">
+            <input name="ops" value="123456" disabled>
+            <input name="unchecked_hasValue" value="myValue" type="checkbox">
+            <input name="unchecked_noValue" type="checkbox">
+            <input name="checked_hasValue" checked value="myValue" type="checkbox">
+            <input name="checked_disabled" checked value="ImDisabled" type="checkbox" disabled>
+            <input name="checked_noValue" checked type="checkbox">
+
+            <fieldset>
+              <input type="radio" name="radio1" value="r1">
+              <input type="radio" name="radio1" checked value="r2">
+              <input type="radio" name="radio1" value="r3">
+            </fieldset>
+
+            <textarea name="textarea">text</textarea>
+
+            <select name="selectbox">
+                <option value="selectopt1">select1</option>
+                <option value="selectopt2">select2</option>
+                <option value="selectopt3">select3</option>
+            </select>
+
+            <select name="selectbox-multiple" multiple>
+                <option value="selectopt1" selected>select1</option>
+                <option value="selectopt2">select2</option>
+                <option value="selectopt3" selected>select3</option>
+            </select>
+
+            <div class="actions">
+              <input type="submit" name="submit" value="Save">
+              <input type="button" name="preview" value="Preview">
+              <input type="reset" name="clear" value="Clear form">
+              <button name="button">I'm a button</button>
+            </div>
+        """
+
+        query = $(form).query()
+        # phantomjs dont keeps fields order
+        query = query.split('&').sort().join('&')
+        assert.equal query, 'checked_hasValue=myValue&checked_noValue=on&email=koss%40nocorp.me&password=123456&radio1=r2&selectbox-multiple%5B%5D=selectopt1&selectbox-multiple%5B%5D=selectopt3&selectbox=selectopt1&textarea=text'
 
     test 'Rye', (done) ->
         countdown = new Number.Countdown(3, done)
