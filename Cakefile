@@ -73,6 +73,7 @@ task 'lint', ->
 option '-b', '--browser [BROWSER]', 'Browser for test tasks'
 option '-q', '--quick', 'Skip slow tests'
 option '-p', '--port', 'Server port'
+option '-g', '--grep [STRING]', 'Grep test'
 
 task 'build:test', ->
     bundle 'test/*.coffee', 'test/spec.js'
@@ -97,6 +98,7 @@ task 'test', (options) ->
     else
         port = options.port || 3000
         test_url = "http://localhost:#{port}/#{test_path}"
+        test_url += "?grep=#{options.grep}" if options.grep
 
         testServer = require('./test-server')
         testServer.listen port
@@ -104,17 +106,10 @@ task 'test', (options) ->
     browser = options.browser or 'Google Chrome'
 
     if browser is 'PhantomJS'
-        testServer.silent = true
-
-        setTimeout ->
-            mocha = cp.spawn "mocha-phantomjs", [test_url]
-
-            mocha.stdout.on 'data', (data) ->
-                util.print data.toString()
-
-            mocha.on 'exit', (code) ->
-                process.exit(code)
-        , 1000
+        mocha = cp.spawn './node_modules/.bin/mocha-phantomjs', [test_url]
+        mocha.stdout.pipe process.stdout
+        mocha.on 'exit', (code) ->
+            process.exit(code)
 
     else
         testScript = require('./test-browsers')
