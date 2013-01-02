@@ -4,11 +4,6 @@ path        = require 'path'
 fs          = require 'fs'
 querystring = require 'querystring'
 
-sleep = (ms) ->
-    # it is disgusting
-    time = new Date().getTime() + ms
-    while new Date().getTime() <= time then
-
 page =
     notFound: (res, data) ->
         res.writeHead 404, 'Content-Type': 'text/plain'
@@ -68,6 +63,7 @@ parseRequest = (callback) ->
 request = parseRequest (req, res) ->
     pathname = req.url.pathname
     status = 200
+    sleep = 0
     headers = {}
     data = null
 
@@ -89,7 +85,8 @@ request = parseRequest (req, res) ->
             data = "content type #{req.headers['content-type']}"
 
         when '/sleep'
-            sleep(10)
+            data = 'sleep'
+            sleep = 5
 
         when '/accept'
             accept = req.headers['accept'].split(/[/,]/)[1]
@@ -106,10 +103,12 @@ request = parseRequest (req, res) ->
                     headers['Content-Type'] = 'application/xml, text/xml'
                     data = '<?xml version="1.0" encoding="UTF-8" ?><content>ok</content>'
 
-    if data
-        res.writeHead status, headers
-        res.write data
-        res.end()
+    if data or sleep
+        setTimeout ->
+            res.writeHead status, headers
+            res.write data
+            res.end()
+        , sleep
 
     # Static files
     # ---------------------
