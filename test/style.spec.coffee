@@ -21,6 +21,17 @@ suite 'Style', ->
         style.setCSS(div, 'margin-left', '')
         assert.isFalse !!div.getAttribute('style')
 
+    test 'setCSS - to remove', ->
+        div = document.createElement('div')
+        
+        style.setCSS(div, 'margin-left', 2)
+        style.setCSS(div, 'margin', null)
+        assert.isFalse !!div.getAttribute('style')
+
+        style.setCSS(div, 'margin-left', 2)
+        style.setCSS(div, 'margin', '')
+        assert.isFalse !!div.getAttribute('style')
+
     test 'get css', ->
         div = document.createElement('div')
         div.style.marginLeft = '2px'
