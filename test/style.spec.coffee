@@ -1,5 +1,5 @@
 
-suite 'Style methods', ->
+suite 'Style', ->
 
     test 'getCSS', ->
         div = document.createElement('div')

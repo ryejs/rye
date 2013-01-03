@@ -1,5 +1,5 @@
 
-suite 'Collection methods', ->
+suite 'Collection', ->
 
     test 'get all', ->
         list = list_items()

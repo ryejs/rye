@@ -86,7 +86,7 @@ request = parseRequest (req, res) ->
 
         when '/sleep'
             data = 'sleep'
-            sleep = 5
+            sleep = 500
 
         when '/accept'
             accept = req.headers['accept'].split(/[/,]/)[1]
