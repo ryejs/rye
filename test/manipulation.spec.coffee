@@ -33,7 +33,7 @@ suite 'Manipulation', ->
         contents = '<p>Hello</p>'
         $(div).append(contents)
         assert.lengthOf div.childNodes, 2
-        assert.equal div.getElementsByTagName('p')[0].innerText, 'Hello'
+        assert.equal div.getElementsByTagName('p')[0].textContent, 'Hello'
         assert.equal div.getElementsByTagName('*')[1].tagName, 'P'
 
     test 'append element', ->
@@ -54,7 +54,7 @@ suite 'Manipulation', ->
         contents = '<p>Hello</p>'
         $(div).prepend(contents)
         assert.lengthOf div.childNodes, 2
-        assert.equal div.getElementsByTagName('p')[0].innerText, 'Hello'
+        assert.equal div.getElementsByTagName('p')[0].textContent, 'Hello'
         assert.equal div.getElementsByTagName('*')[0].tagName, 'P'
 
     test 'prepend element', ->
