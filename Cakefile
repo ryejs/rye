@@ -4,9 +4,6 @@ flour          = require 'flour'
 rimraf         = require 'rimraf'
 util           = require 'util'
 
-# Build tasks
-# ===========
-
 sources = [
     'lib/rye.js'
     'lib/util.js'
@@ -22,8 +19,8 @@ sources = [
 
 [minifiers, flour.minifiers.js] = [flour.minifiers.js, null]
 
-# Builds
-# ===========
+# Builds & Watch
+# ==============
 
 build =
     prod: (options, cb) ->
@@ -48,22 +45,22 @@ task 'build:test', build.test
 task 'build', (options) -> 
     build.prod options, -> build.dev options, -> build.test options
 
-# Clear
-# ===========
-
-task 'clear', ->
-    rimraf.sync 'dist'
-    try fs.unlinkSync 'test/spec.js'
-
-# Development
-# ===========
-
 task 'watch', ->
     invoke 'build:dev'
     invoke 'build:test'
 
     watch 'test/*.coffee', -> invoke 'build:test'
     watch 'lib/*.js', -> invoke 'build:dev'
+
+# Clear
+# ==============
+
+task 'clear', ->
+    rimraf.sync 'dist'
+    try fs.unlinkSync 'test/spec.js'
+
+# Lint
+# ==============
 
 task 'lint', ->
     flour.linters.js.options =
@@ -89,60 +86,65 @@ task 'lint', ->
     lint 'lib/*.js'
 
 # Testing
-# =======
+# ==============
 
 option '-b', '--browser [BROWSER]', 'Browser for test tasks'
 option '-q', '--quick', 'Skip slow tests'
 option '-p', '--port', 'Server port'
 option '-g', '--grep [STRING]', 'Grep test'
 
-task 'test', (options) ->
+test =
+    assets: "/test/assets/"
+    require: (module) ->
+        require ".#{this.assets}#{module}"
+    url: (options) ->
+        if options.quick
+            url = "file:///#{process.cwd()}#{this.assets}index.html?grep=(slow)&invert=true"
+        else
+            url = "http://localhost:#{this.port(options)}#{this.assets}"
+            url += "?grep=#{options.grep}" if options.grep
+        url
+    port: (options) ->
+        options.port || 3000
 
-    invoke 'build:dev'
-    invoke 'build:test'
-    
-    ###
+task 'test:server', (options) ->
+    server = test.require('server')
+    server.listen test.port(options)
+
+###
     Examples:
         cake test (open default browser and run all tests)
         cake -q test (run in Chrome, skip slow tests)
         cake -q -b Safari (run in Safari, skip slow tests)
     Browsers: 'Google Chrome', 'Firefox', 'Safari', 'PhantomJS'
-    ###
-
-    test_path = "test/assets/index.html"
-
-    if options.quick
-        test_url = "file:///#{process.cwd()}/#{test_path}?grep=(slow)&invert=true"
-    else
-        port = options.port || 3000
-        test_url = "http://localhost:#{port}/#{test_path}"
-        test_url += "?grep=#{options.grep}" if options.grep
-
-        testServer = require('./test-server')
-        testServer.listen port
-
+###
+task 'test', (options) ->
+    invoke 'build:dev'
+    invoke 'build:test'
+    invoke 'test:server' unless options.quick
+    
+    url = test.url(options)
     browser = options.browser or 'Google Chrome'
 
     if browser is 'PhantomJS'
-        mocha = cp.spawn './node_modules/.bin/mocha-phantomjs', [test_url]
+        mocha = cp.spawn './node_modules/.bin/mocha-phantomjs', [url]
         mocha.stdout.pipe process.stdout
         mocha.on 'exit', (code) ->
             process.exit(code)
 
     else
-        testScript = require('./test-browsers')
-
         if not options.browser and not options.quick
-            cp.exec """open '#{test_url}'"""
+            cp.exec """open '#{url}'"""
         else if process.platform is 'darwin'
+            browsers = test.require('browsers')
             osa = cp.spawn 'osascript', []
-            osa.stdin.write testScript browser, test_url
+            osa.stdin.write browsers browser, url
             osa.stdin.end()
         else
-            cp.exec """open -a "#{browser}" '#{test_url}'"""
+            cp.exec """open -a "#{browser}" '#{url}'"""
 
 # Coverage
-# =======
+# ==============
 
 task 'build:cov', ->
     rimraf.sync '.coverage'
