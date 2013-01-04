@@ -39,9 +39,7 @@ task 'watch', ->
     invoke 'build:dev'
     invoke 'build:test'
 
-    watch 'test/assets/index.html', -> invoke 'build:test'
     watch 'test/*.coffee', -> invoke 'build:test'
-
     watch 'lib/*.js', -> invoke 'build:dev'
 
 task 'lint', ->

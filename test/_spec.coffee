@@ -1,6 +1,6 @@
 exports = {}
 
-exports.assert = chai.assert
+exports.assert = (chai or require('chai')).assert
 
 exports.$ = Rye
 
@@ -47,6 +47,30 @@ exports.fire = (type, element, x, y) ->
 exports.down = (element, x, y) -> fire 'start', element, x, y
 exports.move = (element, x, y) -> fire 'move', element, x, y
 exports.up = (element) -> fire 'end', element
+
+#
+# Template
+#
+
+do ->
+    test = document.createElement('section')
+    test.id = 'test'
+    document.body.appendChild(test)
+
+    setup ->
+        test.innerHTML = """
+            <header>
+                <h2>This is the test area</h2>
+            </header>
+            <div class="content">
+                <p id="hello">Hello</p>
+                <ul class="list">
+                    <li class="a">One</li>
+                    <li class="b">Two</li>
+                    <li class="c">Three</li>
+                </ul>
+            </div>
+        """
 
 #
 # Rye modules

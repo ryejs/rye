@@ -19,45 +19,13 @@
 <body>
 
     <div id="mocha"></div>
-
-    <div id="test-template">
-        <header>
-            <h2>This is the test area</h2>
-        </header>
-        <div class="content">
-            <p id="hello">Hello</p>
-            <ul class="list">
-                <li class="a">One</li>
-                <li class="b">Two</li>
-                <li class="c">Three</li>
-            </ul>
-        </div>
-    </div>
-
-    <section id="test"></section>
-
+    
     <script src="../../node_modules/es5-shim/es5-shim.js"></script>
     <script src="../../node_modules/chai/chai.js"></script>
     <script src="../../node_modules/mocha/mocha.js"></script>
     <script>
         mocha.ui('tdd'); 
         mocha.reporter('html');
-    </script>
-
-    <script>
-    (function(){
-
-        var template = document.getElementById('test-template')
-          , test = document.getElementById('test')
-          , html = template.innerHTML
-
-        document.body.removeChild(template)
-
-        setup(function(){
-            test.innerHTML = html
-        })
-
-    })()
     </script>
 
     <script src="../../dist/rye.js"></script>
