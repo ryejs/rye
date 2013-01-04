@@ -21,7 +21,7 @@ thumbs.db
 
 dist
 
-test/spec*.js
+test/spec.js
 test/deps.js
 test/test.css
 
