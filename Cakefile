@@ -22,15 +22,38 @@ sources = [
 
 [minifiers, flour.minifiers.js] = [flour.minifiers.js, null]
 
-task 'build', ->
-    try fs.mkdirSync 'dist'
-    flour.minifiers.js = minifiers
-    bundle sources, 'dist/rye.min.js', ->
-        flour.minifiers.js = null
+# Builds
+# ===========
 
-task 'build:dev', ->
-    try fs.mkdirSync 'dist'
-    bundle sources, 'dist/rye.js'        
+build =
+    prod: (options, cb) ->
+        try fs.mkdirSync 'dist'
+        flour.minifiers.js = minifiers
+        bundle sources, 'dist/rye.min.js', ->
+            flour.minifiers.js = null
+            cb()
+
+    dev: (options, cb) ->
+        try fs.mkdirSync 'dist'
+        bundle sources, 'dist/rye.js', cb
+
+    test: (options, cb) ->
+        bundle 'test/*.coffee', 'test/spec.js', cb
+
+
+task 'build:prod', build.prod
+task 'build:dev', build.dev
+task 'build:test', build.test
+
+task 'build', (options) -> 
+    build.prod options, -> build.dev options, -> build.test options
+
+# Clear
+# ===========
+
+task 'clear', ->
+    rimraf.sync 'dist'
+    try fs.unlinkSync 'test/spec.js'
 
 # Development
 # ===========
@@ -72,9 +95,6 @@ option '-b', '--browser [BROWSER]', 'Browser for test tasks'
 option '-q', '--quick', 'Skip slow tests'
 option '-p', '--port', 'Server port'
 option '-g', '--grep [STRING]', 'Grep test'
-
-task 'build:test', ->
-    bundle 'test/*.coffee', 'test/spec.js'
 
 task 'test', (options) ->
 
