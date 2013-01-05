@@ -6,8 +6,7 @@ suite 'Style', ->
         div.style.marginLeft = '2px'
         assert.equal style.getCSS(div, 'margin-left'), '2px'
 
-        test = document.getElementById('test')
-        assert.equal style.getCSS(test, 'position'), 'absolute'
+        assert.equal style.getCSS(document.body, 'display'), 'block'
     
     test 'setCSS', ->
         div = document.createElement('div')
