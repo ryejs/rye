@@ -173,7 +173,7 @@ suite 'Request (slow)', ->
         query = query.split('&').sort().join('&')
         assert.equal query, 'checked_hasValue=myValue&checked_noValue=on&email=koss%40nocorp.me&password=123456&radio1=r2&selectbox-multiple%5B%5D=selectopt1&selectbox-multiple%5B%5D=selectopt3&selectbox=selectopt1&textarea=text'
 
-        form.innerHTML = ''
+        form = makeElement 'form'
         query = $(form).query()
         assert.equal query, ''
 
