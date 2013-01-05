@@ -101,24 +101,6 @@ option '-q', '--quick', 'Skip slow tests'
 option '-p', '--port', 'Server port'
 option '-g', '--grep [STRING]', 'Grep test'
 
-test =
-    assets: "/test/assets/"
-    require: (module) ->
-        require ".#{this.assets}#{module}"
-    url: (options) ->
-        if options.quick
-            url = "file:///#{process.cwd()}#{this.assets}index.html?grep=(slow)&invert=true"
-        else
-            url = "http://localhost:#{this.port(options)}#{this.assets}"
-            url += "?grep=#{options.grep}" if options.grep
-        url
-    port: (options) ->
-        options.port || 3000
-
-task 'test:server', (options) ->
-    server = test.require('server')
-    server.listen test.port(options)
-
 ###
     Examples:
         cake test (open default browser and run all tests)
@@ -129,9 +111,21 @@ task 'test:server', (options) ->
 task 'test', (options) ->
     invoke 'build:dev'
     invoke 'build:test'
-    invoke 'test:server' unless options.quick
+
+    assets = "/test/assets/"
+    port = options.port || 3000
+    if options.quick
+        url = "file:///#{process.cwd()}#{assets}index.html?grep=(slow)&invert=true"
+    else
+        url = "http://localhost:#{port}#{assets}"
+        url += "?grep=#{options.grep}" if options.grep
+
+    # server
+    unless options.quick
+        server = require ".#{assets}server"
+        server.listen port
     
-    url = test.url(options)
+    # browser
     browser = options.browser or 'Google Chrome'
 
     if browser is 'PhantomJS'
@@ -144,7 +138,7 @@ task 'test', (options) ->
         if not options.browser and not options.quick
             cp.exec """open '#{url}'"""
         else if process.platform is 'darwin'
-            browsers = test.require('browsers')
+            browsers = require ".#{assets}browsers"
             osa = cp.spawn 'osascript', []
             osa.stdin.write browsers browser, url
             osa.stdin.end()
