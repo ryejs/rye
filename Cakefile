@@ -66,24 +66,32 @@ task 'lint', ->
     flour.linters.js.options =
         forin    : true
         immed    : true
+        # indent   : true
         latedef  : true
         newcap   : true
+        noarg    : true
+        noempty  : true
         nonew    : true
+        quotmark : 'single'
         undef    : true
-        #unused   : true
+        unused   : true
         asi      : true
         boss     : true
         curly    : true
         eqnull   : true
         laxbreak : true
         laxcomma : true
-        browser  : true
+        sub      : true
         supernew : true
+        browser  : true
 
     flour.linters.js.globals =
         Rye      : true
 
-    lint 'lib/*.js'
+    lint 'lib/*.js', (files) ->
+        # for file, res of files
+        #     process.exit(1) if res.output
+
 
 # Testing
 # ==============
