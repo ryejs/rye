@@ -1,6 +1,7 @@
 fs             = require 'fs'
 cp             = require 'child_process'
 flour          = require 'flour'
+async          = require 'cake-async'
 rimraf         = require 'rimraf'
 util           = require 'util'
 
@@ -22,35 +23,31 @@ sources = [
 # Builds & Watch
 # ==============
 
-build =
-    prod: (options, cb) ->
-        try fs.mkdirSync 'dist'
-        flour.minifiers.js = minifiers
-        bundle sources, 'dist/rye.min.js', ->
-            flour.minifiers.js = null
-            cb()
+async task 'build:prod', (o, done) ->
+    try fs.mkdirSync 'dist'
+    flour.minifiers.js = minifiers
+    bundle sources, 'dist/rye.min.js', ->
+        flour.minifiers.js = null
+        done()
 
-    dev: (options, cb) ->
-        try fs.mkdirSync 'dist'
-        bundle sources, 'dist/rye.js', cb
+async task 'build:dev', (o, done) ->
+    try fs.mkdirSync 'dist'
+    bundle sources, 'dist/rye.js', done
 
-    test: (options, cb) ->
-        bundle 'test/*.coffee', 'test/spec.js', cb
+async task 'build:test', (o, done) ->
+    bundle 'test/*.coffee', 'test/spec.js', done
 
-
-task 'build:prod', build.prod
-task 'build:dev', build.dev
-task 'build:test', build.test
-
-task 'build', (options) -> 
-    build.prod options, -> build.dev options, -> build.test options
+task 'build', ->
+    invoke async 'build:prod'
+    invoke async 'build:dev'
+    invoke async 'build:test'
 
 task 'watch', ->
-    invoke 'build:dev'
-    invoke 'build:test'
-
-    watch 'test/*.coffee', -> invoke 'build:test'
-    watch 'lib/*.js', -> invoke 'build:dev'
+    invoke async 'build:dev'
+    invoke async 'build:test'
+    async.end ->
+        watch 'test/*.coffee', -> invoke 'build:test'
+        watch 'lib/*.js', -> invoke 'build:dev'
 
 # Clear
 # ==============
@@ -62,7 +59,7 @@ task 'clear', ->
 # Lint
 # ==============
 
-task 'lint', ->
+async task 'lint', (o, done) ->
     flour.linters.js.options =
         forin    : true
         immed    : true
@@ -88,10 +85,7 @@ task 'lint', ->
     flour.linters.js.globals =
         Rye      : true
 
-    lint 'lib/*.js', (files) ->
-        # for file, res of files
-        #     process.exit(1) if res.output
-
+    lint 'lib/*.js', done
 
 # Testing
 # ==============
@@ -108,30 +102,31 @@ option '-g', '--grep [STRING]', 'Grep test'
         cake -q -b Safari (run in Safari, skip slow tests)
     Browsers: 'Google Chrome', 'Firefox', 'Safari', 'PhantomJS'
 ###
-task 'test', (options) ->
+async task 'test', (o, done) ->
     invoke 'build:dev'
     invoke 'build:test'
 
     assets = "/test/assets/"
-    port = options.port || 3000
-    if options.quick
+    port = o.port || 3000
+    if o.quick
         url = "file:///#{process.cwd()}#{assets}index.html?grep=(slow)&invert=true"
     else
         url = "http://localhost:#{port}#{assets}"
-        url += "?grep=#{options.grep}" if options.grep
+        url += "?grep=#{o.grep}" if o.grep
 
     # server
-    unless options.quick
+    unless o.quick
         server = require ".#{assets}server"
         server.listen port
     
     # browser
-    browser = options.browser or 'Google Chrome'
+    browser = o.browser or 'Google Chrome'
 
     if browser is 'PhantomJS'
         phantomjs = cp.spawn 'phantomjs', [".#{assets}phantomjs.coffee", url]
         phantomjs.stdout.pipe process.stdout
         phantomjs.on 'exit', (code) ->
+            done()
             process.exit(code)
 
     else
@@ -142,6 +137,7 @@ task 'test', (options) ->
             osa.stdin.end()
         else
             cp.exec "open -a '#{browser}' '#{url}'"
+        done()
 
 # Coverage
 # ==============

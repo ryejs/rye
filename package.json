@@ -8,6 +8,7 @@
     "devDependencies": {
         "rimraf": "",
         "flour": "",
+        "cake-async": "",
         "uglify-js": "2.2.0",
         "jshint": "",
         "coffee-script": "1.4.0"
