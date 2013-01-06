@@ -129,21 +129,19 @@ task 'test', (options) ->
     browser = options.browser or 'Google Chrome'
 
     if browser is 'PhantomJS'
-        mocha = cp.spawn './node_modules/.bin/mocha-phantomjs', [url]
-        mocha.stdout.pipe process.stdout
-        mocha.on 'exit', (code) ->
+        phantomjs = cp.spawn 'phantomjs', [".#{assets}phantomjs.coffee", url]
+        phantomjs.stdout.pipe process.stdout
+        phantomjs.on 'exit', (code) ->
             process.exit(code)
 
     else
-        if not options.browser and not options.quick
-            cp.exec """open '#{url}'"""
-        else if process.platform is 'darwin'
-            browsers = require ".#{assets}browsers"
-            osa = cp.spawn 'osascript', []
+        if process.platform is 'darwin'
+            browsers = require ".#{assets}browsers-osx"
+            osa = cp.spawn 'osascript'
             osa.stdin.write browsers browser, url
             osa.stdin.end()
         else
-            cp.exec """open -a "#{browser}" '#{url}'"""
+            cp.exec "open -a '#{browser}' '#{url}'"
 
 # Coverage
 # ==============
