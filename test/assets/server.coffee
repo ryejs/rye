@@ -64,7 +64,7 @@ request = parseRequest (req, res) ->
     pathname = req.url.pathname
     status = 200
     sleep = 0
-    headers = {}
+    headers = 'Access-Control-Allow-Origin': '*'
     data = null
 
     # Special test requests

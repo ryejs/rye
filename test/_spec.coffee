@@ -53,6 +53,13 @@ exports.move = (element, x, y) -> fire 'move', element, x, y
 exports.up = (element) -> fire 'end', element
 
 #
+# Server
+#
+do ->
+    query = Mocha.utils.parseQuery window.location.search or ''
+    exports.server = window.server or query.server or ''
+
+#
 # Template
 #
 
