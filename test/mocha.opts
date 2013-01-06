@@ -1,5 +1,0 @@
---require chai
---ui bdd
---compilers coffee:coffee-script
---reporter spec
---globals assert, $, list_items, ajax
