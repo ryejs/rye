@@ -2,8 +2,8 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" href="../../node_modules/mocha/mocha.css">
+    <title>Mocha</title>
+    <link rel="stylesheet" href="../libs/mocha.css">
     <style>
         #test {
             position: absolute;
@@ -17,25 +17,24 @@
     </style>
 </head>
 <body>
-
     <div id="mocha"></div>
     
-    <script src="../../node_modules/es5-shim/es5-shim.js"></script>
-    <script src="../../node_modules/chai/chai.js"></script>
-    <script src="../../node_modules/mocha/mocha.js"></script>
+    <script src="../libs/es5-shim.js"></script>
+    <script src="../libs/chai.js"></script>
+    <script src="../libs/mocha.js"></script>
     <script>
-        mocha.ui('tdd'); 
-        mocha.reporter('html');
+        mocha.ui('tdd')
+        mocha.reporter('html')
+
+        if (window._phantom) {
+            document.write('<scr' + 'ipt src="phantomjs-script.js"></sc' + 'ript>')
+        }
     </script>
 
     <script src="../../dist/rye.js"></script>
     <script src="../spec.js"></script>
     <script>
-        if (window.mochaPhantomJS) {
-            mochaPhantomJS.run();
-        } else {
-            mocha.run();
-        }
+        mocha.run()
     </script>
 </body>
 </html>
