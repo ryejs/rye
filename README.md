@@ -5,7 +5,7 @@ Website and documentation http://ryejs.com
 
 [![Build Status](https://secure.travis-ci.org/jcemer/rye.png?branch=master)](http://travis-ci.org/jcemer/rye)
 
-**Rye** is a lightweight javascript library for DOM manipulation and events with support for **all modern browsers** including IE9+. It has support for **touch events/gestures**, an **even emitter** which you can use to extend your own objects, and a **jQuery-compatible** API.
+**Rye** is a lightweight javascript library for DOM manipulation and events with support for **all modern browsers**, including IE9+. It also has **touch events/gestures**, an **event emitter** constructor, and a **jQuery-like** API.
 
 Browser compatiblity
 --------------------
@@ -51,39 +51,39 @@ Browser compatiblity
 <thead>
 <tr>
 <th id="browser" style="text-align:left;"> Browser           </th>
-<th id="version" style="text-align:left;"> Version </th>
+<th id="version" style="text-align:left;"> Version      </th>
 </tr>
 </thead>
 
 <tbody>
 <tr>
 <td style="text-align:left;"> iOS               </td>
-<td style="text-align:left;"> 4.1+    </td>
+<td style="text-align:left;"> 4.1+ (6.0.1) </td>
 </tr>
 
 <tr>
 <td style="text-align:left;"> Android           </td>
-<td style="text-align:left;"> 4.0+    </td>
+<td style="text-align:left;"> 4.0+         </td>
 </tr>
 
 <tr>
 <td style="text-align:left;"> Blackberry        </td>
-<td style="text-align:left;"> 10+     </td>
+<td style="text-align:left;"> 10+          </td>
 </tr>
 
 <tr>
 <td style="text-align:left;"> Opera Mobile      </td>
-<td style="text-align:left;"> 11.1+   </td>
+<td style="text-align:left;"> 11.1+ (12.1) </td>
 </tr>
 
 <tr>
 <td style="text-align:left;"> Chrome (Android)  </td>
-<td style="text-align:left;"> 18+     </td>
+<td style="text-align:left;"> 18+ (18)     </td>
 </tr>
 
 <tr>
 <td style="text-align:left;"> Firefox (Android) </td>
-<td style="text-align:left;"> 15+     </td>
+<td style="text-align:left;"> 15+ (18)     </td>
 </tr>
 
 </tbody>
@@ -158,6 +158,7 @@ API
 - [`val`](http://ryejs.com#manipulation-val)
 - [`attr`](http://ryejs.com#manipulation-attr)
 - [`prop`](http://ryejs.com#manipulation-prop)
+- [`Rye.create`](http://ryejs.com#manipulation-ryecreate)
 - [`@getValue`](http://ryejs.com#manipulation-@getvalue)
 - [`@getAttribute`](http://ryejs.com#manipulation-@getattribute)
 
@@ -192,13 +193,13 @@ API
 - [`proxy`](http://ryejs.com#domeventemitter-proxy)
 
 ### Events
-- [`addListener (on)`](http://ryejs.com#events-addlisteneron)
+- [`addListener`](http://ryejs.com#events-addlistener)
 - [`once`](http://ryejs.com#events-once)
 - [`removeListener`](http://ryejs.com#events-removelistener)
 - [`trigger`](http://ryejs.com#events-trigger)
 - [`@getEmitter`](http://ryejs.com#events-@getemitter)
 - [`@createEvent`](http://ryejs.com#events-@createevent)
-- [`@addListener (@on)`](http://ryejs.com#events-@addlistener@on)
+- [`@addListener`](http://ryejs.com#events-@addlistener)
 - [`@once`](http://ryejs.com#events-@once)
 - [`@removeListener`](http://ryejs.com#events-@removelistener)
 - [`@trigger`](http://ryejs.com#events-@trigger)
@@ -209,6 +210,7 @@ API
 ### Touch Events
 
 ### Request
+- [`query`](http://ryejs.com#request-query)
 - [`Rye.request()`](http://ryejs.com#request-ryerequest)
 - [`Rye.get()`](http://ryejs.com#request-ryeget)
 - [`Rye.post()`](http://ryejs.com#request-ryepost)
