@@ -20,6 +20,23 @@ suite 'Manipulation', ->
         $(div).html(contents)
         assert.equal $(div).html(), contents
 
+    test 'create elements', ->
+        div = $.create """
+            <div class="yes">
+                <p>Hi</p>
+            </div>
+        """
+        assert.equal div.get(0).querySelector('p').textContent, 'Hi'
+
+    test 'create elements multiple', ->
+        div = $.create """
+            <div class="one">1</div>
+            <div class="two">2</div>
+        """
+        assert.equal div.length, 2
+        assert.equal div.get(0).className, 'one'
+        assert.equal div.get(1).className, 'two'
+
     test 'empty', ->
         div = makeElement 'div', '<p>a</p><p>b</p><p>c</p>'
         el = $(div).children()
