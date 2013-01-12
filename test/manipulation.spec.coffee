@@ -144,6 +144,11 @@ suite 'Manipulation', ->
         assert.notEqual cloned.get(0), el.get(0)
         assert.equal cloned.html(), el.html()
 
+    test 'remove', ->
+        list = list_items()
+        list.filter('.a').remove()
+        assert.lengthOf list_items(), 2
+
     test 'set val', ->
         input = makeElement 'input', '', value: 'foo'
         el = $(input).val('bar')
