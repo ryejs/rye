@@ -4,7 +4,7 @@ suite 'Request (slow)', ->
     test 'get request', (done) ->
         countdown = new Number.Countdown(4, done)
         obj = fizz: 1, bar: 2
-        query = request.query obj
+        serialize = request.serialize obj
 
         request "#{server}/echo", (err, data) ->
             assert.equal @method, 'GET'
@@ -12,12 +12,12 @@ suite 'Request (slow)', ->
             countdown.fire()
 
         request url: "#{server}/echo", method: 'get', data: obj, callback: (err, data) ->
-            assert.deepEqual @data, query
+            assert.deepEqual @data, serialize
             assert.equal data, 'get 2'
             countdown.fire()
 
-        request url: "#{server}/echo", method: 'get', data: query, callback: (err, data) ->
-            assert.deepEqual @data, query
+        request url: "#{server}/echo", method: 'get', data: serialize, callback: (err, data) ->
+            assert.deepEqual @data, serialize
             assert.equal data, 'get 2'
             countdown.fire()
 
@@ -28,7 +28,7 @@ suite 'Request (slow)', ->
     test 'post request', (done) ->
         countdown = new Number.Countdown(3, done)
         obj = fizz: 1, bar: 2
-        query = request.query obj
+        serialize = request.serialize obj
 
         request url: "#{server}/echo", method: 'post', (err, data) ->
             assert.equal @method, 'POST'
@@ -36,7 +36,7 @@ suite 'Request (slow)', ->
             countdown.fire()
 
         request url: "#{server}/echo", method: 'post', data: obj, (err, data) ->
-            assert.deepEqual @data, query
+            assert.deepEqual @data, serialize
             assert.equal data, 'post 2'
             countdown.fire()
 
@@ -124,12 +124,12 @@ suite 'Request (slow)', ->
         assert.equal request.appendQuery('url?par=1', 'bar=2'), 'url?par=1&bar=2'
         assert.equal request.appendQuery('??', '?par=1'), '?par=1'
 
-    test 'query', ->
-        assert.equal request.query({foo: {one: 1, two: 2}}), escape 'foo[one]=1&foo[two]=2'
-        assert.equal request.query({ids: [1,2,3]}), escape 'ids[]=1&ids[]=2&ids[]=3'
-        assert.equal request.query({foo: 'bar', nested: {will: 'not be ignored'}}), escape 'foo=bar&nested[will]=not+be+ignored'
+    test 'serialize', ->
+        assert.equal request.serialize({foo: {one: 1, two: 2}}), escape 'foo[one]=1&foo[two]=2'
+        assert.equal request.serialize({ids: [1,2,3]}), escape 'ids[]=1&ids[]=2&ids[]=3'
+        assert.equal request.serialize({foo: 'bar', nested: {will: 'not be ignored'}}), escape 'foo=bar&nested[will]=not+be+ignored'
 
-    test 'form query', ->
+    test 'form serialize', ->
         form = makeElement 'form', """
             <input name="email" value="koss@nocorp.me">
             <input name="password" value="123456">
@@ -168,17 +168,17 @@ suite 'Request (slow)', ->
             </div>
         """
 
-        query = $(form).query()
+        serialize = $(form).serialize()
         # phantomjs dont keeps fields order
-        query = query.split('&').sort().join('&')
-        assert.equal query, 'checked_hasValue=myValue&checked_noValue=on&email=koss%40nocorp.me&password=123456&radio1=r2&selectbox-multiple%5B%5D=selectopt1&selectbox-multiple%5B%5D=selectopt3&selectbox=selectopt1&textarea=text'
+        serialize = serialize.split('&').sort().join('&')
+        assert.equal serialize, 'checked_hasValue=myValue&checked_noValue=on&email=koss%40nocorp.me&password=123456&radio1=r2&selectbox-multiple%5B%5D=selectopt1&selectbox-multiple%5B%5D=selectopt3&selectbox=selectopt1&textarea=text'
 
         form = makeElement 'form'
-        query = $(form).query()
-        assert.equal query, ''
+        serialize = $(form).serialize()
+        assert.equal serialize, ''
 
-        query = $([]).query()
-        assert.equal query, ''
+        serialize = $([]).serialize()
+        assert.equal serialize, ''
 
 
     test 'Rye', (done) ->
