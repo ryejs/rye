@@ -60,6 +60,15 @@ suite 'Manipulation', ->
         assert.equal $('#test .content').next().get(0), el
         assert.equal $('#test p').get(-1), el
 
+    test 'append Rye collection', ->
+        content = $('.content')
+        p = $(document.createElement('p'))
+        children1 = content.children()
+        content.append(p)
+        children2 = content.children()
+        assert.lengthOf children2, children1.length + 1
+        assert.equal children2.get(-1), p.get(0)
+
     test 'append to a collection', ->
         el = makeElement 'p', 'test', { className: 'test-append-element' }
         list = list_items()
@@ -80,6 +89,15 @@ suite 'Manipulation', ->
         assert.lengthOf $('#test .test-prepend-element'), 1
         assert.equal $('#test p').get(0), el
 
+    test 'prepend Rye collection', ->
+        content = $('.content')
+        p = $(document.createElement('p'))
+        children1 = content.children()
+        content.prepend(p)
+        children2 = content.children()
+        assert.lengthOf children2, children1.length + 1
+        assert.equal children2.get(0), p.get(0)
+
     test 'prepend to a collection', ->
         el = makeElement 'p', 'test', { className: 'test-append-element' }
         list = list_items()
@@ -88,7 +106,7 @@ suite 'Manipulation', ->
 
     test 'prepend to empty', ->
         el = makeElement 'p', '', { className: 'test-prepend-element' }
-        item = list_items().filter('.a')
+        item = list_items().filter('.a').get(0)
         $(el).prepend(item)
         assert.lengthOf el.children, 1
 
@@ -112,6 +130,12 @@ suite 'Manipulation', ->
         assert.equal el.next().get(0), li
         assert.equal $('.list li').last().get(0), li
 
+    test 'after with Rye collection', ->
+        content = $('.content')
+        p = $(document.createElement('p'))
+        content.after(p)
+        assert.equal content.next().get(0), p.get(0)
+
     test 'after to collection', ->
         list = list_items()
         li = makeElement 'li', null, { class: 'after-element' }
@@ -132,23 +156,29 @@ suite 'Manipulation', ->
         found = $('#before-element')
         assert.equal el.prev().get(0), found.get(0)
 
+    test 'before with Rye collection', ->
+        content = $('.content')
+        p = $(document.createElement('p'))
+        content.before(p)
+        assert.equal content.prev().get(0), p.get(0)
+
     test 'before to collection', ->
         list = list_items()
         li = makeElement 'li', null, { class: 'before-element' }
         list.before(li)
         assert.equal list_items().length, 6
 
-    test 'attach rye', ->
+    test 'before rye', ->
         list = list_items()
         list.before(list)
         assert.lengthOf list_items(), 9
 
-    test 'attach node list', ->
+    test 'before node list', ->
         list = list_items()
         list.before(document.querySelectorAll('.list li'))
         assert.lengthOf list_items(), 9
 
-    test 'attach array of elements', ->
+    test 'prepend array of elements', ->
         el = $('#hello')
         divs = [
             makeElement 'div', null, { id: 'before-1' }
