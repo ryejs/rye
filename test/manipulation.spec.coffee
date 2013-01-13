@@ -30,12 +30,20 @@ suite 'Manipulation', ->
 
     test 'create elements multiple', ->
         div = $.create """
-            <div class="one">1</div>
-            <div class="two">2</div>
+            <div class="one">hi</div>
+            <div class="two">hello</div>
         """
         assert.equal div.length, 2
         assert.equal div.get(0).className, 'one'
         assert.equal div.get(1).className, 'two'
+        assert.equal div.eq(0).text(), 'hi'
+        assert.equal div.eq(1).text(), 'hello'
+
+    test 'create elements multiple (no text nodes)', ->
+        div = $.create "<div>a</div><div>b</div>"
+        assert.equal div.length, 2
+        assert.equal div.eq(0).text(), 'a'
+        assert.equal div.eq(1).text(), 'b'
 
     test 'empty', ->
         div = makeElement 'div', '<p>a</p><p>b</p><p>c</p>'
