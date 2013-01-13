@@ -48,19 +48,19 @@ suite 'Manipulation', ->
     test 'append', ->
         div = makeElement 'div', '<span>1</span>'
         contents = '<p>Hello</p>'
-        $(div).append(contents)
+        manipulation.append(div, contents)
         assert.lengthOf div.childNodes, 2
         assert.equal div.getElementsByTagName('p')[0].textContent, 'Hello'
         assert.equal div.getElementsByTagName('*')[1].tagName, 'P'
 
     test 'append element', ->
         el = makeElement 'p', 'test', { className: 'test-append-element' }
-        $('#test').append(el)
+        manipulation.append($('#test').get(0), el)
         assert.lengthOf $('#test .test-append-element'), 1
         assert.equal $('#test .content').next().get(0), el
         assert.equal $('#test p').get(-1), el
 
-    test 'append element to elements', ->
+    test 'append to a collection', ->
         el = makeElement 'p', 'test', { className: 'test-append-element' }
         list = list_items()
         list.append(el)
@@ -69,14 +69,14 @@ suite 'Manipulation', ->
     test 'prepend', ->
         div = makeElement 'div', '<span>2</span>'
         contents = '<p>Hello</p>'
-        $(div).prepend(contents)
+        manipulation.prepend(div, contents)
         assert.lengthOf div.childNodes, 2
         assert.equal div.getElementsByTagName('p')[0].textContent, 'Hello'
         assert.equal div.getElementsByTagName('*')[0].tagName, 'P'
 
     test 'prepend element', ->
         el = makeElement 'p', 'test', { className: 'test-prepend-element' }
-        $('#test').prepend(el)
+        manipulation.prepend($('#test').get(0), el)
         assert.lengthOf $('#test .test-prepend-element'), 1
         assert.equal $('#test p').get(0), el
 
@@ -87,22 +87,22 @@ suite 'Manipulation', ->
         assert.lengthOf list.find('.test-append-element'), 3
 
     test 'prepend to empty', ->
-        el = makeElement 'p', 'test', { className: 'test-prepend-element' }
+        el = makeElement 'p', '', { className: 'test-prepend-element' }
         item = list_items().filter('.a')
-        item.prepend(el)
-        assert.lengthOf item.children(), 1
+        $(el).prepend(item)
+        assert.lengthOf el.children, 1
 
     test 'after with html', ->
         el = $('#hello')
-        el.after('<div id="after"></div>')
+        contents = '<div id="after"></div>'
+        manipulation.after(el.get(0), contents)
         found = $('#after')
         assert.equal el.next().get(0), found.get(0)
-        #found.remove() - not implemented
 
     test 'after with element', ->
         el = $('#hello')
         div = makeElement 'div', null, { id: 'after-element' }
-        el.after(div)
+        manipulation.after(el.get(0), div)
         found = $('#after-element')
         assert.equal el.next().get(0), found.get(0)
 
@@ -120,14 +120,15 @@ suite 'Manipulation', ->
 
     test 'before with html', ->
         el = $('#hello')
-        el.before('<div id="before"></div>')
+        contents = '<div id="before"></div>'
+        manipulation.before(el.get(0), contents)
         found = $('#before')
         assert.equal el.prev().get(0), found.get(0)
 
     test 'before with element', ->
         el = $('#hello')
         div = makeElement 'div', null, { id: 'before-element' }
-        el.before(div)
+        manipulation.before(el.get(0), div)
         found = $('#before-element')
         assert.equal el.prev().get(0), found.get(0)
 
@@ -136,6 +137,25 @@ suite 'Manipulation', ->
         li = makeElement 'li', null, { class: 'before-element' }
         list.before(li)
         assert.equal list_items().length, 6
+
+    test 'attach rye', ->
+        list = list_items()
+        list.before(list)
+        assert.lengthOf list_items(), 9
+
+    test 'attach node list', ->
+        list = list_items()
+        list.before(document.querySelectorAll('.list li'))
+        assert.lengthOf list_items(), 9
+
+    test 'attach array of elements', ->
+        el = $('#hello')
+        divs = [
+            makeElement 'div', null, { id: 'before-1' }
+            makeElement 'div', null, { id: 'before-2' }
+        ]
+        el.prepend(divs)
+        assert.equal el.html(), '<div id="before-2"></div><div id="before-1"></div>Hello'
 
     test 'clone', ->
         div = makeElement 'div', 'content'

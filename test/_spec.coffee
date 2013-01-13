@@ -90,6 +90,7 @@ exports.DOMEventEmitter = Rye.require('Events').DOMEventEmitter
 exports.touchEvents     = Rye.require('TouchEvents')
 exports.request         = Rye.require('Request')
 exports.style           = Rye.require('Style')
+exports.manipulation    = Rye.require('Manipulation')
 
 #
 # Exports
