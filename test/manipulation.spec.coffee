@@ -193,7 +193,7 @@ suite 'Manipulation', ->
             makeElement 'div', null, { id: 'before-2' }
         ]
         el.prepend(divs)
-        assert.equal el.html(), '<div id="before-2"></div><div id="before-1"></div>Hello'
+        assert.equal el.html(), '<div id="before-1"></div><div id="before-2"></div>Hello'
 
     test 'clone', ->
         div = makeElement 'div', 'content'
