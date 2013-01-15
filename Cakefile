@@ -24,7 +24,7 @@ console.log """#{cc 32}
 # Config
 # ==============
 
-SOURCES_BASE = [
+sources_base = [
     'lib/rye.js'
     'lib/util.js'
     'lib/data.js'
@@ -35,28 +35,33 @@ SOURCES_BASE = [
     'lib/style.js'
 ]
 
-SOURCES = SOURCES_BASE.concat [
+sources_full = sources_base.concat [
     'lib/touch-events.js'
     'lib/request.js'
 ]
 
-# Builds & Watch
+option '-l', '--light', 'Light version'
+
+getSources = (o) ->
+    if o.light then sources_base else sources_full
+
+getDist = (o, min) ->
+    dest = if o.light then 'dist/rye-base' else 'dist/rye'
+    dest += if min then '.min.js' else '.js'
+
+# Build & Watch
 # ==============
 
 async task 'build:prod', (o, done) ->
     try fs.mkdirSync 'dist'
     flour.minifiers.js = minifiers
-    bundle SOURCES, 'dist/rye.min.js', ->
+    bundle getSources(o), getDist(o, true), ->
         flour.minifiers.js = null
         done()
 
 async task 'build:dev', (o, done) ->
     try fs.mkdirSync 'dist'
-    bundle SOURCES, 'dist/rye.js', done
-
-async task 'build:dev-base', (o, done) ->
-    try fs.mkdirSync 'dist'
-    bundle SOURCES_BASE, 'dist/rye-base.js', done
+    bundle getSources(o), getDist(o), done
 
 async task 'build:test', (o, done) ->
     bundle 'test/*.coffee', 'test/spec.js', done
@@ -64,7 +69,6 @@ async task 'build:test', (o, done) ->
 task 'build', ->
     invoke async 'build:prod'
     invoke async 'build:dev'
-    invoke async 'build:dev-base'
     invoke async 'build:test'
 
 task 'watch', ->
@@ -173,7 +177,7 @@ task 'build:cov', ->
         if err?.code is 127
             console.log 'cov requires github.com/visionmedia/node-jscoverage'
             return
-        cov_sources = SOURCES.map (f) -> f.replace('lib/', '.coverage/')
+        cov_sources = sources_full.map (f) -> f.replace('lib/', '.coverage/')
         flour.minifiers.js = null
         bundle cov_sources, '.coverage/rye.instrumented.js'
 
