@@ -5,6 +5,8 @@ async          = require 'cake-async'
 rimraf         = require 'rimraf'
 util           = require 'util'
 
+[minifiers, flour.minifiers.js] = [flour.minifiers.js, null]
+
 cc = (n) -> "\x1B[#{n}m"
 console.log """#{cc 32}
   ██ ███  ██    ██   █████         ██   ████  
@@ -19,7 +21,10 @@ console.log """#{cc 32}
 #{cc 27}#{cc 36}
 """
 
-sources = [
+# Config
+# ==============
+
+SOURCES_BASE = [
     'lib/rye.js'
     'lib/util.js'
     'lib/data.js'
@@ -27,12 +32,13 @@ sources = [
     'lib/collection.js'
     'lib/manipulation.js'
     'lib/events.js'
-    'lib/touch-events.js'
-    'lib/request.js'
     'lib/style.js'
 ]
 
-[minifiers, flour.minifiers.js] = [flour.minifiers.js, null]
+SOURCES = SOURCES_BASE.concat [
+    'lib/touch-events.js'
+    'lib/request.js'
+]
 
 # Builds & Watch
 # ==============
@@ -40,13 +46,17 @@ sources = [
 async task 'build:prod', (o, done) ->
     try fs.mkdirSync 'dist'
     flour.minifiers.js = minifiers
-    bundle sources, 'dist/rye.min.js', ->
+    bundle SOURCES, 'dist/rye.min.js', ->
         flour.minifiers.js = null
         done()
 
 async task 'build:dev', (o, done) ->
     try fs.mkdirSync 'dist'
-    bundle sources, 'dist/rye.js', done
+    bundle SOURCES, 'dist/rye.js', done
+
+async task 'build:dev-base', (o, done) ->
+    try fs.mkdirSync 'dist'
+    bundle SOURCES_BASE, 'dist/rye-base.js', done
 
 async task 'build:test', (o, done) ->
     bundle 'test/*.coffee', 'test/spec.js', done
@@ -54,6 +64,7 @@ async task 'build:test', (o, done) ->
 task 'build', ->
     invoke async 'build:prod'
     invoke async 'build:dev'
+    invoke async 'build:dev-base'
     invoke async 'build:test'
 
 task 'watch', ->
@@ -162,7 +173,7 @@ task 'build:cov', ->
         if err?.code is 127
             console.log 'cov requires github.com/visionmedia/node-jscoverage'
             return
-        cov_sources = sources.map (f) -> f.replace('lib/', '.coverage/')
+        cov_sources = SOURCES.map (f) -> f.replace('lib/', '.coverage/')
         flour.minifiers.js = null
         bundle cov_sources, '.coverage/rye.instrumented.js'
 
