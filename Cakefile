@@ -37,6 +37,7 @@ sources_base = [
 
 sources_full = sources_base.concat [
     'lib/touch-events.js'
+    'lib/promises.js'
     'lib/request.js'
 ]
 
