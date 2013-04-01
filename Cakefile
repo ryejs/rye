@@ -5,7 +5,7 @@ async          = require 'cake-async'
 rimraf         = require 'rimraf'
 util           = require 'util'
 
-[minifiers, flour.minifiers.js] = [flour.minifiers.js, null]
+flour.minifiers.disable 'js'
 
 cc = (n) -> "\x1B[#{n}m"
 console.log """#{cc 32}
@@ -54,9 +54,9 @@ getDist = (o, min) ->
 
 async task 'build:prod', (o, done) ->
     try fs.mkdirSync 'dist'
-    flour.minifiers.js = minifiers
+    flour.minifiers.enable 'js'
     bundle getSources(o), getDist(o, true), ->
-        flour.minifiers.js = null
+        flour.minifiers.disable 'js'
         done()
 
 async task 'build:dev', (o, done) ->
@@ -178,7 +178,7 @@ task 'build:cov', ->
             console.log 'cov requires github.com/visionmedia/node-jscoverage'
             return
         cov_sources = sources_full.map (f) -> f.replace('lib/', '.coverage/')
-        flour.minifiers.js = null
+        flour.minifiers.disable 'js'
         bundle cov_sources, '.coverage/rye.instrumented.js'
 
 # Open test harness in a browser so we don't have

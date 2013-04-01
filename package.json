@@ -6,12 +6,12 @@
     "dependencies": {
     },
     "devDependencies": {
-        "rimraf": "",
-        "flour": "",
-        "cake-async": "",
-        "uglify-js": "2.2.0",
-        "jshint": "",
-        "coffee-script": "1.4.0"
+        "rimraf": "*",
+        "flour": "~0.5",
+        "cake-async": "*",
+        "uglify-js": "~2",
+        "jshint": "~1",
+        "coffee-script": "~1"
     },
     "scripts": {
         "test": "cake -b PhantomJS test lint"
