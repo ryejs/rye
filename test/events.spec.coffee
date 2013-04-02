@@ -17,7 +17,7 @@ suite 'EventEmitter', ->
         x.on 'click', fn
         x.removeListener 'click'
         assert x.events['click'] is undefined, "Event removed by name"
-    
+
     test 'remove all listener', ->
         x = new EventEmitter
         fn = -> 123
@@ -45,10 +45,42 @@ suite 'EventEmitter', ->
             assert arg is 4, "Argument received"
         x.emit 'click', 4
         x.emit 'click', 5
-        
+
         setTimeout ->
             assert x.events['click'] is undefined, "Event removed"
             done()
+
+suite 'ListenTo', ->
+
+    test 'add listenTo', ->
+        emitter1 = new EventEmitter
+        emitter2 = new EventEmitter
+        emitter2.listenTo emitter1, 'click', -> null
+        assert.equal emitter1.events['click'].length, 1
+
+    test 'stop listenTo', ->
+        x = new EventEmitter
+        y = new EventEmitter
+        fn = -> 123
+
+        y.listenTo x, 'click', fn
+        y.stopListening x, 'click', fn
+        assert x.events['click'] is undefined, "Event removed by reference"
+
+        y.listenTo x, 'click', fn
+        y.stopListening x, 'click'
+        assert x.events['click'] is undefined, "Event removed by name"
+
+
+    test 'remove all listenTo', ->
+        x = new EventEmitter
+        y = new EventEmitter
+        fn = -> 123
+
+        y.listenTo x, 'click', fn
+        y.listenTo x, 'keydown', fn
+        y.stopListening()
+        assert x.events['click'] is undefined, "Event removed by reference"
 
 suite 'PubSub', ->
 
@@ -127,8 +159,8 @@ suite 'DOMEvents', ->
         events.addListener el, 'blur li', do_not_call
         events.addListener el, 'focus li', do_not_call
         events.removeListener el, 'click ul'
-        events.removeListener el, 'blur *' 
-        events.removeListener el, 'focus*' 
+        events.removeListener el, 'blur *'
+        events.removeListener el, 'focus*'
 
         events.trigger item, 'click'
         events.trigger item, 'blur'
