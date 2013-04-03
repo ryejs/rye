@@ -8,7 +8,7 @@ suite 'Util', ->
         
         array = ['value']
         util.each array, (value, key) ->
-            assert.deepEqual [value, key], ['value', '0']
+            assert.deepEqual [value, key], ['value', 0]
 
     test 'extend', ->
         one = {one: 1}

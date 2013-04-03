@@ -50,6 +50,15 @@ suite 'EventEmitter', ->
             assert x.events['click'] is undefined, "Event removed"
             done()
 
+    # regression test - https://github.com/ryejs/rye/issues/30
+    test 'multiple once handlers', ->
+        x = new EventEmitter
+        x.once 'test', ->
+        x.once 'test', ->
+        x.once 'test', ->
+        x.emit 'test'
+        assert.ok true
+
 suite 'PubSub', ->
 
     test 'subscribe publish', (done) ->
