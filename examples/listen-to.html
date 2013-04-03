@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Rye listen to</title>
+    <title>Rye listenTo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <style type="text/css">
         section {
@@ -38,100 +38,96 @@
 
     <script src="../dist/rye.js"></script>
     <script>
-        /**
-         * listen to test
-         */
+    (function(){
 
-        window.$ = Rye;
+        var $ = Rye
 
-        var EventEmitter = $.require('Events').EventEmitter,
-            util = $.require('Util'),
-            target = new EventEmitter,
-            views = {},
-            App = new EventEmitter;
+        var EventEmitter = $.require('Events').EventEmitter
+          , util = $.require('Util')
+          , target = new EventEmitter
+          , views = {}
+          , App = new EventEmitter
 
         $('.add-classic, .add-listenTo').on('click', function () {
+            var type = ($(this).hasClass('add-classic')) ? 'classic' : 'listenTo'
 
-            var type = ($(this).hasClass('add-classic')) ? 'classic' : 'listenTo';
-
-            var id = util.getUid('j');
-            views[id] = new View(type, id);
-            views[id].init();
-            // console.log(views);
+            var id = util.getUid('j')
+            views[id] = new View(type, id)
+            views[id].init()
         })
 
 
         //view
         $('body').on('click .remove-this', function () {
-            var id = $(this).parent().attr('id');
-            views[id].emitter.stopListening();
-            delete views[id];
-            $(this).parent().remove();
+            var id = $(this).parent().attr('id')
+            views[id].emitter.stopListening()
+            delete views[id]
+            $(this).parent().remove()
         })
 
         function View (htmlId, id) {
 
-            this.emitter = new EventEmitter;
+            this.emitter = new EventEmitter
 
             this.init = function () {
                 var tpl = {
-                        'classic': '<li id="' + id + '">classic<button class="remove-this">-</button></li>',
-                        'listenTo': '<li id="' + id + '">listenTo<button class="remove-this">-</button></li>'
-                    },
-                    events = {
-                        'classic': 'classic',
-                        'listenTo': 'listen'
-                    },
-                    frag = document.createDocumentFragment();
+                    'classic': '<li id="' + id + '">classic<button class="remove-this">-</button></li>'
+                  , 'listenTo': '<li id="' + id + '">listenTo<button class="remove-this">-</button></li>'
+                }
 
+                var events = {
+                    'classic': 'classic'
+                  , 'listenTo': 'listen'
+                }
+                
+                var frag = document.createDocumentFragment()
 
-                frag.innerHTML = tpl[htmlId];
+                frag.innerHTML = tpl[htmlId]
+                this[events[htmlId]]()
 
-                this[events[htmlId]]();
-
-                $('#' + htmlId + ' .list').append(frag.innerHTML);
+                $('#' + htmlId + ' .list').append(frag.innerHTML)
             }
 
             this.classic = function () {
                 App.on('custom:event', function () {
-                    var result = $('#' + htmlId + ' .result-' + htmlId),
-                        count = parseInt(result.html(), 10);
+                    var result = $('#' + htmlId + ' .result-' + htmlId)
+                      , count = parseInt(result.html(), 10)
 
-                    result.html(++count);
-                });
+                    result.html(++count)
+                })
             }
 
             this.listen = function () {
                 this.emitter.listenTo(App, 'custom:event', function () {
-                    var result = $('#' + htmlId + ' .result-' + htmlId),
-                        count = parseInt(result.html(), 10);
+                    var result = $('#' + htmlId + ' .result-' + htmlId)
+                      , count = parseInt(result.html(), 10)
 
-                    result.html(++count);
-                });
+                    result.html(++count)
+                })
 
                 this.emitter.listenTo(App, 'custom:event1', function () {
-                    console.log('event1');
-                });
+                    console.log('event1')
+                })
                 this.emitter.listenTo(App, 'custom:event2', function () {
-                    console.log('event2');
-                });
+                    console.log('event2')
+                })
             }
 
-            return this;
-
+            return this
         }
 
         //event
         $('body').on('click .trigger', function () {
-            App.emit('custom:event');
-            App.emit('custom:event1');
-            App.emit('custom:event2');
+            App.emit('custom:event')
+            App.emit('custom:event1')
+            App.emit('custom:event2')
         })
 
         $('body').on('click .clear', function () {
             $('.result').html(0)
         })
 
+    })()
     </script>
 </body>
 </html>
