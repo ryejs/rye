@@ -50,37 +50,49 @@ suite 'EventEmitter', ->
             assert x.events['click'] is undefined, "Event removed"
             done()
 
-suite 'ListenTo', ->
-
-    test 'add listenTo', ->
+    test 'listenTo', (done) ->
         emitter1 = new EventEmitter
         emitter2 = new EventEmitter
-        emitter2.listenTo emitter1, 'click', -> null
-        assert.equal emitter1.events['click'].length, 1
+        emitter2.listenTo emitter1, 'click', (data) ->
+            assert.equal data, 123
+            done()
+        emitter1.emit 'click', 123
 
-    test 'stop listenTo', ->
+    test 'stopListening (target, event)', ->
         x = new EventEmitter
         y = new EventEmitter
-        fn = -> 123
+        fail = -> throw new Error "Event shouldn't fire"
 
-        y.listenTo x, 'click', fn
-        y.stopListening x, 'click', fn
-        assert x.events['click'] is undefined, "Event removed by reference"
+        # Remove by reference
+        y.listenTo x, 'click', fail
+        y.stopListening x, 'click', fail
+        x.emit 'click'
 
-        y.listenTo x, 'click', fn
+        # Remove by event name
+        y.listenTo x, 'click', fail
         y.stopListening x, 'click'
-        assert x.events['click'] is undefined, "Event removed by name"
+        x.emit 'click'
 
-
-    test 'remove all listenTo', ->
+    test 'stopListening (target)', ->
         x = new EventEmitter
         y = new EventEmitter
-        fn = -> 123
+        fail = -> throw new Error "Event shouldn't fire"
 
-        y.listenTo x, 'click', fn
-        y.listenTo x, 'keydown', fn
+        y.listenTo x, 'shower', fail
+        y.stopListening x
+        x.emit 'shower'
+
+    test 'stopListening()', ->
+        x = new EventEmitter
+        y = new EventEmitter
+        fail = -> throw new Error "Event shouldn't fire"
+
+        y.listenTo x, 'click', fail
         y.stopListening()
-        assert x.events['click'] is undefined, "Event removed by reference"
+        y.listenTo x, 'keydown', fail
+        y.stopListening()
+        x.emit 'click'
+        x.emit 'keydown'
 
 suite 'PubSub', ->
 
