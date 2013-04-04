@@ -161,20 +161,22 @@ suite "Promises", ->
 
         test_callback_values = (asyncDone, desired_state, test_fn) ->
             delay = 10 # should be long enough for all other setTimeout's to finish
+            counter = new Number.Counter
+            done = -> asyncDone() if counter.step() is 4
             # onFulfilled
             do ->
                 p1 = promises.create().fulfill()
                 p2 = p1.then(->)
                 setTimeout (->
                     assert.equal p2.state(), "pending"
-                    asyncDone()
+                    done()
                 ), delay
             do ->
                 p1 = promises.create().fulfill()
                 p2 = p1.then(test_fn)
                 setTimeout (->
                     assert.equal p2.state(), desired_state, "onFulfilled failed"
-                    asyncDone()
+                    done()
                 ), delay
             # onRejected
             do ->
@@ -182,14 +184,14 @@ suite "Promises", ->
                 p2 = p1.then(null, ->)
                 setTimeout (->
                     assert.equal p2.state(), "pending"
-                    asyncDone()
+                    done()
                 ), delay
             do ->
                 p1 = promises.create().reject()
                 p2 = p1.then(null, test_fn)
                 setTimeout (->
                     assert.equal p2.state(), desired_state, "onRejected failed"
-                    asyncDone()
+                    done()
                 ), delay
 
         test "returned promise is fulfilled when onFulfilled or onRejected returns a value", (asyncDone) ->
@@ -198,8 +200,10 @@ suite "Promises", ->
         test "returned promise is rejected when onFulfilled or onRejected throws an exception", (asyncDone) ->
             test_callback_values(asyncDone, "rejected", -> throw "test_return_value")
 
-        test "returned promise assumes state when onFulfilled or onRejected returns a promise", (asyncDone) ->
+        test "returned promise assumes state when onFulfilled returns a promise", (asyncDone) ->
             test_callback_values(asyncDone, "fulfilled", -> promises.create().fulfill())
+
+        test "returned promise assumes state when onRejected returns a promise", (asyncDone) ->
             test_callback_values(asyncDone, "rejected", -> promises.create().reject())
 
         test "returns before onFulfilled, onRejected or onNotifed is called", ->
