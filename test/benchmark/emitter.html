@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EventEmitter benchmark</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", sans-serif;
+        }
+        h1 {
+            font-size: 2em;
+            font-weight: 200;
+        }
+        #results h2 {
+            font-size: 1em;
+            font-weight: 200;
+        }
+        #results p {
+            font-size: 0.8em;
+            color: #444;
+            padding: 3px 6px;
+            border-radius: 2px;
+            position: relative;
+        }
+        #results .fastest p {
+            background: limeGreen;
+        }
+        #results p::before {
+            content: '?';
+            font-size: 0.8em;
+            color: silver;
+            position: absolute;
+            left: -0.6em;
+            top: 0.35em;
+            line-height: 1em;
+        }
+        #results .running::before {
+            content: "\267B ";
+            font-size: 1em;
+            color: indianred;
+            left: -0.9em;
+        }
+        #results .done::before {
+           content: "\2713 ";
+           float: left;
+           font-size: 1em;margin-top:;
+           color: limeGreen;
+        }
+    </style>
+</head>
+<body>
+    <h1>EventEmitter</h1>
+    <ul id="results"></ul>
+    <script src="../../lib/rye.js"></script>
+    <script src="../../lib/util.js"></script>
+    <script src="../../lib/data.js"></script>
+    <script src="../../lib/query.js"></script>
+    <script src="../../lib/collection.js"></script>
+    <script src="../../lib/manipulation.js"></script>
+    <script src="../../lib/events.js"></script>
+    <script src="../../lib/style.js"></script>
+    <script src="../../lib/touch-events.js"></script>
+    <script src="../../lib/request.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="//rawgithub.com/documentcloud/backbone/master/backbone.js"></script>
+    <script src="benchmark.js"></script>
+    <script src="emitter.js"></script>
+</body>
+</html>
