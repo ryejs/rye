@@ -243,3 +243,6 @@ API
 Loosely based on Zepto and Ender.
 
 by [jcemer](http://github.com/jcemer) and [ricardobeat](http://github.com/ricardobeat)
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ryejs/rye/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
