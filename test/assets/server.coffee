@@ -23,7 +23,7 @@ staticFile = (res, pathname) ->
         '.js'   : 'text/javascript'
 
     filename = path.join process.cwd(), pathname
-    path.exists filename, (exists) ->
+    fs.exists filename, (exists) ->
         if exists
             filename += '/index.html' if fs.statSync(filename).isDirectory()
 

@@ -34,10 +34,12 @@ suite 'EventEmitter', ->
 
     test 'emit event', (done) ->
         x = new EventEmitter
-        x.on 'click', (arg) ->
+        x.on 'test', (arg) ->
+            console.log arg
             assert.equal arg, 55
             done()
-        x.emit 'click', 55
+        x.emit 'test', 55
+        undefined
 
     test 'emit once', (done) ->
         x = new EventEmitter

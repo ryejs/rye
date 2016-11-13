@@ -10,7 +10,7 @@ suite 'TouchEvents (slow)', ->
         up(element)
 
         setTimeout ->
-            assert.equal counter, 1
+            assert.equal Number(counter), 1
             events.removeListener element, '*'
             done()
         , 0
@@ -18,12 +18,10 @@ suite 'TouchEvents (slow)', ->
     test 'tap textnode', (done) ->
         element = $('.a').get(0)
         text = element.childNodes[0]
-        counter = new Number.Counter
 
         events.addListener element, 'tap', (event) ->
             assert.equal event.target, element
             events.removeListener element, '*'
-            counter.step()
         down(text, 10, 10)
         up(text)
         
@@ -44,7 +42,7 @@ suite 'TouchEvents (slow)', ->
             up(element)
 
             setTimeout ->
-                assert.equal counter, 2
+                assert.equal Number(counter), 2
                 events.removeListener element, '*'
                 done()
             , 0
@@ -62,8 +60,8 @@ suite 'TouchEvents (slow)', ->
         up(element)
 
         setTimeout ->
-            assert.equal counterSingle, 1
-            assert.equal counterDouble, 0
+            assert.equal Number(counterSingle), 1
+            assert.equal Number(counterDouble), 0
             events.removeListener element, '*'
             done()
         , 300
@@ -84,8 +82,8 @@ suite 'TouchEvents (slow)', ->
             up(element)
 
             setTimeout ->
-                assert.equal counterSingle, 0
-                assert.equal counterDouble, 1
+                assert.equal Number(counterSingle), 0
+                assert.equal Number(counterDouble), 1
                 events.removeListener element, '*'
                 done()
             , 100
@@ -100,7 +98,7 @@ suite 'TouchEvents (slow)', ->
 
         setTimeout ->
             up(element)
-            assert.equal counter, 1
+            assert.equal Number(counter), 1
             events.removeListener element, '*'
             done()
         , 900
@@ -116,7 +114,7 @@ suite 'TouchEvents (slow)', ->
             move(element, 50, 10)
             setTimeout ->
                 up(element)
-                assert.equal counter, 0
+                assert.equal Number(counter), 0
                 events.removeListener element, '*'
                 done()
             , 450
@@ -134,7 +132,7 @@ suite 'TouchEvents (slow)', ->
             up(element)
 
             setTimeout ->
-                assert.equal counter, 1
+                assert.equal Number(counter), 1
                 events.removeListener element, '*'
                 done()
             , 0
@@ -158,7 +156,7 @@ suite 'TouchEvents (slow)', ->
                 up(element)
 
                 setTimeout ->
-                    assert.equal counter, 1
+                    assert.equal Number(counter), 1
                     events.removeListener element, '*'
                     done()
                 , 0
@@ -178,7 +176,7 @@ suite 'TouchEvents (slow)', ->
             up(element)
 
             setTimeout ->
-                assert.equal counter, 0
+                assert.equal Number(counter), 0
                 events.removeListener element, '*'
                 done()
             , 0
