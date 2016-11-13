@@ -246,6 +246,15 @@ suite 'Manipulation', ->
         el.attr 'title': ''
         assert.equal input.getAttribute('title'), ''
 
+    test 'remove attr', ->
+        input = document.createElement('input')
+        el = $(input)
+        el.attr('disabled', 'disabled')
+        assert.isTrue input.disabled
+
+        el.removeAttr 'disabled'
+        assert.isFalse input.disabled
+
     test 'get prop', ->
         input = document.createElement('input')
         input.title = 'title'
