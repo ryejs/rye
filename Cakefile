@@ -40,6 +40,11 @@ sources_full = sources_base.concat [
     'lib/request.js'
 ]
 
+dist_bundle_options = {
+    before: '(function(global){',
+    after: """; if (typeof module !== 'undefined') { module.exports = Rye } else { global.Rye = Rye } })(typeof window !== 'undefined' ? window : {})"""
+}
+
 option '-l', '--light', 'Light version'
 
 getSources = (o) ->
@@ -55,13 +60,13 @@ getDist = (o, min) ->
 async task 'build:prod', (o, done) ->
     try fs.mkdirSync 'dist'
     flour.minifiers.enable 'js'
-    bundle getSources(o), getDist(o, true), ->
+    bundle getSources(o), dist_bundle_options, getDist(o, true), (output, file) ->
         flour.minifiers.disable 'js'
         done()
 
 async task 'build:dev', (o, done) ->
     try fs.mkdirSync 'dist'
-    bundle getSources(o), getDist(o), done
+    bundle getSources(o), dist_bundle_options, getDist(o), done
 
 async task 'build:test', (o, done) ->
     bundle 'test/*.coffee', 'test/spec.js', done
