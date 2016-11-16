@@ -110,6 +110,7 @@ async task 'lint', (o, done) ->
         sub      : true
         supernew : true
         browser  : true
+        shadow   : 'inner'
 
     flour.linters.js.globals =
         Rye      : true
