@@ -10,7 +10,7 @@
         "flour": "~0.5",
         "cake-async": "*",
         "uglify-js": "~2",
-        "jshint": "~1",
+        "jshint": "~2.2",
         "coffee-script": "~1"
     },
     "scripts": {
