@@ -1,4 +1,4 @@
-Rye 0.1.2
+Rye 0.1.3
 ===
 
 Website and documentation http://ryejs.com
