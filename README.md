@@ -1,93 +1,32 @@
-Rye 0.1.0
+Rye 0.1.2
 ===
 
 Website and documentation http://ryejs.com
 
-[![Build Status](https://secure.travis-ci.org/ryejs/rye.png?branch=master)](http://travis-ci.org/ryejs/rye)
+<!-- [![Build Status](https://secure.travis-ci.org/ryejs/rye.png?branch=master)](http://travis-ci.org/ryejs/rye) -->
 
 **Rye** is a lightweight javascript library for DOM manipulation and events with support for **all modern browsers**, including IE9+. It also has **touch events/gestures**, an **event emitter** constructor, and a **jQuery-like** API.
 
 Browser compatiblity
 --------------------
 
-<table>
-<thead>
-<tr>
-<th id="browser" style="text-align:left;"> Browser </th>
-<th id="version" style="text-align:left;"> Version </th>
-</tr>
-</thead>
+| Desktop Browser | Version |
+| --------------- | ------- |
+| Chrome          | 6+      |
+| Safari          | 5+      |
+| Firefox         | 6+      |
+| IE              | 9+      |
+| Opera           | 11.5+   |
 
-<tbody>
-<tr>
-<td style="text-align:left;"> Chrome  </td>
-<td style="text-align:left;">6+       </td>
-</tr>
+| Mobile Browser    | Version       |
+| ----------------- | ------------- |
+| iOS Safari        | 4.1+ (6.0.1)  |
+| Chrome (Android)  | 18+ (18)      |
+| Android Browser   | 4.0+          |
+| Firefox (Android) | 15+ (18)      |
+| Blackberry        | 10+           |
+| Opera Mobile      | 11.1+  (12.1) |
 
-<tr>
-<td style="text-align:left;"> Safari  </td>
-<td style="text-align:left;">5+       </td>
-</tr>
-
-<tr>
-<td style="text-align:left;"> Firefox </td>
-<td style="text-align:left;">6+       </td>
-</tr>
-
-<tr>
-<td style="text-align:left;"> IE      </td>
-<td style="text-align:left;">9+       </td>
-</tr>
-
-<tr>
-<td style="text-align:left;"> Opera   </td>
-<td style="text-align:left;">11.5+    </td>
-</tr>
-
-</tbody>
-</table>
-
-<table>
-<thead>
-<tr>
-<th id="browser" style="text-align:left;"> Browser           </th>
-<th id="version" style="text-align:left;"> Version      </th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td style="text-align:left;"> iOS               </td>
-<td style="text-align:left;"> 4.1+ (6.0.1) </td>
-</tr>
-
-<tr>
-<td style="text-align:left;"> Android           </td>
-<td style="text-align:left;"> 4.0+         </td>
-</tr>
-
-<tr>
-<td style="text-align:left;"> Blackberry        </td>
-<td style="text-align:left;"> 10+          </td>
-</tr>
-
-<tr>
-<td style="text-align:left;"> Opera Mobile      </td>
-<td style="text-align:left;"> 11.1+ (12.1) </td>
-</tr>
-
-<tr>
-<td style="text-align:left;"> Chrome (Android)  </td>
-<td style="text-align:left;"> 18+ (18)     </td>
-</tr>
-
-<tr>
-<td style="text-align:left;"> Firefox (Android) </td>
-<td style="text-align:left;"> 15+ (18)     </td>
-</tr>
-
-</tbody>
-</table>
 
 API
 ---
@@ -158,6 +97,7 @@ API
 - [`remove`](http://ryejs.com#manipulation-remove)
 - [`val`](http://ryejs.com#manipulation-val)
 - [`attr`](http://ryejs.com#manipulation-attr)
+- [`removeAttr`](http://ryejs.com#manipulation-removeAttr)
 - [`prop`](http://ryejs.com#manipulation-prop)
 - [`Rye.create`](http://ryejs.com#manipulation-ryecreate)
 - [`@getValue`](http://ryejs.com#manipulation-@getvalue)
@@ -238,11 +178,8 @@ API
 - [`@is`](http://ryejs.com#util-@is)
 
 
-<hr>
+---
 
 Loosely based on Zepto and Ender.
 
-by [jcemer](http://github.com/jcemer) and [ricardobeat](http://github.com/ricardobeat)
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ryejs/rye/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
+by [jcemer](http://github.com/jcemer), [ricardobeat](http://github.com/ricardobeat) and [WesleydeSouza](http://github.com/WesleydeSouza)
