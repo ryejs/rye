@@ -1,29 +1,29 @@
 {
-    "name": "ryejs",
-    "description": "A lightweight browser library",
-    "version": "0.1.3",
-    "main": "dist/rye.js",
-    "dependencies": {
-    },
-    "devDependencies": {
-        "rimraf": "*",
-        "flour": "~0.5",
-        "cake-async": "*",
-        "uglify-js": "~2",
-        "jshint": "~2.2",
-        "coffee-script": "~1"
-    },
-    "scripts": {
-        "prepublish": "cake build:dev",
-        "test": "cake -b PhantomJS test lint"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/ryejs/rye.git"
-    },
-    "authors": [
-        "Ricardo Tomasi @ricardobeat <ricardobeat@gmail.com> (https://github.com/ricardobeat)",
-        "Jean Carlo Emer @jcemer <jeancarloemer@gmail.com> (https://github.com/jcemer)"
-    ],
-    "license": "ISC"
+  "name": "ryejs",
+  "description": "A lightweight browser library",
+  "version": "0.3.0",
+  "main": "dist/rye.js",
+  "dependencies": {},
+  "devDependencies": {
+    "cake-async": "*",
+    "coffee-script": "~1",
+    "flour": "~0.5",
+    "jshint": "~2.2",
+    "rimraf": "*",
+    "uglify-js": "~2"
+  },
+  "scripts": {
+    "prepublish": "cake build:dev",
+    "test": "cake -b PhantomJS test lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ryejs/rye.git"
+  },
+  "authors": [
+    "Jean Carlo Emer @jcemer <jeancarloemer@gmail.com> (https://github.com/jcemer)",
+    "Ricardo Tomasi @ricardobeat <ricardobeat@gmail.com> (https://github.com/ricardobeat)",
+    "Wesley de Souza @WesleydeSouza <me@wesley.so> (https://github.com/WesleydeSouza)"
+  ],
+  "license": "ISC"
 }
