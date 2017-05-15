@@ -1,5 +1,6 @@
 Rye 0.1.3
 ===
+[![CDNJS version](https://img.shields.io/cdnjs/v/ryejs.svg)](https://cdnjs.com/libraries/ryejs)
 
 Website and documentation http://ryejs.com
 
