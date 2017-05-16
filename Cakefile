@@ -7,20 +7,6 @@ util           = require 'util'
 
 flour.minifiers.disable 'js'
 
-cc = (n) -> "\x1B[#{n}m"
-console.log """#{cc 32}
-  ██ ███  ██    ██   █████         ██   ████  
-  ███     ██    ██  ██   ██        ██  ██     
-  ██       ██  ██   ███████        ██   ███   
-  ██        ████    ██             ██     ██  
-  ██         ██      █████  ██  ████   ████   
-            ██                                
-          ██                                  
-#{cc 33}#{cc 7}
-#{process.argv[2..].map((s,i)->"#{cc 35-i} #{s.toUpperCase()} ").join("#{cc 39} ")}
-#{cc 27}#{cc 36}
-"""
-
 # Config
 # ==============
 

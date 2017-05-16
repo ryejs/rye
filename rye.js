@@ -1,3 +1,5 @@
+var util = require('./lib/utils')
+
 function Rye (selector, context) {
     if (!(this instanceof Rye)){
         return new Rye(selector, context)
@@ -7,21 +9,15 @@ function Rye (selector, context) {
         return selector
     }
 
-    var util = Rye.require('Util')
-
     if (typeof selector === 'string') {
         this.selector = selector
         this.elements = this.qsa(context, selector)
-
     } else if (selector instanceof Array) {
         this.elements = util.unique(selector.filter(util.isElement))
-
     } else if (util.isNodeList(selector)) {
         this.elements = Array.prototype.slice.call(selector).filter(util.isElement)
-
     } else if (util.isElement(selector)) {
         this.elements = [selector]
-
     } else {
         this.elements = []
     }
@@ -29,15 +25,16 @@ function Rye (selector, context) {
     this._update()
 }
 
+"concat filter map reverse slice sort".split(" ").forEach(function (method) {
+        arr[method] = function () {
+            return Array.prototype[method].apply(this, arguments)
+        }
+    })
+
 Rye.version = '0.1.0'
 
-// Minimalist module system
-Rye._modules = {}
+require('./lib/rye-dom')(Rye)
 
-Rye.require = function (module) {
-    return Rye._modules[module]
-}
-
-Rye.define = function (module, fn) {
-    Rye._modules[module] = fn.call(Rye.prototype)
-}
+Object.assign(Rye.prototype,
+    require('./lib/rye-dom')
+)
